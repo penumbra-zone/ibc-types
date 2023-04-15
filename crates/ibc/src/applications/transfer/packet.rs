@@ -5,7 +5,7 @@ use core::str::FromStr;
 use ibc_proto::ibc::applications::transfer::v2::FungibleTokenPacketData as RawPacketData;
 
 use super::error::TokenTransferError;
-use super::{Amount, PrefixedCoin, PrefixedDenom};
+use super::{Amount, Memo, PrefixedCoin, PrefixedDenom};
 use crate::signer::Signer;
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -18,6 +18,7 @@ pub struct PacketData {
     pub token: PrefixedCoin,
     pub sender: Signer,
     pub receiver: Signer,
+    pub memo: Memo,
 }
 
 impl TryFrom<RawPacketData> for PacketData {
@@ -37,6 +38,7 @@ impl TryFrom<RawPacketData> for PacketData {
                 .receiver
                 .parse()
                 .map_err(TokenTransferError::Signer)?,
+            memo: raw_pkt_data.memo.into(),
         })
     }
 }
@@ -48,6 +50,7 @@ impl From<PacketData> for RawPacketData {
             amount: pkt_data.token.amount.to_string(),
             sender: pkt_data.sender.to_string(),
             receiver: pkt_data.receiver.to_string(),
+            memo: pkt_data.memo.to_string(),
         }
     }
 }
