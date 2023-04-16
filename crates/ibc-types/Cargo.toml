@@ -1,16 +1,16 @@
 [package]
-name         = "ibc"
-version      = "0.37.0"
+name         = "ibc-types"
+version      = "0.38.0"
 edition      = "2021"
 license      = "Apache-2.0"
-readme       = "README.md"
+readme       = "../README.md"
 keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
 repository   = "https://github.com/cosmos/ibc-rs"
-authors      = ["Informal Systems <hello@informal.systems>"]
+authors      = ["Penumbra Labs <team@penumbralabs.xyz>"]
 rust-version = "1.60"
 description  = """
-    Implementation of the Inter-Blockchain Communication Protocol (IBC).
-    This crate comprises the main data structures and on-chain logic.
+    Data types for the Inter-Blockchain Communication protocol (IBC).
+    This crate defines common data structures that can be reused by different IBC implementations or IBC ecosystem tooling.
 """
 
 [package.metadata.docs.rs]
