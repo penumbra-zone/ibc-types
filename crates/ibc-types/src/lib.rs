@@ -14,7 +14,7 @@
 // https://github.com/cosmos/ibc-rs/issues/342
 #![allow(clippy::result_large_err)]
 //! This library provides data types for the InterBlockchain Communication (IBC) protocol in Rust.
-//! 
+//!
 //! This crate will eventually be a minimal implementation just providing IBC data types.  Currently, it's undergoing refactoring post-forking.
 
 extern crate alloc;
