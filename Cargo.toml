@@ -4,6 +4,9 @@ resolver = "2"
 
 members = [
     "crates/ibc-types",
+    "crates/ibc-types-domain-type",
+    "crates/ibc-types-core-ics02-client",
+    "crates/ibc-types-core-ics24-host",
 ]
 
 exclude = [
