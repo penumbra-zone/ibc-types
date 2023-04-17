@@ -1,1 +1,0 @@
-- Derive Hash for ModuleId ([#179](https://github.com/cosmos/ibc-rs/issues/179))
