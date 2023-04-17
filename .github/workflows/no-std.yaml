@@ -19,7 +19,7 @@ on:
 jobs:
   check-no-std-panic-conflict:
     name: Check no_std panic conflict
-    runs-on: ubuntu-latest
+    runs-on: buildjet-16vcpu-ubuntu-2004
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -32,7 +32,7 @@ jobs:
 
   check-substrate:
     name: Check no_std substrate support
-    runs-on: ubuntu-latest
+    runs-on: buildjet-16vcpu-ubuntu-2004
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
