@@ -251,13 +251,13 @@ Our release process is as follows:
    3. Committing the updated `CHANGELOG.md` file and `.changelog` directory to the repo.
 2. Push this to a branch `release/vX.Y.Z` according to the version number of
    the anticipated release (e.g. `release/v0.18.0`) and open a **draft PR**.
-3. Bump all relevant versions in the `crates/ibc/Cargo.toml` file (making sure
+3. Bump all relevant versions in the `crates/ibc-types/Cargo.toml` file (making sure
       dependencies' versions are updated too) to the new version and push these
       changes to the release PR.
-4. In the `crates/ibc/` directory, run `cargo doc --all-features --open` locally to double-check that all the
+4. In the `crates/ibc-types/` directory, run `cargo doc --all-features --open` locally to double-check that all the
    documentation compiles and seems up-to-date and coherent. Fix any potential
    issues here and push them to the release PR.
-5. In the `crates/ibc/` directory, run `cargo publish --dry-run` to double-check that publishing will work. Fix
+5. In the `crates/ibc-types/` directory, run `cargo publish --dry-run` to double-check that publishing will work. Fix
    any potential issues here and push them to the release PR.
 6. Mark the PR as **Ready for Review** and incorporate feedback on the release.
 7. Once approved, merge the PR, and pull the `main` branch.
