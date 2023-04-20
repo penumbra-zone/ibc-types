@@ -61,26 +61,26 @@ pub const DEFAULT_BLOCK_TIME_SECS: u64 = 3;
 #[derive(Debug)]
 pub struct MockContext {
     /// The type of host chain underlying this mock context.
-    host_chain_type: HostType,
+    pub host_chain_type: HostType,
 
     /// Host chain identifier.
-    host_chain_id: ChainId,
+    pub host_chain_id: ChainId,
 
     /// Maximum size for the history of the host chain. Any block older than this is pruned.
-    max_history_size: usize,
+    pub max_history_size: usize,
 
     /// The chain of blocks underlying this context. A vector of size up to `max_history_size`
     /// blocks, ascending order by their height (latest block is on the last position).
-    history: Vec<HostBlock>,
+    pub history: Vec<HostBlock>,
 
     /// Average time duration between blocks
-    block_time: Duration,
+    pub block_time: Duration,
 
     /// An object that stores all IBC related data.
     pub ibc_store: Arc<Mutex<MockIbcStore>>,
 
     /// To implement ValidationContext Router
-    router: BTreeMap<ModuleId, Arc<dyn Module>>,
+    pub router: BTreeMap<ModuleId, Arc<dyn Module>>,
 
     pub events: Vec<IbcEvent>,
 

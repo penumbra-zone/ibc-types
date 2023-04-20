@@ -16,7 +16,7 @@ use core::fmt::{Display, Error as FmtError, Formatter};
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Type of the client, depending on the specific consensus algorithm.
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ClientType(String);
+pub struct ClientType(pub String);
 
 impl ClientType {
     pub fn new(s: String) -> Self {

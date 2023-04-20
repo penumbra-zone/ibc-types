@@ -11,7 +11,7 @@ use ics23::{InnerSpec as Ics23InnerSpec, LeafOp as Ics23LeafOp, ProofSpec as Ics
 /// `From` trait(s) below.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct ProofSpecs(Vec<ProofSpec>);
+pub struct ProofSpecs(pub Vec<ProofSpec>);
 
 impl ProofSpecs {
     /// Returns the specification for Cosmos-SDK proofs
@@ -65,7 +65,7 @@ impl From<ProofSpecs> for Vec<IbcProofSpec> {
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-struct ProofSpec(IbcProofSpec);
+pub struct ProofSpec(IbcProofSpec);
 
 impl From<Ics23ProofSpec> for ProofSpec {
     fn from(spec: Ics23ProofSpec) -> Self {

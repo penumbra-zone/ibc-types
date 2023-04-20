@@ -64,7 +64,7 @@ impl core::fmt::Display for PacketMsgType {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// The sequence number of a packet enforces ordering among packets from the same source.
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub struct Sequence(u64);
+pub struct Sequence(pub u64);
 
 impl FromStr for Sequence {
     type Err = ChannelError;

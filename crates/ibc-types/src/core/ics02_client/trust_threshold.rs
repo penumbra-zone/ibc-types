@@ -36,8 +36,8 @@ use crate::core::ics02_client::error::ClientError;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct TrustThreshold {
-    numerator: u64,
-    denominator: u64,
+    pub numerator: u64,
+    pub denominator: u64,
 }
 
 impl TrustThreshold {

@@ -23,7 +23,7 @@ pub const ZERO_DURATION: Duration = Duration::from_secs(0);
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(PartialEq, Eq, Copy, Clone, Debug, Default)]
 pub struct Timestamp {
-    time: Option<Time>,
+    pub time: Option<Time>,
 }
 
 #[cfg(feature = "borsh")]

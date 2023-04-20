@@ -27,7 +27,7 @@ use crate::prelude::*;
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct Version(String);
+pub struct Version(pub String);
 
 impl Version {
     pub fn new(v: String) -> Self {

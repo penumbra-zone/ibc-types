@@ -107,10 +107,10 @@ impl From<IdentifiedConnectionEnd> for RawIdentifiedConnection {
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct ConnectionEnd {
     pub state: State,
-    client_id: ClientId,
-    counterparty: Counterparty,
-    versions: Vec<Version>,
-    delay_period: Duration,
+    pub client_id: ClientId,
+    pub counterparty: Counterparty,
+    pub versions: Vec<Version>,
+    pub delay_period: Duration,
 }
 
 mod sealed {
@@ -368,9 +368,9 @@ impl ConnectionEnd {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
 pub struct Counterparty {
-    client_id: ClientId,
+    pub client_id: ClientId,
     pub connection_id: Option<ConnectionId>,
-    prefix: CommitmentPrefix,
+    pub prefix: CommitmentPrefix,
 }
 
 impl Protobuf<RawCounterparty> for Counterparty {}

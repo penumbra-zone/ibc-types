@@ -44,11 +44,11 @@ use super::Version;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct OpenInit {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    connection_id: ConnectionIdAttribute,
-    version: VersionAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
+    pub version: VersionAttribute,
 }
 
 impl OpenInit {
@@ -115,12 +115,12 @@ impl From<OpenInit> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct OpenTry {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    counterparty_channel_id: CounterpartyChannelIdAttribute,
-    connection_id: ConnectionIdAttribute,
-    version: VersionAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub counterparty_channel_id: CounterpartyChannelIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
+    pub version: VersionAttribute,
 }
 
 impl OpenTry {
@@ -192,11 +192,11 @@ impl From<OpenTry> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct OpenAck {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    counterparty_channel_id: CounterpartyChannelIdAttribute,
-    connection_id: ConnectionIdAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub counterparty_channel_id: CounterpartyChannelIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
 }
 
 impl OpenAck {
@@ -262,11 +262,11 @@ impl From<OpenAck> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct OpenConfirm {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    counterparty_channel_id: CounterpartyChannelIdAttribute,
-    connection_id: ConnectionIdAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub counterparty_channel_id: CounterpartyChannelIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
 }
 
 impl OpenConfirm {
@@ -332,11 +332,11 @@ impl From<OpenConfirm> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CloseInit {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    counterparty_channel_id: CounterpartyChannelIdAttribute,
-    connection_id: ConnectionIdAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub counterparty_channel_id: CounterpartyChannelIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
 }
 
 impl CloseInit {
@@ -402,11 +402,11 @@ impl From<CloseInit> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CloseConfirm {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    counterparty_channel_id: CounterpartyChannelIdAttribute,
-    connection_id: ConnectionIdAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub counterparty_channel_id: CounterpartyChannelIdAttribute,
+    pub connection_id: ConnectionIdAttribute,
 }
 
 impl CloseConfirm {
@@ -476,12 +476,12 @@ impl From<CloseConfirm> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ChannelClosed {
-    port_id: PortIdAttribute,
-    channel_id: ChannelIdAttribute,
-    counterparty_port_id: CounterpartyPortIdAttribute,
-    maybe_counterparty_channel_id: Option<CounterpartyChannelIdAttribute>,
-    connection_id: ConnectionIdAttribute,
-    channel_ordering: ChannelOrderingAttribute,
+    pub port_id: PortIdAttribute,
+    pub channel_id: ChannelIdAttribute,
+    pub counterparty_port_id: CounterpartyPortIdAttribute,
+    pub maybe_counterparty_channel_id: Option<CounterpartyChannelIdAttribute>,
+    pub connection_id: ConnectionIdAttribute,
+    pub channel_ordering: ChannelOrderingAttribute,
 }
 
 impl ChannelClosed {
@@ -558,16 +558,16 @@ impl From<ChannelClosed> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SendPacket {
-    packet_data: PacketDataAttribute,
-    timeout_height: TimeoutHeightAttribute,
-    timeout_timestamp: TimeoutTimestampAttribute,
-    sequence: SequenceAttribute,
-    src_port_id: SrcPortIdAttribute,
-    src_channel_id: SrcChannelIdAttribute,
-    dst_port_id: DstPortIdAttribute,
-    dst_channel_id: DstChannelIdAttribute,
-    channel_ordering: ChannelOrderingAttribute,
-    src_connection_id: PacketConnectionIdAttribute,
+    pub packet_data: PacketDataAttribute,
+    pub timeout_height: TimeoutHeightAttribute,
+    pub timeout_timestamp: TimeoutTimestampAttribute,
+    pub sequence: SequenceAttribute,
+    pub src_port_id: SrcPortIdAttribute,
+    pub src_channel_id: SrcChannelIdAttribute,
+    pub dst_port_id: DstPortIdAttribute,
+    pub dst_channel_id: DstChannelIdAttribute,
+    pub channel_ordering: ChannelOrderingAttribute,
+    pub src_connection_id: PacketConnectionIdAttribute,
 }
 
 impl SendPacket {
@@ -665,16 +665,16 @@ impl TryFrom<SendPacket> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ReceivePacket {
-    packet_data: PacketDataAttribute,
-    timeout_height: TimeoutHeightAttribute,
-    timeout_timestamp: TimeoutTimestampAttribute,
-    sequence: SequenceAttribute,
-    src_port_id: SrcPortIdAttribute,
-    src_channel_id: SrcChannelIdAttribute,
-    dst_port_id: DstPortIdAttribute,
-    dst_channel_id: DstChannelIdAttribute,
-    channel_ordering: ChannelOrderingAttribute,
-    dst_connection_id: PacketConnectionIdAttribute,
+    pub packet_data: PacketDataAttribute,
+    pub timeout_height: TimeoutHeightAttribute,
+    pub timeout_timestamp: TimeoutTimestampAttribute,
+    pub sequence: SequenceAttribute,
+    pub src_port_id: SrcPortIdAttribute,
+    pub src_channel_id: SrcChannelIdAttribute,
+    pub dst_port_id: DstPortIdAttribute,
+    pub dst_channel_id: DstChannelIdAttribute,
+    pub channel_ordering: ChannelOrderingAttribute,
+    pub dst_connection_id: PacketConnectionIdAttribute,
 }
 
 impl ReceivePacket {
@@ -772,16 +772,16 @@ impl TryFrom<ReceivePacket> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct WriteAcknowledgement {
-    packet_data: PacketDataAttribute,
-    timeout_height: TimeoutHeightAttribute,
-    timeout_timestamp: TimeoutTimestampAttribute,
-    sequence: SequenceAttribute,
-    src_port_id: SrcPortIdAttribute,
-    src_channel_id: SrcChannelIdAttribute,
-    dst_port_id: DstPortIdAttribute,
-    dst_channel_id: DstChannelIdAttribute,
-    acknowledgement: AcknowledgementAttribute,
-    dst_connection_id: PacketConnectionIdAttribute,
+    pub packet_data: PacketDataAttribute,
+    pub timeout_height: TimeoutHeightAttribute,
+    pub timeout_timestamp: TimeoutTimestampAttribute,
+    pub sequence: SequenceAttribute,
+    pub src_port_id: SrcPortIdAttribute,
+    pub src_channel_id: SrcChannelIdAttribute,
+    pub dst_port_id: DstPortIdAttribute,
+    pub dst_channel_id: DstChannelIdAttribute,
+    pub acknowledgement: AcknowledgementAttribute,
+    pub dst_connection_id: PacketConnectionIdAttribute,
 }
 
 impl WriteAcknowledgement {
@@ -883,15 +883,15 @@ impl TryFrom<WriteAcknowledgement> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct AcknowledgePacket {
-    timeout_height: TimeoutHeightAttribute,
-    timeout_timestamp: TimeoutTimestampAttribute,
-    sequence: SequenceAttribute,
-    src_port_id: SrcPortIdAttribute,
-    src_channel_id: SrcChannelIdAttribute,
-    dst_port_id: DstPortIdAttribute,
-    dst_channel_id: DstChannelIdAttribute,
-    channel_ordering: ChannelOrderingAttribute,
-    src_connection_id: PacketConnectionIdAttribute,
+    pub timeout_height: TimeoutHeightAttribute,
+    pub timeout_timestamp: TimeoutTimestampAttribute,
+    pub sequence: SequenceAttribute,
+    pub src_port_id: SrcPortIdAttribute,
+    pub src_channel_id: SrcChannelIdAttribute,
+    pub dst_port_id: DstPortIdAttribute,
+    pub dst_channel_id: DstChannelIdAttribute,
+    pub channel_ordering: ChannelOrderingAttribute,
+    pub src_connection_id: PacketConnectionIdAttribute,
 }
 
 impl AcknowledgePacket {
@@ -982,14 +982,14 @@ impl TryFrom<AcknowledgePacket> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct TimeoutPacket {
-    timeout_height: TimeoutHeightAttribute,
-    timeout_timestamp: TimeoutTimestampAttribute,
-    sequence: SequenceAttribute,
-    src_port_id: SrcPortIdAttribute,
-    src_channel_id: SrcChannelIdAttribute,
-    dst_port_id: DstPortIdAttribute,
-    dst_channel_id: DstChannelIdAttribute,
-    channel_ordering: ChannelOrderingAttribute,
+    pub timeout_height: TimeoutHeightAttribute,
+    pub timeout_timestamp: TimeoutTimestampAttribute,
+    pub sequence: SequenceAttribute,
+    pub src_port_id: SrcPortIdAttribute,
+    pub src_channel_id: SrcChannelIdAttribute,
+    pub dst_port_id: DstPortIdAttribute,
+    pub dst_channel_id: DstChannelIdAttribute,
+    pub channel_ordering: ChannelOrderingAttribute,
 }
 
 impl TimeoutPacket {
