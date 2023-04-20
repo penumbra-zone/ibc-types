@@ -18,9 +18,9 @@ pub const TENDERMINT_MISBEHAVIOUR_TYPE_URL: &str = "/ibc.lightclients.tendermint
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Misbehaviour {
-    client_id: ClientId,
-    header1: Header,
-    header2: Header,
+    pub client_id: ClientId,
+    pub header1: Header,
+    pub header2: Header,
 }
 
 impl Misbehaviour {
