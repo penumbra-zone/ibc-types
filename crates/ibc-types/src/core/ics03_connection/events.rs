@@ -26,7 +26,7 @@ pub const COUNTERPARTY_CLIENT_ID_ATTRIBUTE_KEY: &str = "counterparty_client_id";
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-struct Attributes {
+pub struct Attributes {
     pub connection_id: ConnectionId,
     pub client_id: ClientId,
     pub counterparty_connection_id: Option<ConnectionId>,
