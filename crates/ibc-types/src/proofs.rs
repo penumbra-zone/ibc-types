@@ -19,14 +19,14 @@ impl std::error::Error for ProofError {}
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Proofs {
-    object_proof: CommitmentProofBytes,
-    client_proof: Option<CommitmentProofBytes>,
-    consensus_proof: Option<ConsensusProof>,
+    pub object_proof: CommitmentProofBytes,
+    pub client_proof: Option<CommitmentProofBytes>,
+    pub consensus_proof: Option<ConsensusProof>,
     /// Currently used for proof_close for MsgTimeoutOnCLose where object_proof is proof_unreceived
-    other_proof: Option<CommitmentProofBytes>,
+    pub other_proof: Option<CommitmentProofBytes>,
     /// Height for the commitment root for proving the proofs above.
     /// When creating these proofs, the chain is queried at `height-1`.
-    height: Height,
+    pub height: Height,
 }
 
 impl Proofs {
@@ -77,8 +77,8 @@ impl Proofs {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ConsensusProof {
-    proof: CommitmentProofBytes,
-    height: Height,
+    pub proof: CommitmentProofBytes,
+    pub height: Height,
 }
 
 impl ConsensusProof {
