@@ -27,7 +27,7 @@ impl std::error::Error for SignerError {}
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Display)]
-pub struct Signer(String);
+pub struct Signer(pub String);
 
 impl FromStr for Signer {
     type Err = SignerError;

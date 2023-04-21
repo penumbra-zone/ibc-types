@@ -35,7 +35,7 @@ pub struct InvalidModuleId;
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, Hash, PartialOrd, Ord)]
-pub struct ModuleId(String);
+pub struct ModuleId(pub String);
 
 impl ModuleId {
     pub fn new(s: Cow<'_, str>) -> Result<Self, InvalidModuleId> {

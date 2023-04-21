@@ -39,8 +39,8 @@ pub const HEADER_ATTRIBUTE_KEY: &str = "header";
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, From, PartialEq, Eq)]
-struct ClientIdAttribute {
-    client_id: ClientId,
+pub struct ClientIdAttribute {
+    pub client_id: ClientId,
 }
 
 impl From<ClientIdAttribute> for abci::EventAttribute {
@@ -63,8 +63,8 @@ impl From<ClientIdAttribute> for abci::EventAttribute {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, From, PartialEq, Eq)]
-struct ClientTypeAttribute {
-    client_type: ClientType,
+pub struct ClientTypeAttribute {
+    pub client_type: ClientType,
 }
 
 impl From<ClientTypeAttribute> for abci::EventAttribute {
@@ -87,8 +87,8 @@ impl From<ClientTypeAttribute> for abci::EventAttribute {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, From, PartialEq, Eq)]
-struct ConsensusHeightAttribute {
-    consensus_height: Height,
+pub struct ConsensusHeightAttribute {
+    pub consensus_height: Height,
 }
 
 impl From<ConsensusHeightAttribute> for abci::EventAttribute {
@@ -111,8 +111,8 @@ impl From<ConsensusHeightAttribute> for abci::EventAttribute {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, From, PartialEq, Eq)]
-struct ConsensusHeightsAttribute {
-    consensus_heights: Vec<Height>,
+pub struct ConsensusHeightsAttribute {
+    pub consensus_heights: Vec<Height>,
 }
 
 impl From<ConsensusHeightsAttribute> for abci::EventAttribute {
@@ -140,8 +140,8 @@ impl From<ConsensusHeightsAttribute> for abci::EventAttribute {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, From, PartialEq, Eq)]
-struct HeaderAttribute {
-    header: Any,
+pub struct HeaderAttribute {
+    pub header: Any,
 }
 
 impl From<HeaderAttribute> for abci::EventAttribute {
@@ -170,9 +170,9 @@ impl From<HeaderAttribute> for abci::EventAttribute {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct CreateClient {
-    client_id: ClientIdAttribute,
-    client_type: ClientTypeAttribute,
-    consensus_height: ConsensusHeightAttribute,
+    pub client_id: ClientIdAttribute,
+    pub client_type: ClientTypeAttribute,
+    pub consensus_height: ConsensusHeightAttribute,
 }
 
 impl CreateClient {
@@ -226,13 +226,13 @@ impl From<CreateClient> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct UpdateClient {
-    client_id: ClientIdAttribute,
-    client_type: ClientTypeAttribute,
+    pub client_id: ClientIdAttribute,
+    pub client_type: ClientTypeAttribute,
     // Deprecated: consensus_height is deprecated and will be removed in a future release.
     // Please use consensus_heights instead.
-    consensus_height: ConsensusHeightAttribute,
-    consensus_heights: ConsensusHeightsAttribute,
-    header: HeaderAttribute,
+    pub consensus_height: ConsensusHeightAttribute,
+    pub consensus_heights: ConsensusHeightsAttribute,
+    pub header: HeaderAttribute,
 }
 
 impl UpdateClient {
@@ -305,8 +305,8 @@ impl From<UpdateClient> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ClientMisbehaviour {
-    client_id: ClientIdAttribute,
-    client_type: ClientTypeAttribute,
+    pub client_id: ClientIdAttribute,
+    pub client_type: ClientTypeAttribute,
 }
 
 impl ClientMisbehaviour {
@@ -351,9 +351,9 @@ impl From<ClientMisbehaviour> for abci::Event {
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct UpgradeClient {
-    client_id: ClientIdAttribute,
-    client_type: ClientTypeAttribute,
-    consensus_height: ConsensusHeightAttribute,
+    pub client_id: ClientIdAttribute,
+    pub client_type: ClientTypeAttribute,
+    pub consensus_height: ConsensusHeightAttribute,
 }
 
 impl UpgradeClient {

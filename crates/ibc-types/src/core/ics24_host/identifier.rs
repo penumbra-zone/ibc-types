@@ -36,8 +36,8 @@ use crate::prelude::*;
 )]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ChainId {
-    id: String,
-    version: u64,
+    pub id: String,
+    pub version: u64,
 }
 
 impl ChainId {
@@ -191,7 +191,7 @@ impl From<String> for ChainId {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Into)]
-pub struct ClientId(String);
+pub struct ClientId(pub String);
 
 impl ClientId {
     /// Builds a new client identifier. Client identifiers are deterministically formed from two
@@ -271,7 +271,7 @@ impl PartialEq<str> for ClientId {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ConnectionId(String);
+pub struct ConnectionId(pub String);
 
 impl ConnectionId {
     /// Builds a new connection identifier. Connection identifiers are deterministically formed from
@@ -354,7 +354,7 @@ impl PartialEq<str> for ConnectionId {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct PortId(String);
+pub struct PortId(pub String);
 
 impl PortId {
     /// Infallible creation of the well-known transfer port
@@ -414,7 +414,7 @@ impl Default for PortId {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct ChannelId(String);
+pub struct ChannelId(pub String);
 
 impl ChannelId {
     const PREFIX: &'static str = "channel-";

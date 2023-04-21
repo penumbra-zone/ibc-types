@@ -47,7 +47,7 @@ pub struct MsgConnectionOpenTry {
 
     #[deprecated(since = "0.22.0")]
     /// Only kept here for proper conversion to/from the raw type
-    previous_connection_id: String,
+    pub previous_connection_id: String,
 }
 
 impl Msg for MsgConnectionOpenTry {

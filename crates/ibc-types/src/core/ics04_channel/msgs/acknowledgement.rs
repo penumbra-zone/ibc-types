@@ -29,7 +29,7 @@ pub const TYPE_URL: &str = "/ibc.core.channel.v1.MsgAcknowledgement";
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, Into)]
-pub struct Acknowledgement(Vec<u8>);
+pub struct Acknowledgement(pub Vec<u8>);
 
 impl Acknowledgement {
     // Returns the data as a slice of bytes.

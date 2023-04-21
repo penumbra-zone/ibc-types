@@ -15,7 +15,7 @@ use crate::serializers::serde_string;
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "serde", serde(transparent))]
 #[derive(Clone, Debug, Eq, PartialEq, PartialOrd, Ord, Display)]
-pub struct BaseDenom(String);
+pub struct BaseDenom(pub String);
 
 impl BaseDenom {
     pub fn as_str(&self) -> &str {
@@ -37,8 +37,8 @@ impl FromStr for BaseDenom {
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq)]
 pub struct TracePrefix {
-    port_id: PortId,
-    channel_id: ChannelId,
+    pub port_id: PortId,
+    pub channel_id: ChannelId,
 }
 
 impl TracePrefix {
@@ -61,7 +61,7 @@ impl Display for TracePrefix {
 // "transfer/channel-0/transfer/channel-1/uatom" => `["transfer/channel-1", "transfer/channel-0"]`
 // This is done for ease of addition/removal of prefixes.
 #[derive(Clone, Debug, Default, Eq, PartialEq, PartialOrd, Ord, From)]
-pub struct TracePath(Vec<TracePrefix>);
+pub struct TracePath(pub Vec<TracePrefix>);
 
 impl TracePath {
     /// Returns true iff this path starts with the specified prefix

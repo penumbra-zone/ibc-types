@@ -77,7 +77,7 @@ impl From<Attributes> for Vec<abci::EventAttribute> {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenInit(Attributes);
+pub struct OpenInit(pub Attributes);
 
 impl OpenInit {
     /// Per our convention, this event is generated on chain A.
@@ -131,7 +131,7 @@ impl From<OpenInit> for abci::Event {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenTry(Attributes);
+pub struct OpenTry(pub Attributes);
 
 impl OpenTry {
     /// Per our convention, this event is generated on chain B.
@@ -186,7 +186,7 @@ impl From<OpenTry> for abci::Event {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenAck(Attributes);
+pub struct OpenAck(pub Attributes);
 
 impl OpenAck {
     /// Per our convention, this event is generated on chain A.
@@ -241,7 +241,7 @@ impl From<OpenAck> for abci::Event {
 )]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenConfirm(Attributes);
+pub struct OpenConfirm(pub Attributes);
 
 impl OpenConfirm {
     /// Per our convention, this event is generated on chain B.

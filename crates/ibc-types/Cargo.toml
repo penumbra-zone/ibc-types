@@ -1,18 +1,19 @@
 [package]
 name         = "ibc-types"
-version      = "0.1.0"
+version      = "0.1.1"
 edition      = "2021"
 license      = "Apache-2.0"
-readme       = "../README.md"
+readme       = "../../README.md"
 keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
 repository   = "https://github.com/penumbra-zone/ibc-types"
-authors      = ["Penumbra Labs <team@penumbralabs.xzy"]
+authors      = ["Penumbra Labs <team@penumbralabs.xyz"]
 rust-version = "1.60"
 description  = """
     Data types for the Inter-Blockchain Communication (IBC) protocol.
     This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
 """
-
+# Not publishing to crates.io yet; will iterate quickly via git deps.
+publish      = false
 [package.metadata.docs.rs]
 all-features = true
 

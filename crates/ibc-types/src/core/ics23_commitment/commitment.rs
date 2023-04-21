@@ -15,7 +15,7 @@ pub struct CommitmentRoot {
         feature = "serde",
         serde(serialize_with = "crate::serializers::ser_hex_upper")
     )]
-    bytes: Vec<u8>,
+    pub bytes: Vec<u8>,
 }
 
 impl fmt::Debug for CommitmentRoot {
@@ -58,7 +58,7 @@ pub struct CommitmentProofBytes {
         feature = "serde",
         serde(serialize_with = "crate::serializers::ser_hex_upper")
     )]
-    bytes: Vec<u8>,
+    pub bytes: Vec<u8>,
 }
 
 impl fmt::Debug for CommitmentProofBytes {
@@ -130,7 +130,7 @@ impl TryFrom<CommitmentProofBytes> for RawMerkleProof {
 #[cfg_attr(feature = "serde", derive(serde::Deserialize))]
 #[derive(Clone, PartialEq, Eq, Hash, Default)]
 pub struct CommitmentPrefix {
-    bytes: Vec<u8>,
+    pub bytes: Vec<u8>,
 }
 
 impl CommitmentPrefix {

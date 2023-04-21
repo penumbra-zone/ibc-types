@@ -19,9 +19,9 @@ impl<T, E> HandlerOutput<T, E> {
 
 #[derive(Clone, Debug, Default)]
 pub struct HandlerOutputBuilder<T, E = IbcEvent> {
-    log: Vec<String>,
-    events: Vec<E>,
-    marker: PhantomData<T>,
+    pub log: Vec<String>,
+    pub events: Vec<E>,
+    pub marker: PhantomData<T>,
 }
 
 impl<T, E> HandlerOutputBuilder<T, E> {
