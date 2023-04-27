@@ -16,3 +16,8 @@ pub mod trust_threshold;
 mod prelude;
 
 pub use client_id::ClientId;
+pub use client_type::ClientType;
+pub use height::{Height, HeightError};
+
+#[cfg(any(test, feature = "mocks", feature = "mocks-no-std"))]
+pub mod mock;

@@ -241,6 +241,7 @@ impl Timestamp {
     }
 }
 
+// TODO BUG : this must round trip with fromstr
 impl Display for Timestamp {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
         write!(

@@ -21,6 +21,8 @@ pub enum Error {
     },
     /// Missing expected event attribute "{0}"
     MissingAttribute(&'static str),
+    /// Unexpected event attribute "{0}"
+    UnexpectedAttribute(String),
     /// Error parsing height in "{key}": {e}
     ParseHeight { key: &'static str, e: HeightError },
     /// Error parsing hex bytes in "{key}": {e}
@@ -97,6 +99,7 @@ impl TryFrom<Event> for CreateClient {
                             e,
                         })?);
                 }
+                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
             }
         }
 
@@ -175,6 +178,7 @@ impl TryFrom<Event> for UpdateClient {
                             .map_err(|e| Error::ParseHex { key: "header", e })?,
                     );
                 }
+                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
             }
         }
 
@@ -233,6 +237,7 @@ impl TryFrom<Event> for ClientMisbehaviour {
                 "client_type" => {
                     client_type = Some(ClientType(attr.value));
                 }
+                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
             }
         }
 
@@ -297,6 +302,7 @@ impl TryFrom<Event> for UpgradeClient {
                             e,
                         })?);
                 }
+                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
             }
         }
 

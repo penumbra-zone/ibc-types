@@ -67,6 +67,10 @@ pub enum ClientError {
     InvalidHeight,
     /// height cannot end up zero or negative
     InvalidHeightResult,
+    /// invalid proof for the upgraded client state error: `{0}`
+    InvalidUpgradeClientProof(prost::DecodeError),
+    /// invalid proof for the upgraded consensus state error: `{0}`
+    InvalidUpgradeConsensusStateProof(prost::DecodeError),
     /// invalid packet timeout timestamp value error: `{0}`
     InvalidPacketTimestamp(ibc_types_timestamp::ParseTimestampError),
     /// mismatch between client and arguments types
@@ -118,13 +122,10 @@ impl std::error::Error for ClientError {
             Self::InvalidRawMisbehaviour(e) => Some(e),
             Self::InvalidUpgradeClientProof(e) => Some(e),
             Self::InvalidUpgradeConsensusStateProof(e) => Some(e),
-            Self::InvalidCommitmentProof(e) => Some(e),
             Self::InvalidPacketTimestamp(e) => Some(e),
             Self::InvalidConnectionEnd(e) => Some(e),
             Self::InvalidChannelEnd(e) => Some(e),
             Self::InvalidAnyConsensusState(e) => Some(e),
-            Self::Signer(e) => Some(e),
-            Self::Ics23Verification(e) => Some(e),
             _ => None,
         }
     }

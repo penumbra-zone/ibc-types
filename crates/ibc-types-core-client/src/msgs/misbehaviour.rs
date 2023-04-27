@@ -2,7 +2,6 @@ use crate::prelude::*;
 
 use ibc_proto::google::protobuf::Any as ProtoAny;
 use ibc_proto::ibc::core::client::v1::MsgSubmitMisbehaviour as RawMsgSubmitMisbehaviour;
-use ibc_proto::protobuf::Protobuf;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::error::ClientError;
@@ -20,10 +19,12 @@ pub struct MsgSubmitMisbehaviour {
 }
 
 impl TypeUrl for MsgSubmitMisbehaviour {
-    const TYPE_URL: &str = "/ibc.core.client.v1.MsgSubmitMisbehaviour";
+    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgSubmitMisbehaviour";
 }
 
-impl Protobuf<RawMsgSubmitMisbehaviour> for MsgSubmitMisbehaviour {}
+impl DomainType for MsgSubmitMisbehaviour {
+    type Proto = RawMsgSubmitMisbehaviour;
+}
 
 impl TryFrom<RawMsgSubmitMisbehaviour> for MsgSubmitMisbehaviour {
     type Error = ClientError;
@@ -39,7 +40,7 @@ impl TryFrom<RawMsgSubmitMisbehaviour> for MsgSubmitMisbehaviour {
                 .parse()
                 .map_err(ClientError::InvalidRawMisbehaviour)?,
             misbehaviour: raw_misbehaviour,
-            signer: raw.signer.parse().map_err(ClientError::Signer)?,
+            signer: raw.signer,
         })
     }
 }
@@ -49,7 +50,7 @@ impl From<MsgSubmitMisbehaviour> for RawMsgSubmitMisbehaviour {
         RawMsgSubmitMisbehaviour {
             client_id: ics_msg.client_id.to_string(),
             misbehaviour: Some(ics_msg.misbehaviour),
-            signer: ics_msg.signer.to_string(),
+            signer: ics_msg.signer,
         }
     }
 }
