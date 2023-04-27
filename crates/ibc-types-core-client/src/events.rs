@@ -1,6 +1,4 @@
-//! Types for the IBC events emitted from Tendermint Websocket by the client module.
-
-// TODO: refactor around TypedEvent
+//! Types for ABCI [`Event`](tendermint::abci::Event)s that inform relayers about IBC client events.
 
 use displaydoc::Display;
 use subtle_encoding::hex;
@@ -11,24 +9,33 @@ use tendermint::{
 
 use crate::{
     client_type::ClientType,
-    height::{Height, HeightError},
+    height::{Height, HeightParseError},
     prelude::*,
     ClientId,
 };
 
+/// An error while parsing an [`Event`].
 #[derive(Debug, Display)]
 pub enum Error {
-    /// Wrong event type: expected {expected}, got {actual}
+    /// Wrong event type: expected {expected}
     WrongType {
+        // The actual event type is intentionally not included in the error, so
+        // that Error::WrongType doesn't allocate and is cheap to use for trial
+        // deserialization (attempt parsing of each event type in turn, which is
+        // then just as fast as matching over the event type)
+        //
+        // TODO: is this good?
         expected: &'static str,
-        actual: String,
     },
     /// Missing expected event attribute "{0}"
     MissingAttribute(&'static str),
     /// Unexpected event attribute "{0}"
     UnexpectedAttribute(String),
     /// Error parsing height in "{key}": {e}
-    ParseHeight { key: &'static str, e: HeightError },
+    ParseHeight {
+        key: &'static str,
+        e: HeightParseError,
+    },
     /// Error parsing hex bytes in "{key}": {e}
     ParseHex {
         key: &'static str,
@@ -80,7 +87,6 @@ impl TryFrom<Event> for CreateClient {
         if event.kind != CreateClient::TYPE_STR {
             return Err(Error::WrongType {
                 expected: CreateClient::TYPE_STR,
-                actual: event.kind,
             });
         }
 
@@ -152,7 +158,6 @@ impl TryFrom<Event> for UpdateClient {
         if value.kind != UpdateClient::TYPE_STR {
             return Err(Error::WrongType {
                 expected: UpdateClient::TYPE_STR,
-                actual: value.kind,
             });
         }
 
@@ -226,7 +231,6 @@ impl TryFrom<Event> for ClientMisbehaviour {
         if value.kind != ClientMisbehaviour::TYPE_STR {
             return Err(Error::WrongType {
                 expected: ClientMisbehaviour::TYPE_STR,
-                actual: value.kind,
             });
         }
 
@@ -283,7 +287,6 @@ impl TryFrom<Event> for UpgradeClient {
         if value.kind != UpgradeClient::TYPE_STR {
             return Err(Error::WrongType {
                 expected: UpgradeClient::TYPE_STR,
-                actual: value.kind,
             });
         }
 

@@ -14,7 +14,7 @@ use ibc_proto::{
 use ibc_types_domain_type::{DomainType, TypeUrl};
 use prost::Message;
 
-use crate::{error::ClientError, ClientId};
+use crate::{error::Error, ClientId};
 
 /// A type of message that triggers the upgrade of an on-chain (IBC) client.
 #[derive(Clone, Debug, PartialEq)]
@@ -56,28 +56,26 @@ impl From<MsgUpgradeClient> for RawMsgUpgradeClient {
 }
 
 impl TryFrom<RawMsgUpgradeClient> for MsgUpgradeClient {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(proto_msg: RawMsgUpgradeClient) -> Result<Self, Self::Error> {
-        let raw_client_state = proto_msg
-            .client_state
-            .ok_or(ClientError::MissingRawClientState)?;
+        let raw_client_state = proto_msg.client_state.ok_or(Error::MissingRawClientState)?;
 
         let raw_consensus_state = proto_msg
             .consensus_state
-            .ok_or(ClientError::MissingRawConsensusState)?;
+            .ok_or(Error::MissingRawConsensusState)?;
 
         Ok(MsgUpgradeClient {
             client_id: ClientId::from_str(&proto_msg.client_id)
-                .map_err(ClientError::InvalidClientIdentifier)?,
+                .map_err(Error::InvalidClientIdentifier)?,
             client_state: raw_client_state,
             consensus_state: raw_consensus_state,
             proof_upgrade_client: RawMerkleProof::decode(proto_msg.proof_upgrade_client.as_ref())
-                .map_err(ClientError::InvalidUpgradeClientProof)?,
+                .map_err(Error::InvalidUpgradeClientProof)?,
             proof_upgrade_consensus_state: RawMerkleProof::decode(
                 proto_msg.proof_upgrade_consensus_state.as_ref(),
             )
-            .map_err(ClientError::InvalidUpgradeConsensusStateProof)?,
+            .map_err(Error::InvalidUpgradeConsensusStateProof)?,
             signer: proto_msg.signer,
         })
     }

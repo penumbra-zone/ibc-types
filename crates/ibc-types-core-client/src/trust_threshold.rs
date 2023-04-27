@@ -10,29 +10,15 @@ use core::{
 use ibc_proto::{ibc::lightclients::tendermint::v1::Fraction, protobuf::Protobuf};
 use tendermint::trust_threshold::TrustThresholdFraction;
 
-use crate::error::ClientError;
+use crate::error::Error;
 
-/// [`TrustThreshold`] defines the level of trust that a client has
-/// towards a set of validators of a chain.
+/// Defines the level of trust that a client has towards a set of validators of a chain.
 ///
 /// A trust threshold is represented as a fraction, i.e., a numerator and
 /// and a denominator.
 /// A typical trust threshold is 1/3 in practice.
 /// This type accepts even a value of 0, (numerator = 0, denominator = 0),
 /// which is used in the client state of an upgrading client.
-#[cfg_attr(
-    feature = "parity-scale-codec",
-    derive(
-        parity_scale_codec::Encode,
-        parity_scale_codec::Decode,
-        scale_info::TypeInfo
-    )
-)]
-#[cfg_attr(
-    feature = "borsh",
-    derive(borsh::BorshSerialize, borsh::BorshDeserialize)
-)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct TrustThreshold {
     pub numerator: u64,
@@ -63,13 +49,13 @@ impl TrustThreshold {
     ///
     /// The constructor succeeds if long as the resulting fraction
     /// is in the range`[0, 1)`.
-    pub fn new(numerator: u64, denominator: u64) -> Result<Self, ClientError> {
+    pub fn new(numerator: u64, denominator: u64) -> Result<Self, Error> {
         // The two parameters cannot yield a fraction that is bigger or equal to 1
         if (numerator > denominator)
             || (denominator == 0 && numerator != 0)
             || (numerator == denominator && numerator != 0)
         {
-            return Err(ClientError::InvalidTrustThreshold {
+            return Err(Error::InvalidTrustThreshold {
                 numerator,
                 denominator,
             });
@@ -106,14 +92,12 @@ impl From<TrustThresholdFraction> for TrustThreshold {
 /// Conversion from IBC domain type into
 /// Tendermint domain type.
 impl TryFrom<TrustThreshold> for TrustThresholdFraction {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(t: TrustThreshold) -> Result<TrustThresholdFraction, Self::Error> {
-        Self::new(t.numerator, t.denominator).map_err(|_| {
-            ClientError::FailedTrustThresholdConversion {
-                numerator: t.numerator,
-                denominator: t.denominator,
-            }
+        Self::new(t.numerator, t.denominator).map_err(|_| Error::FailedTrustThresholdConversion {
+            numerator: t.numerator,
+            denominator: t.denominator,
         })
     }
 }
@@ -130,7 +114,7 @@ impl From<TrustThreshold> for Fraction {
 }
 
 impl TryFrom<Fraction> for TrustThreshold {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(value: Fraction) -> Result<Self, Self::Error> {
         Self::new(value.numerator, value.denominator)

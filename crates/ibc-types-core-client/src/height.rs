@@ -8,21 +8,9 @@ use ibc_proto::protobuf::Protobuf;
 
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 
-use crate::error::ClientError;
+use crate::error::Error;
 
-#[cfg_attr(
-    feature = "parity-scale-codec",
-    derive(
-        parity_scale_codec::Encode,
-        parity_scale_codec::Decode,
-        scale_info::TypeInfo
-    )
-)]
-#[cfg_attr(
-    feature = "borsh",
-    derive(borsh::BorshSerialize, borsh::BorshDeserialize)
-)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+/// An IBC height, containing a revision number (epoch) and a revision height (block height).
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Height {
     /// Previously known as "epoch"
@@ -33,9 +21,9 @@ pub struct Height {
 }
 
 impl Height {
-    pub fn new(revision_number: u64, revision_height: u64) -> Result<Self, ClientError> {
+    pub fn new(revision_number: u64, revision_height: u64) -> Result<Self, Error> {
         if revision_height == 0 {
-            return Err(ClientError::InvalidHeight);
+            return Err(Error::InvalidHeight);
         }
 
         Ok(Self {
@@ -63,9 +51,9 @@ impl Height {
         self.add(1)
     }
 
-    pub fn sub(&self, delta: u64) -> Result<Height, ClientError> {
+    pub fn sub(&self, delta: u64) -> Result<Height, Error> {
         if self.revision_height <= delta {
-            return Err(ClientError::InvalidHeightResult);
+            return Err(Error::InvalidHeightResult);
         }
 
         Ok(Height {
@@ -74,7 +62,7 @@ impl Height {
         })
     }
 
-    pub fn decrement(&self) -> Result<Height, ClientError> {
+    pub fn decrement(&self) -> Result<Height, Error> {
         self.sub(1)
     }
 }
@@ -104,7 +92,7 @@ impl Ord for Height {
 impl Protobuf<RawHeight> for Height {}
 
 impl TryFrom<RawHeight> for Height {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw_height: RawHeight) -> Result<Self, Self::Error> {
         Height::new(raw_height.revision_number, raw_height.revision_height)
@@ -136,8 +124,9 @@ impl core::fmt::Display for Height {
     }
 }
 
+/// An error while parsing a [`Height`].
 #[derive(Debug, Display)]
-pub enum HeightError {
+pub enum HeightParseError {
     /// cannot convert into a `Height` type from string `{height}`
     HeightConversion {
         height: String,
@@ -148,17 +137,17 @@ pub enum HeightError {
 }
 
 #[cfg(feature = "std")]
-impl std::error::Error for HeightError {
+impl std::error::Error for HeightParseError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match &self {
-            HeightError::HeightConversion { error: e, .. } => Some(e),
-            HeightError::ZeroHeight => None,
+            HeightParseError::HeightConversion { error: e, .. } => Some(e),
+            HeightParseError::ZeroHeight => None,
         }
     }
 }
 
 impl TryFrom<&str> for Height {
-    type Error = HeightError;
+    type Error = HeightParseError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let split: Vec<&str> = value.split('-').collect();
@@ -166,19 +155,19 @@ impl TryFrom<&str> for Height {
         let revision_number =
             split[0]
                 .parse::<u64>()
-                .map_err(|e| HeightError::HeightConversion {
+                .map_err(|e| HeightParseError::HeightConversion {
                     height: value.to_owned(),
                     error: e,
                 })?;
         let revision_height =
             split[1]
                 .parse::<u64>()
-                .map_err(|e| HeightError::HeightConversion {
+                .map_err(|e| HeightParseError::HeightConversion {
                     height: value.to_owned(),
                     error: e,
                 })?;
 
-        Height::new(revision_number, revision_height).map_err(|_| HeightError::ZeroHeight)
+        Height::new(revision_number, revision_height).map_err(|_| HeightParseError::ZeroHeight)
     }
 }
 
@@ -189,7 +178,7 @@ impl From<Height> for String {
 }
 
 impl FromStr for Height {
-    type Err = HeightError;
+    type Err = HeightParseError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Height::try_from(s)

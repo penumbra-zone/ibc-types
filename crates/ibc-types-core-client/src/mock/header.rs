@@ -4,11 +4,10 @@ use core::fmt::{Display, Error as FmtError, Formatter};
 use ibc_proto::{google::protobuf::Any, ibc::mock::Header as RawMockHeader, protobuf::Protobuf};
 use ibc_types_timestamp::Timestamp;
 
-use crate::{error::ClientError, Height};
+use crate::{error::Error, Height};
 
 pub const MOCK_HEADER_TYPE_URL: &str = "/ibc.mock.Header";
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct MockHeader {
     pub height: Height,
@@ -37,17 +36,17 @@ impl Display for MockHeader {
 impl Protobuf<RawMockHeader> for MockHeader {}
 
 impl TryFrom<RawMockHeader> for MockHeader {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMockHeader) -> Result<Self, Self::Error> {
         Ok(MockHeader {
             height: raw
                 .height
                 .and_then(|raw_height| raw_height.try_into().ok())
-                .ok_or(ClientError::MissingRawHeader)?,
+                .ok_or(Error::MissingRawHeader)?,
 
             timestamp: Timestamp::from_nanoseconds(raw.timestamp)
-                .map_err(ClientError::InvalidPacketTimestamp)?,
+                .map_err(Error::InvalidPacketTimestamp)?,
         })
     }
 }
@@ -90,13 +89,13 @@ impl MockHeader {
 impl Protobuf<Any> for MockHeader {}
 
 impl TryFrom<Any> for MockHeader {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: Any) -> Result<Self, Self::Error> {
         match raw.type_url.as_str() {
             MOCK_HEADER_TYPE_URL => Ok(Protobuf::<RawMockHeader>::decode_vec(&raw.value)
-                .map_err(ClientError::InvalidRawHeader)?),
-            _ => Err(ClientError::UnknownHeaderType {
+                .map_err(Error::InvalidRawHeader)?),
+            _ => Err(Error::UnknownHeaderType {
                 header_type: raw.type_url,
             }),
         }

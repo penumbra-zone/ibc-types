@@ -7,7 +7,7 @@ use ibc_types_timestamp::Timestamp;
 
 use crate::mock::header::MockHeader;
 
-use crate::error::ClientError;
+use crate::error::Error;
 
 pub const MOCK_CONSENSUS_STATE_TYPE_URL: &str = "/ibc.mock.ConsensusState";
 
@@ -33,10 +33,10 @@ impl MockConsensusState {
 impl Protobuf<RawMockConsensusState> for MockConsensusState {}
 
 impl TryFrom<RawMockConsensusState> for MockConsensusState {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMockConsensusState) -> Result<Self, Self::Error> {
-        let raw_header = raw.header.ok_or(ClientError::MissingRawConsensusState)?;
+        let raw_header = raw.header.ok_or(Error::MissingRawConsensusState)?;
 
         Ok(Self {
             header: MockHeader::try_from(raw_header)?,
@@ -59,16 +59,16 @@ impl From<MockConsensusState> for RawMockConsensusState {
 impl Protobuf<Any> for MockConsensusState {}
 
 impl TryFrom<Any> for MockConsensusState {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: Any) -> Result<Self, Self::Error> {
         use bytes::Buf;
         use core::ops::Deref;
         use prost::Message;
 
-        fn decode_consensus_state<B: Buf>(buf: B) -> Result<MockConsensusState, ClientError> {
+        fn decode_consensus_state<B: Buf>(buf: B) -> Result<MockConsensusState, Error> {
             RawMockConsensusState::decode(buf)
-                .map_err(ClientError::Decode)?
+                .map_err(Error::Decode)?
                 .try_into()
         }
 
@@ -76,7 +76,7 @@ impl TryFrom<Any> for MockConsensusState {
             MOCK_CONSENSUS_STATE_TYPE_URL => {
                 decode_consensus_state(raw.value.deref()).map_err(Into::into)
             }
-            _ => Err(ClientError::UnknownConsensusStateType {
+            _ => Err(Error::UnknownConsensusStateType {
                 consensus_state_type: raw.type_url,
             }),
         }

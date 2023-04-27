@@ -5,7 +5,7 @@ use ibc_proto::{
     google::protobuf::Any, ibc::mock::Misbehaviour as RawMisbehaviour, protobuf::Protobuf,
 };
 
-use crate::{error::ClientError, ClientId};
+use crate::{error::Error, ClientId};
 
 use super::header::MockHeader;
 
@@ -21,18 +21,18 @@ pub struct Misbehaviour {
 impl Protobuf<RawMisbehaviour> for Misbehaviour {}
 
 impl TryFrom<RawMisbehaviour> for Misbehaviour {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMisbehaviour) -> Result<Self, Self::Error> {
         Ok(Self {
             client_id: Default::default(),
             header1: raw
                 .header1
-                .ok_or(ClientError::MissingRawMisbehaviour)?
+                .ok_or(Error::MissingRawMisbehaviour)?
                 .try_into()?,
             header2: raw
                 .header2
-                .ok_or(ClientError::MissingRawMisbehaviour)?
+                .ok_or(Error::MissingRawMisbehaviour)?
                 .try_into()?,
         })
     }
@@ -51,16 +51,16 @@ impl From<Misbehaviour> for RawMisbehaviour {
 impl Protobuf<Any> for Misbehaviour {}
 
 impl TryFrom<Any> for Misbehaviour {
-    type Error = ClientError;
+    type Error = Error;
 
-    fn try_from(raw: Any) -> Result<Self, ClientError> {
+    fn try_from(raw: Any) -> Result<Self, Error> {
         use core::ops::Deref;
 
-        fn decode_misbehaviour<B: Buf>(buf: B) -> Result<Misbehaviour, ClientError> {
+        fn decode_misbehaviour<B: Buf>(buf: B) -> Result<Misbehaviour, Error> {
             use prost::Message;
 
             RawMisbehaviour::decode(buf)
-                .map_err(ClientError::Decode)?
+                .map_err(Error::Decode)?
                 .try_into()
         }
 
@@ -68,7 +68,7 @@ impl TryFrom<Any> for Misbehaviour {
             MOCK_MISBEHAVIOUR_TYPE_URL => {
                 decode_misbehaviour(raw.value.deref()).map_err(Into::into)
             }
-            _ => Err(ClientError::UnknownMisbehaviourType {
+            _ => Err(Error::UnknownMisbehaviourType {
                 misbehaviour_type: raw.type_url,
             }),
         }

@@ -6,7 +6,7 @@ use ibc_proto::{
     google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, protobuf::Protobuf,
 };
 
-use crate::{error::ClientError, mock::header::MockHeader, ClientType, Height};
+use crate::{error::Error, mock::header::MockHeader, ClientType, Height};
 
 pub const MOCK_CLIENT_STATE_TYPE_URL: &str = "/ibc.mock.ClientState";
 
@@ -19,7 +19,6 @@ pub fn client_type() -> ClientType {
 /// A mock of a client state. For an example of a real structure that this mocks, you can see
 /// `ClientState` of ics07_tendermint/client_state.rs.
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct MockClientState {
     pub header: MockHeader,
@@ -53,7 +52,7 @@ impl MockClientState {
 impl Protobuf<RawMockClientState> for MockClientState {}
 
 impl TryFrom<RawMockClientState> for MockClientState {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMockClientState) -> Result<Self, Self::Error> {
         Ok(Self::new(raw.header.unwrap().try_into()?))
@@ -74,16 +73,16 @@ impl From<MockClientState> for RawMockClientState {
 impl Protobuf<Any> for MockClientState {}
 
 impl TryFrom<Any> for MockClientState {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: Any) -> Result<Self, Self::Error> {
         use bytes::Buf;
         use core::ops::Deref;
         use prost::Message;
 
-        fn decode_client_state<B: Buf>(buf: B) -> Result<MockClientState, ClientError> {
+        fn decode_client_state<B: Buf>(buf: B) -> Result<MockClientState, Error> {
             RawMockClientState::decode(buf)
-                .map_err(ClientError::Decode)?
+                .map_err(Error::Decode)?
                 .try_into()
         }
 
@@ -91,7 +90,7 @@ impl TryFrom<Any> for MockClientState {
             MOCK_CLIENT_STATE_TYPE_URL => {
                 decode_client_state(raw.value.deref()).map_err(Into::into)
             }
-            _ => Err(ClientError::UnknownClientStateType {
+            _ => Err(Error::UnknownClientStateType {
                 client_state_type: raw.type_url,
             }),
         }

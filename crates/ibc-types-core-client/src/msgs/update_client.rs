@@ -7,7 +7,7 @@ use ibc_proto::{
 };
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
-use crate::{error::ClientError, ClientId};
+use crate::{error::Error, ClientId};
 
 /// A type of message that triggers the update of an on-chain (IBC) client with new headers.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -26,15 +26,15 @@ impl DomainType for MsgUpdateClient {
 }
 
 impl TryFrom<RawMsgUpdateClient> for MsgUpdateClient {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMsgUpdateClient) -> Result<Self, Self::Error> {
         Ok(MsgUpdateClient {
             client_id: raw
                 .client_id
                 .parse()
-                .map_err(ClientError::InvalidMsgUpdateClientId)?,
-            header: raw.header.ok_or(ClientError::MissingRawHeader)?,
+                .map_err(Error::InvalidMsgUpdateClientId)?,
+            header: raw.header.ok_or(Error::MissingRawHeader)?,
             signer: raw.signer,
         })
     }

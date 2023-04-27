@@ -7,8 +7,9 @@ use ibc_proto::{
 };
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
-use crate::error::ClientError;
+use crate::error::Error;
 
+/// A type of message that triggers the creation of a new on-chain (IBC) client.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MsgCreateClient {
     pub client_state: Any,
@@ -25,14 +26,12 @@ impl DomainType for MsgCreateClient {
 }
 
 impl TryFrom<RawMsgCreateClient> for MsgCreateClient {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: RawMsgCreateClient) -> Result<Self, Self::Error> {
-        let client_state = raw.client_state.ok_or(ClientError::MissingRawClientState)?;
+        let client_state = raw.client_state.ok_or(Error::MissingRawClientState)?;
 
-        let consensus_state = raw
-            .consensus_state
-            .ok_or(ClientError::MissingRawConsensusState)?;
+        let consensus_state = raw.consensus_state.ok_or(Error::MissingRawConsensusState)?;
 
         Ok(MsgCreateClient {
             client_state,

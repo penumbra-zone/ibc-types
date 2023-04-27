@@ -13,13 +13,14 @@ use crate::height::Height;
 
 // TODO: after code cleanup, go through and remove never-constructed errors
 
+/// A catch-all error type.
 #[derive(Debug, Display)]
-pub enum ClientError {
+pub enum Error {
     /// Client identifier constructor failed for type `{client_type}` with counter `{counter}`, validation error: `{validation_error}`
     ClientIdentifierConstructor {
         client_type: ClientType,
         counter: u64,
-        validation_error: client_id::Error,
+        validation_error: client_id::ClientIdParseError,
     },
     /// client not found: `{client_id}`
     ClientNotFound { client_id: ClientId },
@@ -50,19 +51,19 @@ pub enum ClientError {
     /// missing raw client consensus state
     MissingRawConsensusState,
     /// invalid client id in the update client message: `{0}`
-    InvalidMsgUpdateClientId(client_id::Error),
+    InvalidMsgUpdateClientId(client_id::ClientIdParseError),
     /// Encode error: `{0}`
     Encode(TendermintProtoError),
     /// decode error: `{0}`
     Decode(prost::DecodeError),
     /// invalid client identifier error: `{0}`
-    InvalidClientIdentifier(client_id::Error),
+    InvalidClientIdentifier(client_id::ClientIdParseError),
     /// invalid raw header error: `{0}`
     InvalidRawHeader(TendermintProtoError),
     /// missing raw header
     MissingRawHeader,
     /// invalid raw misbehaviour error: `{0}`
-    InvalidRawMisbehaviour(client_id::Error),
+    InvalidRawMisbehaviour(client_id::ClientIdParseError),
     /// missing raw misbehaviour
     MissingRawMisbehaviour,
     /// revision height cannot be zero
@@ -111,7 +112,7 @@ pub enum ClientError {
 }
 
 #[cfg(feature = "std")]
-impl std::error::Error for ClientError {
+impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match &self {
             Self::ClientIdentifierConstructor {
