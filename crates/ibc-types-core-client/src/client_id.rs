@@ -57,7 +57,7 @@ impl FromStr for ClientId {
 
 impl Default for ClientId {
     fn default() -> Self {
-        Self::new("07-tendermint", 0).unwrap()
+        Self("07-tendermint-0".to_string())
     }
 }
 

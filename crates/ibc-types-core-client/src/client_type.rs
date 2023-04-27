@@ -31,6 +31,6 @@ impl ClientType {
 
 impl Display for ClientType {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
-        write!(f, "ClientType({})", self.0)
+        write!(f, "{}", self.0)
     }
 }
