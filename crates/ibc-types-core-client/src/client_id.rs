@@ -74,8 +74,8 @@ impl Default for ClientId {
 
 /// Equality check against string literal (satisfies &ClientId == &str).
 /// ```
-/// use core::str::FromStr;
-/// use ibc_types::core::ics24_host::identifier::ClientId;
+/// # use core::str::FromStr;
+/// # use ibc_types_core_client::ClientId;
 /// let client_id = ClientId::from_str("clientidtwo");
 /// assert!(client_id.is_ok());
 /// client_id.map(|id| {assert_eq!(&id, "clientidtwo")});
