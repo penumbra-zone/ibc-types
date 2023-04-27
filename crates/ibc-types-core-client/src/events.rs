@@ -4,13 +4,17 @@
 
 use displaydoc::Display;
 use subtle_encoding::hex;
-use tendermint::abci;
-use tendermint::abci::{Event, TypedEvent};
+use tendermint::{
+    abci,
+    abci::{Event, TypedEvent},
+};
 
-use crate::client_type::ClientType;
-use crate::height::{Height, HeightError};
-use crate::prelude::*;
-use crate::ClientId;
+use crate::{
+    client_type::ClientType,
+    height::{Height, HeightError},
+    prelude::*,
+    ClientId,
+};
 
 #[derive(Debug, Display)]
 pub enum Error {

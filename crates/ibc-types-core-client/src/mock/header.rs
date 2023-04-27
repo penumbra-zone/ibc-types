@@ -1,9 +1,7 @@
 use alloc::string::ToString;
 use core::fmt::{Display, Error as FmtError, Formatter};
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::mock::Header as RawMockHeader;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::{google::protobuf::Any, ibc::mock::Header as RawMockHeader, protobuf::Protobuf};
 use ibc_types_timestamp::Timestamp;
 
 use crate::{error::ClientError, Height};

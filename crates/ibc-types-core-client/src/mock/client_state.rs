@@ -2,12 +2,11 @@ use crate::prelude::*;
 
 use core::time::Duration;
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::mock::ClientState as RawMockClientState;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::{
+    google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, protobuf::Protobuf,
+};
 
-use crate::mock::header::MockHeader;
-use crate::{error::ClientError, ClientType, Height};
+use crate::{error::ClientError, mock::header::MockHeader, ClientType, Height};
 
 pub const MOCK_CLIENT_STATE_TYPE_URL: &str = "/ibc.mock.ClientState";
 

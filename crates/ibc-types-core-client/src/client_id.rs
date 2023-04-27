@@ -1,10 +1,11 @@
-use core::fmt::{Debug, Display, Error as FmtError, Formatter};
-use core::str::FromStr;
+use core::{
+    fmt::{Debug, Display, Error as FmtError, Formatter},
+    str::FromStr,
+};
 
 use derive_more::Into;
 
-use crate::client_type::ClientType;
-use crate::prelude::*;
+use crate::{client_type::ClientType, prelude::*};
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Into)]
 pub struct ClientId(pub String);

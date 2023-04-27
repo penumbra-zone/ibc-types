@@ -1,9 +1,9 @@
 use crate::prelude::*;
 
 use bytes::Buf;
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::mock::Misbehaviour as RawMisbehaviour;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::{
+    google::protobuf::Any, ibc::mock::Misbehaviour as RawMisbehaviour, protobuf::Protobuf,
+};
 
 use crate::{error::ClientError, ClientId};
 

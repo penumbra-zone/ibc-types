@@ -4,14 +4,17 @@ use crate::prelude::*;
 
 use core::str::FromStr;
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::core::client::v1::MsgUpgradeClient as RawMsgUpgradeClient;
-use ibc_proto::ibc::core::commitment::v1::MerkleProof as RawMerkleProof;
+use ibc_proto::{
+    google::protobuf::Any,
+    ibc::core::{
+        client::v1::MsgUpgradeClient as RawMsgUpgradeClient,
+        commitment::v1::MerkleProof as RawMerkleProof,
+    },
+};
 use ibc_types_domain_type::{DomainType, TypeUrl};
 use prost::Message;
 
-use crate::error::ClientError;
-use crate::ClientId;
+use crate::{error::ClientError, ClientId};
 
 /// A type of message that triggers the upgrade of an on-chain (IBC) client.
 #[derive(Clone, Debug, PartialEq)]

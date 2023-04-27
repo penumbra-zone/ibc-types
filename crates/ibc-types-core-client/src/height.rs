@@ -1,8 +1,7 @@
 use crate::prelude::*;
 use core::cmp::Ordering;
 
-use core::num::ParseIntError;
-use core::str::FromStr;
+use core::{num::ParseIntError, str::FromStr};
 
 use displaydoc::Display;
 use ibc_proto::protobuf::Protobuf;

@@ -4,8 +4,10 @@ use displaydoc::Display;
 use ibc_proto::protobuf::Error as TendermintProtoError;
 use ibc_types_timestamp::Timestamp;
 
-use crate::client_id::{self, ClientId};
-use crate::client_type::ClientType;
+use crate::{
+    client_id::{self, ClientId},
+    client_type::ClientType,
+};
 
 use crate::height::Height;
 

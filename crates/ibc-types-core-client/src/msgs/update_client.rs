@@ -2,8 +2,9 @@
 
 use crate::prelude::*;
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::core::client::v1::MsgUpdateClient as RawMsgUpdateClient;
+use ibc_proto::{
+    google::protobuf::Any, ibc::core::client::v1::MsgUpdateClient as RawMsgUpdateClient,
+};
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{error::ClientError, ClientId};
