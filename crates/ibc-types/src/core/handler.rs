@@ -209,6 +209,8 @@ mod tests {
         let denom = msg_transfer_two.token.denom.clone();
         let packet_data = {
             let data = PacketData {
+                // no idea if this is correct but we want to delete this code anyways
+                memo: String::new(),
                 token: PrefixedCoin {
                     denom,
                     amount: msg_transfer_two.token.amount,

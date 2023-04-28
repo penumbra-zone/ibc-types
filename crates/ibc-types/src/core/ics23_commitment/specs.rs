@@ -10,7 +10,7 @@ use ics23::{InnerSpec as Ics23InnerSpec, LeafOp as Ics23LeafOp, ProofSpec as Ics
 /// into proof specifications as represented in the `ibc_proto` type; see the
 /// `From` trait(s) below.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ProofSpecs(pub Vec<ProofSpec>);
 
 impl ProofSpecs {
@@ -40,6 +40,7 @@ impl From<Vec<IbcProofSpec>> for ProofSpecs {
     }
 }
 
+/*
 impl From<Vec<Ics23ProofSpec>> for ProofSpecs {
     fn from(ics23_specs: Vec<Ics23ProofSpec>) -> Self {
         Self(
@@ -50,6 +51,7 @@ impl From<Vec<Ics23ProofSpec>> for ProofSpecs {
         )
     }
 }
+ */
 
 impl From<ProofSpecs> for Vec<Ics23ProofSpec> {
     fn from(specs: ProofSpecs) -> Self {
@@ -57,14 +59,16 @@ impl From<ProofSpecs> for Vec<Ics23ProofSpec> {
     }
 }
 
+/*
 impl From<ProofSpecs> for Vec<IbcProofSpec> {
     fn from(specs: ProofSpecs) -> Self {
         specs.0.into_iter().map(|spec| spec.0).collect()
     }
 }
+ */
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ProofSpec(IbcProofSpec);
 
 impl From<Ics23ProofSpec> for ProofSpec {
@@ -74,6 +78,7 @@ impl From<Ics23ProofSpec> for ProofSpec {
             inner_spec: spec.inner_spec.map(|ispec| InnerSpec::from(ispec).0),
             max_depth: spec.max_depth,
             min_depth: spec.min_depth,
+            prehash_key_before_comparison: spec.prehash_key_before_comparison,
         })
     }
 }
@@ -82,6 +87,7 @@ impl From<ProofSpec> for Ics23ProofSpec {
     fn from(spec: ProofSpec) -> Self {
         let spec = spec.0;
         Ics23ProofSpec {
+            prehash_key_before_comparison: spec.prehash_key_before_comparison,
             leaf_spec: spec.leaf_spec.map(|lop| LeafOp(lop).into()),
             inner_spec: spec.inner_spec.map(|ispec| InnerSpec(ispec).into()),
             max_depth: spec.max_depth,
@@ -91,7 +97,7 @@ impl From<ProofSpec> for Ics23ProofSpec {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 struct LeafOp(IbcLeafOp);
 
 impl From<Ics23LeafOp> for LeafOp {
@@ -120,7 +126,7 @@ impl From<LeafOp> for Ics23LeafOp {
 }
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 struct InnerSpec(IbcInnerSpec);
 
 impl From<Ics23InnerSpec> for InnerSpec {

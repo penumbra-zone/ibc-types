@@ -1,3 +1,4 @@
+use alloc::string::String;
 use alloc::string::ToString;
 use core::convert::TryFrom;
 use core::str::FromStr;
@@ -18,6 +19,7 @@ pub struct PacketData {
     pub token: PrefixedCoin,
     pub sender: Signer,
     pub receiver: Signer,
+    pub memo: String,
 }
 
 impl TryFrom<RawPacketData> for PacketData {
@@ -28,6 +30,7 @@ impl TryFrom<RawPacketData> for PacketData {
         let denom = PrefixedDenom::from_str(&raw_pkt_data.denom)?;
         let amount = Amount::from_str(&raw_pkt_data.amount)?;
         Ok(Self {
+            memo: raw_pkt_data.memo,
             token: PrefixedCoin { denom, amount },
             sender: raw_pkt_data
                 .sender
@@ -48,6 +51,7 @@ impl From<PacketData> for RawPacketData {
             amount: pkt_data.token.amount.to_string(),
             sender: pkt_data.sender.to_string(),
             receiver: pkt_data.receiver.to_string(),
+            memo: pkt_data.memo,
         }
     }
 }

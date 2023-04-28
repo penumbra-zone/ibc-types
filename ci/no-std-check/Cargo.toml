@@ -1,6 +1,6 @@
 [package]
 name = "no-std-check"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 resolver = "2"
 
@@ -9,13 +9,13 @@ ibc-types = { path = "../../crates/ibc-types", default-features = false, feature
   "serde",
   "mocks-no-std",
 ] }
-ibc-proto = { version = "0.26.0", default-features = false, features = [
+ibc-proto = { git = "https://github.com/penumbra-zone/ibc-proto-rs", branch = "penumbra", version = "0.30.0", default-features = false, features = [
   "parity-scale-codec",
   "borsh",
 ] }
-tendermint = { version = "0.29.0", default-features = false }
-tendermint-proto = { version = "0.29.0", default-features = false }
-tendermint-light-client-verifier = { version = "0.29.0", default-features = false, features = ["rust-crypto"] }
+tendermint = { version = "0.31.1", default-features = false }
+tendermint-proto = { version = "0.31.1", default-features = false }
+tendermint-light-client-verifier = { version = "0.31.1", default-features = false, features = ["rust-crypto"] }
 
 sp-core = { version = "17.0.0", default-features = false, optional = true }
 sp-io = { version = "18.0.0", default-features = false, optional = true }

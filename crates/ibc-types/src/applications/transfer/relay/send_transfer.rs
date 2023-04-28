@@ -72,6 +72,7 @@ where
 
     let data = {
         let data = PacketData {
+            memo: msg.memo.clone(),
             token: coin,
             sender: msg.sender.clone(),
             receiver: msg.receiver.clone(),

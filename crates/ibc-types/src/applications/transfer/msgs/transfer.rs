@@ -41,6 +41,7 @@ pub struct MsgTransfer<C = Coin> {
     /// Timeout timestamp relative to the current block timestamp.
     /// The timeout is disabled when set to 0.
     pub timeout_timestamp_on_b: Timestamp,
+    pub memo: String,
 }
 
 impl Msg for MsgTransfer {
@@ -68,6 +69,7 @@ impl TryFrom<RawMsgTransfer> for MsgTransfer {
             })?;
 
         Ok(MsgTransfer {
+            memo: raw_msg.memo,
             port_on_a: raw_msg.source_port.parse().map_err(|e| {
                 TokenTransferError::InvalidPortId {
                     context: raw_msg.source_port.clone(),
@@ -95,6 +97,7 @@ impl TryFrom<RawMsgTransfer> for MsgTransfer {
 impl From<MsgTransfer> for RawMsgTransfer {
     fn from(domain_msg: MsgTransfer) -> Self {
         RawMsgTransfer {
+            memo: domain_msg.memo,
             source_port: domain_msg.port_on_a.to_string(),
             source_channel: domain_msg.chan_on_a.to_string(),
             token: Some(domain_msg.token),
@@ -125,11 +128,12 @@ impl TryFrom<Any> for MsgTransfer {
 
 #[cfg(test)]
 pub mod test_util {
+    use super::*;
+
     use core::ops::Add;
     use core::time::Duration;
     use primitive_types::U256;
 
-    use super::MsgTransfer;
     use crate::applications::transfer::packet::PacketData;
     use crate::applications::transfer::Coin;
     use crate::core::ics04_channel::packet::{Packet, Sequence};
@@ -150,6 +154,7 @@ pub mod test_util {
     ) -> MsgTransfer<PrefixedCoin> {
         let address: Signer = get_dummy_bech32_account().as_str().parse().unwrap();
         MsgTransfer {
+            memo: String::new(),
             port_on_a: PortId::default(),
             chan_on_a: ChannelId::default(),
             token: BaseCoin {
@@ -173,6 +178,7 @@ pub mod test_util {
 
         let data = {
             let data = PacketData {
+                memo: String::new(),
                 token: coin,
                 sender: msg.sender.clone(),
                 receiver: msg.receiver.clone(),
