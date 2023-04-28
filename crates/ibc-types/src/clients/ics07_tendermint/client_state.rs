@@ -54,7 +54,7 @@ use crate::core::ValidationContext;
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ClientState {
     pub chain_id: ChainId,
     pub trust_level: TrustThreshold,
@@ -699,8 +699,7 @@ impl Ics2ClientState for ClientState {
 
         upgraded_tm_client_state.zero_custom_fields();
         let client_state_value =
-            Protobuf::<RawTmClientState>::encode_vec(&upgraded_tm_client_state)
-                .map_err(ClientError::Encode)?;
+            Protobuf::<RawTmClientState>::encode_vec(&upgraded_tm_client_state);
 
         // Verify the proof of the upgraded client state
         merkle_proof_upgrade_client
@@ -721,8 +720,7 @@ impl Ics2ClientState for ClientState {
             key_path: cons_upgrade_path,
         };
 
-        let cons_state_value = Protobuf::<RawTmConsensusState>::encode_vec(&upgraded_tm_cons_state)
-            .map_err(ClientError::Encode)?;
+        let cons_state_value = Protobuf::<RawTmConsensusState>::encode_vec(&upgraded_tm_cons_state);
 
         // Verify the proof of the upgraded consensus state
         merkle_proof_upgrade_cons_state
@@ -805,9 +803,7 @@ impl Ics2ClientState for ClientState {
         let client_state = downcast_tm_client_state(self)?;
         client_state.verify_height(height)?;
 
-        let value = expected_consensus_state
-            .encode_vec()
-            .map_err(ClientError::InvalidAnyConsensusState)?;
+        let value = expected_consensus_state.encode_vec();
 
         verify_membership(
             client_state,
@@ -831,9 +827,7 @@ impl Ics2ClientState for ClientState {
         let client_state = downcast_tm_client_state(self)?;
         client_state.verify_height(height)?;
 
-        let value = expected_connection_end
-            .encode_vec()
-            .map_err(ClientError::InvalidConnectionEnd)?;
+        let value = expected_connection_end.encode_vec();
         verify_membership(client_state, prefix, proof, root, conn_path.clone(), value)
     }
 
@@ -848,9 +842,7 @@ impl Ics2ClientState for ClientState {
     ) -> Result<(), ClientError> {
         let client_state = downcast_tm_client_state(self)?;
         client_state.verify_height(height)?;
-        let value = expected_channel_end
-            .encode_vec()
-            .map_err(ClientError::InvalidChannelEnd)?;
+        let value = expected_channel_end.encode_vec();
 
         verify_membership(
             client_state,
@@ -1215,8 +1207,7 @@ impl From<ClientState> for Any {
     fn from(client_state: ClientState) -> Self {
         Any {
             type_url: TENDERMINT_CLIENT_STATE_TYPE_URL.to_string(),
-            value: Protobuf::<RawTmClientState>::encode_vec(&client_state)
-                .expect("encoding to `Any` from `TmClientState`"),
+            value: Protobuf::<RawTmClientState>::encode_vec(&client_state),
         }
     }
 }
