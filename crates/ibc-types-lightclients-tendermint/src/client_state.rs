@@ -2,6 +2,7 @@ use crate::prelude::*;
 
 use core::convert::{TryFrom, TryInto};
 use core::time::Duration;
+use std::string::String;
 
 use ibc_proto::google::protobuf::Any;
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;

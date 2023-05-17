@@ -16,9 +16,8 @@ use crate::clients::ics07_tendermint::consensus_state::ConsensusState;
 use crate::clients::ics07_tendermint::error::Error;
 use crate::core::ics02_client::error::ClientError;
 use crate::core::ics24_host::identifier::ChainId;
-use crate::timestamp::Timestamp;
 use crate::utils::pretty::{PrettySignedHeader, PrettyValidatorSet};
-use crate::Height;
+use ibc_types_core_client::Height;
 
 pub const TENDERMINT_HEADER_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.Header";
 
@@ -104,16 +103,6 @@ pub fn headers_compatible(header: &SignedHeader, other: &SignedHeader) -> bool {
             // 3 - BFT time violation
             header.header.time < other.header.time
         }
-    }
-}
-
-impl crate::core::ics02_client::header::Header for Header {
-    fn height(&self) -> Height {
-        self.height()
-    }
-
-    fn timestamp(&self) -> Timestamp {
-        self.signed_header.header.time.into()
     }
 }
 

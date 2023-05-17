@@ -84,6 +84,7 @@ scale-info = { version = "2.1.2", default-features = false, features = ["derive"
 borsh = {version = "0.10.0", default-features = false, optional = true }
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
 cfg-if = { version = "1.0.0", optional = true }
+anyhow = "1"
 
 [dependencies.tendermint]
 version = "0.31.1"

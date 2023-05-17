@@ -3,7 +3,9 @@
 
 use alloc::string::ToString;
 
-use crate::core::ics02_client::client_type::ClientType;
+use ibc_types_core_client::ClientType;
+
+mod prelude;
 
 pub mod client_state;
 pub mod consensus_state;
@@ -11,7 +13,7 @@ pub mod error;
 pub mod header;
 pub mod misbehaviour;
 
-pub(crate) const TENDERMINT_CLIENT_TYPE: &str = "07-tendermint";
+pub const TENDERMINT_CLIENT_TYPE: &str = "07-tendermint";
 
 pub fn client_type() -> ClientType {
     ClientType::new(TENDERMINT_CLIENT_TYPE.to_string())

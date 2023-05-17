@@ -10,7 +10,7 @@ use crate::clients::ics07_tendermint::error::Error;
 use crate::clients::ics07_tendermint::header::Header;
 use crate::core::ics02_client::error::ClientError;
 use crate::core::ics23_commitment::commitment::CommitmentRoot;
-use crate::timestamp::Timestamp;
+use ibc_types_timestamp::Timestamp;
 
 pub const TENDERMINT_CONSENSUS_STATE_TYPE_URL: &str =
     "/ibc.lightclients.tendermint.v1.ConsensusState";
@@ -30,16 +30,6 @@ impl ConsensusState {
             root,
             next_validators_hash,
         }
-    }
-}
-
-impl crate::core::ics02_client::consensus_state::ConsensusState for ConsensusState {
-    fn root(&self) -> &CommitmentRoot {
-        &self.root
-    }
-
-    fn timestamp(&self) -> Timestamp {
-        self.timestamp.into()
     }
 }
 

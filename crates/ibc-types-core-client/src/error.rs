@@ -109,6 +109,12 @@ pub enum Error {
     Other { description: String },
 }
 
+impl From<Error> for anyhow::Error {
+    fn from(e: Error) -> Self {
+        Self::msg(e.to_string())
+    }
+}
+
 #[cfg(feature = "std")]
 impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {

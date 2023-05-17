@@ -2,8 +2,8 @@ use crate::prelude::*;
 
 use crate::core::ics02_client::error::ClientError;
 use crate::core::ics24_host::identifier::{ChainId, ClientId};
-use crate::timestamp::{Timestamp, TimestampOverflowError};
-use crate::Height;
+use ibc_types_core_client::Height;
+use ibc_types_timestamp::{Timestamp, TimestampOverflowError};
 
 use core::time::Duration;
 
