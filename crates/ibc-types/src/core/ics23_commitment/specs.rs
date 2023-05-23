@@ -16,11 +16,10 @@ pub struct ProofSpecs(pub Vec<ProofSpec>);
 impl ProofSpecs {
     /// Returns the specification for Cosmos-SDK proofs
     pub fn cosmos() -> Self {
-        vec![
-            ics23::iavl_spec(),       // Format of proofs-iavl (iavl merkle proofs)
-            ics23::tendermint_spec(), // Format of proofs-tendermint (crypto/ merkle SimpleProof)
-        ]
-        .into()
+        Self(vec![
+            ics23::iavl_spec().into(), // Format of proofs-iavl (iavl merkle proofs)
+            ics23::tendermint_spec().into(), // Format of proofs-tendermint (crypto/ merkle SimpleProof)
+        ])
     }
 
     pub fn is_empty(&self) -> bool {
@@ -59,13 +58,11 @@ impl From<ProofSpecs> for Vec<Ics23ProofSpec> {
     }
 }
 
-/*
 impl From<ProofSpecs> for Vec<IbcProofSpec> {
     fn from(specs: ProofSpecs) -> Self {
         specs.0.into_iter().map(|spec| spec.0).collect()
     }
 }
- */
 
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq)]
@@ -78,7 +75,6 @@ impl From<Ics23ProofSpec> for ProofSpec {
             inner_spec: spec.inner_spec.map(|ispec| InnerSpec::from(ispec).0),
             max_depth: spec.max_depth,
             min_depth: spec.min_depth,
-            prehash_key_before_comparison: spec.prehash_key_before_comparison,
         })
     }
 }
@@ -87,7 +83,6 @@ impl From<ProofSpec> for Ics23ProofSpec {
     fn from(spec: ProofSpec) -> Self {
         let spec = spec.0;
         Ics23ProofSpec {
-            prehash_key_before_comparison: spec.prehash_key_before_comparison,
             leaf_spec: spec.leaf_spec.map(|lop| LeafOp(lop).into()),
             inner_spec: spec.inner_spec.map(|ispec| InnerSpec(ispec).into()),
             max_depth: spec.max_depth,
