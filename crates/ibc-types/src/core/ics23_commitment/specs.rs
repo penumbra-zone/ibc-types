@@ -39,7 +39,6 @@ impl From<Vec<IbcProofSpec>> for ProofSpecs {
     }
 }
 
-/*
 impl From<Vec<Ics23ProofSpec>> for ProofSpecs {
     fn from(ics23_specs: Vec<Ics23ProofSpec>) -> Self {
         Self(
@@ -50,7 +49,6 @@ impl From<Vec<Ics23ProofSpec>> for ProofSpecs {
         )
     }
 }
- */
 
 impl From<ProofSpecs> for Vec<Ics23ProofSpec> {
     fn from(specs: ProofSpecs) -> Self {
