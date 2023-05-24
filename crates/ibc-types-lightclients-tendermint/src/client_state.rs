@@ -18,39 +18,15 @@ use tendermint_light_client_verifier::options::Options;
 use tendermint_light_client_verifier::types::{TrustedBlockState, UntrustedBlockState};
 use tendermint_light_client_verifier::{ProdVerifier, Verifier};
 
-use crate::clients::ics07_tendermint::client_state::ClientState as TmClientState;
-use crate::clients::ics07_tendermint::consensus_state::ConsensusState as TmConsensusState;
-use crate::clients::ics07_tendermint::error::{Error, IntoResult};
-use crate::clients::ics07_tendermint::header::{Header as TmHeader, Header};
-use crate::clients::ics07_tendermint::misbehaviour::Misbehaviour as TmMisbehaviour;
-use crate::core::ics02_client::client_state::{ClientState as Ics2ClientState, UpdatedState};
-use crate::core::ics02_client::client_type::ClientType;
-use crate::core::ics02_client::consensus_state::ConsensusState;
-use crate::core::ics02_client::error::ClientError;
-use crate::core::ics02_client::trust_threshold::TrustThreshold;
-use crate::core::ics03_connection::connection::ConnectionEnd;
-use crate::core::ics04_channel::channel::ChannelEnd;
-use crate::core::ics04_channel::commitment::{AcknowledgementCommitment, PacketCommitment};
-use crate::core::ics04_channel::packet::Sequence;
-use crate::core::ics23_commitment::commitment::{
-    CommitmentPrefix, CommitmentProofBytes, CommitmentRoot,
-};
-use crate::core::ics23_commitment::merkle::{apply_prefix, MerkleProof};
-use crate::core::ics23_commitment::specs::ProofSpecs;
-use crate::core::ics24_host::identifier::{ChainId, ClientId};
-use crate::core::ics24_host::path::{
-    AckPath, ChannelEndPath, ClientConsensusStatePath, ClientStatePath, ClientUpgradePath,
-    CommitmentPath, ConnectionPath, ReceiptPath, SeqRecvPath,
-};
-use crate::core::ics24_host::Path;
-use crate::timestamp::{Timestamp, ZERO_DURATION};
-use crate::Height;
+use crate::client_state::ClientState as TmClientState;
+use crate::consensus_state::ConsensusState as TmConsensusState;
+use crate::error::{Error, IntoResult};
+use crate::header::{Header as TmHeader, Header};
+use crate::misbehaviour::Misbehaviour as TmMisbehaviour;
+use ibc_types_core_client::Height;
+use ibc_types_timestamp::{Timestamp, ZERO_DURATION};
 
 use super::client_type as tm_client_type;
-
-use crate::core::context::ContextError;
-
-use crate::core::ValidationContext;
 
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
@@ -349,9 +325,7 @@ impl ClientState {
 
         Ok(())
     }
-}
 
-impl Ics2ClientState for ClientState {
     fn chain_id(&self) -> ChainId {
         self.chain_id.clone()
     }
