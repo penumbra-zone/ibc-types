@@ -5,7 +5,8 @@ resolver = "2"
 members = [
     "crates/ibc-types",
     "crates/ibc-types-core-client",
-    "crates/ibc-types-lightclients-tendermint",
+    "crates/ibc-types-core-connection",
+    #"crates/ibc-types-lightclients-tendermint",
     "crates/ibc-types-timestamp",
     "crates/ibc-types-domain-type",
 ]
