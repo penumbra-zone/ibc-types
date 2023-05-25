@@ -2,9 +2,10 @@
 
 use tendermint::abci;
 
-use crate::core::ics24_host::identifier::{ClientId, ConnectionId};
-use crate::events::IbcEventType;
+//use crate::events::IbcEventType;
 use crate::prelude::*;
+use crate::ConnectionId;
+use ibc_types_core_client::ClientId;
 
 /// The content of the `key` field for the attribute containing the connection identifier.
 pub const CONN_ID_ATTRIBUTE_KEY: &str = "connection_id";
@@ -98,7 +99,7 @@ impl OpenInit {
 impl From<OpenInit> for abci::Event {
     fn from(v: OpenInit) -> Self {
         abci::Event {
-            kind: IbcEventType::OpenInitConnection.as_str().to_owned(),
+            kind: "connection_open_init".to_string(),
             attributes: v.0.into(),
         }
     }
@@ -153,7 +154,7 @@ impl OpenTry {
 impl From<OpenTry> for abci::Event {
     fn from(v: OpenTry) -> Self {
         abci::Event {
-            kind: IbcEventType::OpenTryConnection.as_str().to_owned(),
+            kind: "connection_open_try".to_string(),
             attributes: v.0.into(),
         }
     }
@@ -208,7 +209,7 @@ impl OpenAck {
 impl From<OpenAck> for abci::Event {
     fn from(v: OpenAck) -> Self {
         abci::Event {
-            kind: IbcEventType::OpenAckConnection.as_str().to_owned(),
+            kind: "connection_open_ack".to_string(),
             attributes: v.0.into(),
         }
     }
@@ -263,7 +264,7 @@ impl OpenConfirm {
 impl From<OpenConfirm> for abci::Event {
     fn from(v: OpenConfirm) -> Self {
         abci::Event {
-            kind: IbcEventType::OpenConfirmConnection.as_str().to_owned(),
+            kind: "connection_open_confirm".to_string(),
             attributes: v.0.into(),
         }
     }

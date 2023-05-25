@@ -5,7 +5,8 @@ use crate::prelude::*;
 use ibc_proto::ibc::core::connection::v1::Version as RawVersion;
 use ibc_proto::protobuf::Protobuf;
 
-use crate::core::ics04_channel::channel::Order;
+// TODO; move this to channel crate
+//use crate::core::ics04_channel::channel::Order;
 use crate::ConnectionError;
 
 /// Stores the identifier and the features supported by a version
@@ -70,10 +71,7 @@ impl Default for Version {
     fn default() -> Self {
         Version {
             identifier: "1".to_string(),
-            features: vec![
-                Order::Ordered.as_str().to_owned(),
-                Order::Unordered.as_str().to_owned(),
-            ],
+            features: vec!["ORDER_ORDERED".to_string(), "ORDER_UNORDERED".to_string()],
         }
     }
 }
