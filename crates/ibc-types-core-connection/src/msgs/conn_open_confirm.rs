@@ -64,8 +64,9 @@ impl From<MsgConnectionOpenConfirm> for RawMsgConnectionOpenConfirm {
 pub mod test_util {
     use super::MsgConnectionOpenConfirm;
     use crate::prelude::*;
-    use ibc_proto::ibc::core::client::v1::Height;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenConfirm as RawMsgConnectionOpenConfirm;
+    use ibc_proto::ibc::core::{
+        client::v1::Height, connection::v1::MsgConnectionOpenConfirm as RawMsgConnectionOpenConfirm,
+    };
 
     use crate::msgs::test_util::{get_dummy_bech32_account, get_dummy_proof};
 
@@ -96,11 +97,11 @@ mod tests {
 
     use test_log::test;
 
-    use ibc_proto::ibc::core::client::v1::Height;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenConfirm as RawMsgConnectionOpenConfirm;
+    use ibc_proto::ibc::core::{
+        client::v1::Height, connection::v1::MsgConnectionOpenConfirm as RawMsgConnectionOpenConfirm,
+    };
 
-    use super::test_util::*;
-    use super::*;
+    use super::{test_util::*, *};
 
     #[test]
     fn parse_connection_open_confirm_msg() {

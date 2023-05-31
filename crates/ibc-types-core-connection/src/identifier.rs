@@ -1,6 +1,8 @@
-use core::convert::{From, Infallible};
-use core::fmt::{Debug, Display, Error as FmtError, Formatter};
-use core::str::FromStr;
+use core::{
+    convert::{From, Infallible},
+    fmt::{Debug, Display, Error as FmtError, Formatter},
+    str::FromStr,
+};
 
 use ibc_types_identifier::{validate_connection_identifier, IdentifierError};
 

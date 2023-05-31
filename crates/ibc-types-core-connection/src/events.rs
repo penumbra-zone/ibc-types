@@ -11,8 +11,7 @@ use tendermint::{
     abci::{Event, TypedEvent},
 };
 
-use crate::prelude::*;
-use crate::ConnectionId;
+use crate::{prelude::*, ConnectionId};
 
 /// An error while parsing an [`Event`].
 #[derive(Debug, Display)]

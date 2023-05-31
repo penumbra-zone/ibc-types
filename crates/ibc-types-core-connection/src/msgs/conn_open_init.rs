@@ -6,8 +6,7 @@ use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenInit as RawMsgConnect
 use ibc_types_core_client::ClientId;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
-use crate::connection::Counterparty;
-use crate::{ConnectionError, Version};
+use crate::{connection::Counterparty, ConnectionError, Version};
 
 /// Per our convention, this message is sent to chain A.
 /// The handler will check proofs of chain B.
@@ -63,8 +62,7 @@ impl From<MsgConnectionOpenInit> for RawMsgConnectionOpenInit {
 
 #[cfg(test)]
 pub mod test_util {
-    use crate::connection::Counterparty;
-    use crate::prelude::*;
+    use crate::{connection::Counterparty, prelude::*};
     use ibc_proto::ibc::core::connection::v1::{
         MsgConnectionOpenInit as RawMsgConnectionOpenInit, Version as RawVersion,
     };
@@ -135,11 +133,11 @@ mod tests {
 
     use test_log::test;
 
-    use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenInit as RawMsgConnectionOpenInit;
+    use ibc_proto::ibc::core::connection::v1::{
+        Counterparty as RawCounterparty, MsgConnectionOpenInit as RawMsgConnectionOpenInit,
+    };
 
-    use super::test_util::*;
-    use super::*;
+    use super::{test_util::*, *};
     use crate::msgs::test_util::*;
 
     #[test]

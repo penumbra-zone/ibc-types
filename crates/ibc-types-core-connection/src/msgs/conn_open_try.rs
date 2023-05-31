@@ -5,11 +5,12 @@ use core::{
     time::Duration,
 };
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry;
+use ibc_proto::{
+    google::protobuf::Any,
+    ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry,
+};
 
-use crate::connection::Counterparty;
-use crate::Version;
+use crate::{connection::Counterparty, Version};
 
 use crate::error::ConnectionError;
 use ibc_types_core_client::{ClientId, Height};
@@ -133,10 +134,14 @@ impl From<MsgConnectionOpenTry> for RawMsgConnectionOpenTry {
 #[cfg(test)]
 pub mod test_util {
     use crate::prelude::*;
-    use ibc_proto::ibc::core::client::v1::Height as RawHeight;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry;
-    use ibc_types_core_client::mock::{client_state::MockClientState, header::MockHeader};
-    use ibc_types_core_client::{ClientId, Height};
+    use ibc_proto::ibc::core::{
+        client::v1::Height as RawHeight,
+        connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry,
+    };
+    use ibc_types_core_client::{
+        mock::{client_state::MockClientState, header::MockHeader},
+        ClientId, Height,
+    };
 
     use crate::ConnectionId;
 
@@ -205,12 +210,14 @@ mod tests {
 
     use test_log::test;
 
-    use ibc_proto::ibc::core::client::v1::Height;
-    use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry;
+    use ibc_proto::ibc::core::{
+        client::v1::Height,
+        connection::v1::{
+            Counterparty as RawCounterparty, MsgConnectionOpenTry as RawMsgConnectionOpenTry,
+        },
+    };
 
-    use super::test_util::*;
-    use super::*;
+    use super::{test_util::*, *};
     use crate::msgs::test_util::*;
 
     #[test]

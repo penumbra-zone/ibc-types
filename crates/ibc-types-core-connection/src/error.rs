@@ -1,7 +1,5 @@
 use crate::{ConnectionId, Version};
-use ibc_types_core_client::ClientId;
-use ibc_types_core_client::Error as ClientError;
-use ibc_types_core_client::Height;
+use ibc_types_core_client::{ClientId, Error as ClientError, Height};
 use ibc_types_identifier::IdentifierError;
 
 use alloc::string::String;

@@ -1,7 +1,9 @@
 use crate::prelude::*;
 
-use ibc_proto::google::protobuf::Any;
-use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck;
+use ibc_proto::{
+    google::protobuf::Any,
+    ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck,
+};
 use ibc_types_core_client::Height;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
@@ -104,14 +106,20 @@ impl From<MsgConnectionOpenAck> for RawMsgConnectionOpenAck {
 #[cfg(test)]
 pub mod test_util {
     use crate::prelude::*;
-    use ibc_proto::ibc::core::client::v1::Height as RawHeight;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck;
+    use ibc_proto::ibc::core::{
+        client::v1::Height as RawHeight,
+        connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck,
+    };
 
-    use ibc_types_core_client::mock::{client_state::MockClientState, header::MockHeader};
-    use ibc_types_core_client::Height;
+    use ibc_types_core_client::{
+        mock::{client_state::MockClientState, header::MockHeader},
+        Height,
+    };
 
-    use crate::msgs::test_util::{get_dummy_bech32_account, get_dummy_proof};
-    use crate::{ConnectionId, Version};
+    use crate::{
+        msgs::test_util::{get_dummy_bech32_account, get_dummy_proof},
+        ConnectionId, Version,
+    };
 
     use super::MsgConnectionOpenAck;
 
@@ -159,8 +167,9 @@ mod tests {
 
     use test_log::test;
 
-    use ibc_proto::ibc::core::client::v1::Height;
-    use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck;
+    use ibc_proto::ibc::core::{
+        client::v1::Height, connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck,
+    };
 
     use super::*;
 

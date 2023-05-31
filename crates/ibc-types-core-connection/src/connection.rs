@@ -1,16 +1,18 @@
 use crate::prelude::*;
 
-use core::time::Duration;
 use core::{
     fmt::{Display, Error as FmtError, Formatter},
+    time::Duration,
     u64,
 };
 
-use ibc_proto::ibc::core::connection::v1::{
-    ConnectionEnd as RawConnectionEnd, Counterparty as RawCounterparty,
-    IdentifiedConnection as RawIdentifiedConnection,
+use ibc_proto::{
+    ibc::core::connection::v1::{
+        ConnectionEnd as RawConnectionEnd, Counterparty as RawCounterparty,
+        IdentifiedConnection as RawIdentifiedConnection,
+    },
+    protobuf::Protobuf,
 };
-use ibc_proto::protobuf::Protobuf;
 
 use ibc_types_core_client::ClientId;
 use ibc_types_domain_type::{DomainType, TypeUrl};

@@ -33,11 +33,11 @@ pub enum ConnectionMsg {
 
 #[cfg(test)]
 pub mod test_util {
-    use crate::prelude::*;
-    use crate::ConnectionId;
+    use crate::{prelude::*, ConnectionId};
 
-    use ibc_proto::ibc::core::commitment::v1::MerklePrefix;
-    use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
+    use ibc_proto::ibc::core::{
+        commitment::v1::MerklePrefix, connection::v1::Counterparty as RawCounterparty,
+    };
     use ibc_types_core_client::ClientId;
 
     pub fn get_dummy_raw_counterparty(conn_id: Option<u64>) -> RawCounterparty {
