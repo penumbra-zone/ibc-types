@@ -168,7 +168,7 @@ impl ConnectionId {
     /// `ConnectionId::prefix()`) so this method accepts a single argument, the `counter`.
     ///
     /// ```
-    /// # use ibc_types::core::ics24_host::identifier::ConnectionId;
+    /// # use ibc_types_core_connection::ConnectionId;
     /// let conn_id = ConnectionId::new(11);
     /// assert_eq!(&conn_id, "connection-11");
     /// ```
