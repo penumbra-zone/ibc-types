@@ -44,7 +44,7 @@ impl TryFrom<RawMsgConnectionOpenInit> for MsgConnectionOpenInit {
                 .try_into()?,
             version: msg.version.map(|version| version.try_into()).transpose()?,
             delay_period: Duration::from_nanos(msg.delay_period),
-            signer: msg.signer.parse().map_err(ConnectionError::Signer)?,
+            signer: msg.signer,
         })
     }
 }
@@ -69,11 +69,12 @@ pub mod test_util {
         MsgConnectionOpenInit as RawMsgConnectionOpenInit, Version as RawVersion,
     };
 
-    use crate::core::ics03_connection::msgs::conn_open_init::MsgConnectionOpenInit;
-    use crate::core::ics03_connection::msgs::test_util::get_dummy_raw_counterparty;
-    use crate::core::ics03_connection::version::Version;
-    use crate::core::ics24_host::identifier::ClientId;
-    use crate::test_utils::get_dummy_bech32_account;
+    use super::*;
+    use crate::msgs::test_util::*;
+
+    pub fn get_dummy_bech32_account() -> String {
+        "cosmos1wxeyh7zgn4tctjzs0vtqpc6p5cxq5t2muzl7ng".to_string()
+    }
 
     /// Extends the implementation with additional helper methods.
     impl MsgConnectionOpenInit {
@@ -137,9 +138,9 @@ mod tests {
     use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
     use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenInit as RawMsgConnectionOpenInit;
 
-    use super::MsgConnectionOpenInit;
-    use crate::core::ics03_connection::msgs::conn_open_init::test_util::get_dummy_raw_msg_conn_open_init;
-    use crate::core::ics03_connection::msgs::test_util::get_dummy_raw_counterparty;
+    use super::test_util::*;
+    use super::*;
+    use crate::msgs::test_util::*;
 
     #[test]
     fn parse_connection_open_init_msg() {

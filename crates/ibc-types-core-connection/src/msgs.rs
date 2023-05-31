@@ -33,9 +33,9 @@ pub enum ConnectionMsg {
 
 #[cfg(test)]
 pub mod test_util {
-
     use crate::prelude::*;
     use crate::ConnectionId;
+
     use ibc_proto::ibc::core::commitment::v1::MerklePrefix;
     use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
     use ibc_types_core_client::ClientId;
@@ -52,5 +52,15 @@ pub mod test_util {
                 key_prefix: b"ibc".to_vec(),
             }),
         }
+    }
+
+    pub fn get_dummy_bech32_account() -> String {
+        "cosmos1wxeyh7zgn4tctjzs0vtqpc6p5cxq5t2muzl7ng".to_string()
+    }
+
+    pub fn get_dummy_proof() -> Vec<u8> {
+        "Y29uc2Vuc3VzU3RhdGUvaWJjb25lY2xpZW50LzIy"
+            .as_bytes()
+            .to_vec()
     }
 }

@@ -146,6 +146,7 @@ impl TryFrom<Vec<abci::EventAttribute>> for Attributes {
                             }
                         })?);
                 }
+                _ => return Err(Error::UnexpectedAttribute(attr.key)),
             }
         }
 

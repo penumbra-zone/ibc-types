@@ -105,7 +105,7 @@ impl TryFrom<RawMsgConnectionOpenTry> for MsgConnectionOpenTry {
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(ConnectionError::MissingConsensusHeight)?,
             delay_period: Duration::from_nanos(msg.delay_period),
-            signer: msg.signer.parse().map_err(ConnectionError::Signer)?,
+            signer: msg.signer,
         })
     }
 }
@@ -125,25 +125,23 @@ impl From<MsgConnectionOpenTry> for RawMsgConnectionOpenTry {
             proof_client: msg.proof_client_state_of_b_on_a.into(),
             proof_consensus: msg.proof_consensus_state_of_b_on_a.into(),
             consensus_height: Some(msg.consensus_height_of_b_on_a.into()),
-            signer: msg.signer.to_string(),
+            signer: msg.signer,
         }
     }
 }
 
 #[cfg(test)]
 pub mod test_util {
-    use crate::core::ics02_client::height::Height;
-    use crate::mock::client_state::MockClientState;
-    use crate::mock::header::MockHeader;
     use crate::prelude::*;
     use ibc_proto::ibc::core::client::v1::Height as RawHeight;
     use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry;
+    use ibc_types_core_client::mock::{client_state::MockClientState, header::MockHeader};
+    use ibc_types_core_client::{ClientId, Height};
 
-    use crate::core::ics03_connection::msgs::conn_open_try::MsgConnectionOpenTry;
-    use crate::core::ics03_connection::msgs::test_util::get_dummy_raw_counterparty;
-    use crate::core::ics03_connection::version::get_compatible_versions;
-    use crate::core::ics24_host::identifier::{ClientId, ConnectionId};
-    use crate::test_utils::{get_dummy_bech32_account, get_dummy_proof};
+    use crate::ConnectionId;
+
+    use super::*;
+    use crate::msgs::test_util::*;
 
     /// Testing-specific helper methods.
     impl MsgConnectionOpenTry {
@@ -181,7 +179,7 @@ pub mod test_util {
             client_state: Some(MockClientState::new(MockHeader::new(client_state_height)).into()),
             counterparty: Some(get_dummy_raw_counterparty(Some(0))),
             delay_period: 0,
-            counterparty_versions: get_compatible_versions()
+            counterparty_versions: Version::compatible_versions()
                 .iter()
                 .map(|v| v.clone().into())
                 .collect(),
@@ -211,9 +209,9 @@ mod tests {
     use ibc_proto::ibc::core::connection::v1::Counterparty as RawCounterparty;
     use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry;
 
-    use crate::core::ics03_connection::msgs::conn_open_try::test_util::get_dummy_raw_msg_conn_open_try;
-    use crate::core::ics03_connection::msgs::conn_open_try::MsgConnectionOpenTry;
-    use crate::core::ics03_connection::msgs::test_util::get_dummy_raw_counterparty;
+    use super::test_util::*;
+    use super::*;
+    use crate::msgs::test_util::*;
 
     #[test]
     fn parse_connection_open_try_msg() {

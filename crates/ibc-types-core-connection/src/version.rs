@@ -73,35 +73,37 @@ impl Display for Version {
     }
 }
 
-/// Returns the lists of supported versions
-pub fn get_compatible_versions() -> Vec<Version> {
-    vec![Version::default()]
-}
+impl Version {
+    /// Returns the lists of supported versions
+    pub fn compatible_versions() -> Vec<Version> {
+        vec![Version::default()]
+    }
 
-/// Selects a version from the intersection of locally supported and counterparty versions.
-pub fn pick_version(
-    supported_versions: &[Version],
-    counterparty_versions: &[Version],
-) -> Result<Version, ConnectionError> {
-    let mut intersection: Vec<Version> = Vec::new();
-    for s in supported_versions.iter() {
-        for c in counterparty_versions.iter() {
-            if c.identifier != s.identifier {
-                continue;
-            }
-            for feature in c.features.iter() {
-                if feature.trim().is_empty() {
-                    return Err(ConnectionError::EmptyFeatures);
+    /// Selects a version from the intersection of locally supported and counterparty versions.
+    pub fn select(
+        supported_versions: &[Version],
+        counterparty_versions: &[Version],
+    ) -> Result<Version, ConnectionError> {
+        let mut intersection: Vec<Version> = Vec::new();
+        for s in supported_versions.iter() {
+            for c in counterparty_versions.iter() {
+                if c.identifier != s.identifier {
+                    continue;
                 }
+                for feature in c.features.iter() {
+                    if feature.trim().is_empty() {
+                        return Err(ConnectionError::EmptyFeatures);
+                    }
+                }
+                intersection.append(&mut vec![s.clone()]);
             }
-            intersection.append(&mut vec![s.clone()]);
         }
+        intersection.sort_by(|a, b| a.identifier.cmp(&b.identifier));
+        if intersection.is_empty() {
+            return Err(ConnectionError::NoCommonVersion);
+        }
+        Ok(intersection[0].clone())
     }
-    intersection.sort_by(|a, b| a.identifier.cmp(&b.identifier));
-    if intersection.is_empty() {
-        return Err(ConnectionError::NoCommonVersion);
-    }
-    Ok(intersection[0].clone())
 }
 
 #[cfg(test)]
@@ -264,8 +266,8 @@ mod tests {
         let tests: Vec<Test> = vec![
             Test {
                 name: "Compatible versions".to_string(),
-                supported: get_compatible_versions(),
-                counterparty: get_compatible_versions(),
+                supported: Version::compatible_versions(),
+                counterparty: Version::compatible_versions(),
                 picked: Ok(Version::default()),
                 want_pass: true,
             },
@@ -286,7 +288,7 @@ mod tests {
         ];
 
         for test in tests {
-            let version = pick_version(&test.supported, &test.counterparty);
+            let version = Version::select(&test.supported, &test.counterparty);
 
             assert_eq!(
                 test.want_pass,

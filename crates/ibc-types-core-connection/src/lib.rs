@@ -6,12 +6,13 @@ extern crate alloc;
 extern crate std;
 
 // TODO: make private
-pub mod connection;
-pub mod error;
+mod connection;
+mod error;
 mod identifier;
 mod prelude;
 mod version;
 
+pub use connection::{ConnectionEnd, Counterparty, IdentifiedConnectionEnd};
 pub use error::ConnectionError;
 pub use identifier::{ChainId, ConnectionId};
 pub use version::Version;

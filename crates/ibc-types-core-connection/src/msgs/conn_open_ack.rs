@@ -103,16 +103,15 @@ impl From<MsgConnectionOpenAck> for RawMsgConnectionOpenAck {
 
 #[cfg(test)]
 pub mod test_util {
-    use crate::core::ics02_client::height::Height;
-    use crate::mock::client_state::MockClientState;
-    use crate::mock::header::MockHeader;
     use crate::prelude::*;
     use ibc_proto::ibc::core::client::v1::Height as RawHeight;
     use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck;
 
-    use crate::core::ics03_connection::version::Version;
-    use crate::core::ics24_host::identifier::ConnectionId;
-    use crate::test_utils::{get_dummy_bech32_account, get_dummy_proof};
+    use ibc_types_core_client::mock::{client_state::MockClientState, header::MockHeader};
+    use ibc_types_core_client::Height;
+
+    use crate::msgs::test_util::{get_dummy_bech32_account, get_dummy_proof};
+    use crate::{ConnectionId, Version};
 
     use super::MsgConnectionOpenAck;
 
