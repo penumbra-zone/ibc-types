@@ -21,6 +21,8 @@ all-features = true
 default = ["std"]
 std = [ 
     "ibc-types-timestamp/std",
+    "ibc-types-identifier/std",
+    "ibc-types-core-client/std",
     "ibc-proto/std",
     "ics23/std",
     "serde/std",
@@ -113,3 +115,4 @@ tendermint-testgen = { version = "0.31.1" } # Needed for generating (synthetic) 
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 
+ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", features = ["mocks"] }

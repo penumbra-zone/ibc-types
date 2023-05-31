@@ -21,6 +21,7 @@ all-features = true
 default = ["std"]
 std = [ 
     "ibc-types-timestamp/std",
+    "ibc-types-identifier/std",
     "ibc-proto/std",
     "ics23/std",
     "serde/std",
