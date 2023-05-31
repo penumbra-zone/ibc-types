@@ -10,19 +10,6 @@ use ibc_proto::protobuf::Protobuf;
 use crate::ConnectionError;
 
 /// Stores the identifier and the features supported by a version
-#[cfg_attr(
-    feature = "parity-scale-codec",
-    derive(
-        parity_scale_codec::Encode,
-        parity_scale_codec::Decode,
-        scale_info::TypeInfo
-    )
-)]
-#[cfg_attr(
-    feature = "borsh",
-    derive(borsh::BorshSerialize, borsh::BorshDeserialize)
-)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Version {
     /// unique version identifier
@@ -125,8 +112,8 @@ mod tests {
 
     use ibc_proto::ibc::core::connection::v1::Version as RawVersion;
 
-    use crate::core::ics03_connection::error::ConnectionError;
-    use crate::core::ics03_connection::version::{get_compatible_versions, pick_version, Version};
+    use super::*;
+    use crate::ConnectionError;
 
     fn good_versions() -> Vec<RawVersion> {
         vec![

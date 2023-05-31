@@ -13,7 +13,7 @@ mod prelude;
 mod version;
 
 pub use error::ConnectionError;
-pub use identifier::{ChainId, ConnectionId, ValidationError};
+pub use identifier::{ChainId, ConnectionId};
 pub use version::Version;
 
 pub mod events;

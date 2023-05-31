@@ -16,7 +16,7 @@ use ibc_types_core_client::{ClientId, Error as ClientError};
 use ibc_types_domain_type::{DomainType, TypeUrl};
 use ibc_types_timestamp::ZERO_DURATION;
 
-use crate::{ConnectionError, ConnectionId, ValidationError, Version};
+use crate::{ConnectionError, ConnectionId, Version};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct IdentifiedConnectionEnd {
@@ -83,7 +83,7 @@ impl From<IdentifiedConnectionEnd> for RawIdentifiedConnection {
                 .collect(),
             state: value.connection_end.state as i32,
             delay_period: value.connection_end.delay_period.as_nanos() as u64,
-            counterparty: Some(value.connection_end.counterparty().clone().into()),
+            counterparty: Some(value.connection_end.counterparty.into()),
         }
     }
 }
@@ -122,23 +122,23 @@ impl TryFrom<RawConnectionEnd> for ConnectionEnd {
             return Err(ConnectionError::EmptyProtoConnectionEnd);
         }
 
-        Ok(Self::new(
+        Ok(Self {
             state,
-            value
+            client_id: value
                 .client_id
                 .parse()
                 .map_err(ConnectionError::InvalidIdentifier)?,
-            value
+            counterparty: value
                 .counterparty
                 .ok_or(ConnectionError::MissingCounterparty)?
                 .try_into()?,
-            value
+            versions: value
                 .versions
                 .into_iter()
                 .map(Version::try_from)
                 .collect::<Result<Vec<_>, _>>()?,
-            Duration::from_nanos(value.delay_period),
-        ))
+            delay_period: Duration::from_nanos(value.delay_period),
+        })
     }
 }
 
@@ -159,42 +159,6 @@ impl From<ConnectionEnd> for RawConnectionEnd {
 }
 
 impl ConnectionEnd {
-    pub fn new(
-        state: State,
-        client_id: ClientId,
-        counterparty: Counterparty,
-        versions: Vec<Version>,
-        delay_period: Duration,
-    ) -> Self {
-        Self {
-            state,
-            client_id,
-            counterparty,
-            versions,
-            delay_period,
-        }
-    }
-
-    /// Getter for the state of this connection end.
-    pub fn state(&self) -> &State {
-        &self.state
-    }
-
-    /// Setter for the `state` field.
-    pub fn set_state(&mut self, new_state: State) {
-        self.state = new_state;
-    }
-
-    /// Setter for the `counterparty` field.
-    pub fn set_counterparty(&mut self, new_cparty: Counterparty) {
-        self.counterparty = new_cparty;
-    }
-
-    /// Setter for the `version` field.
-    pub fn set_version(&mut self, new_version: Version) {
-        self.versions = vec![new_version];
-    }
-
     /// Helper function to compare the counterparty of this end with another counterparty.
     pub fn counterparty_matches(&self, other: &Counterparty) -> bool {
         self.counterparty.eq(other)
@@ -218,32 +182,6 @@ impl ConnectionEnd {
     /// Helper function to compare the state of this end with another state.
     pub fn state_matches(&self, other: &State) -> bool {
         self.state.eq(other)
-    }
-
-    /// Getter for the client id on the local party of this connection end.
-    pub fn client_id(&self) -> &ClientId {
-        &self.client_id
-    }
-
-    /// Getter for the list of versions in this connection end.
-    pub fn versions(&self) -> &[Version] {
-        &self.versions
-    }
-
-    /// Getter for the counterparty.
-    pub fn counterparty(&self) -> &Counterparty {
-        &self.counterparty
-    }
-
-    /// Getter for the delay_period field. This represents the duration, at minimum,
-    /// to delay the sending of a packet after the client update for that packet has been submitted.
-    pub fn delay_period(&self) -> Duration {
-        self.delay_period
-    }
-
-    /// TODO: Clean this up, probably not necessary.
-    pub fn validate_basic(&self) -> Result<(), ValidationError> {
-        self.counterparty.validate_basic()
     }
 }
 
@@ -272,17 +210,17 @@ impl TryFrom<RawCounterparty> for Counterparty {
                     .map_err(ConnectionError::InvalidIdentifier)?,
             )
         };
-        Ok(Counterparty::new(
-            raw_counterparty
+        Ok(Counterparty {
+            client_id: raw_counterparty
                 .client_id
                 .parse()
                 .map_err(ConnectionError::InvalidIdentifier)?,
             connection_id,
-            raw_counterparty
+            prefix: raw_counterparty
                 .prefix
                 .ok_or(ConnectionError::MissingCounterparty)?
                 .key_prefix,
-        ))
+        })
     }
 }
 
@@ -294,29 +232,9 @@ impl From<Counterparty> for RawCounterparty {
                 .connection_id
                 .map_or_else(|| "".to_string(), |v| v.as_str().to_string()),
             prefix: Some(ibc_proto::ibc::core::commitment::v1::MerklePrefix {
-                key_prefix: value.prefix.into_vec(),
+                key_prefix: value.prefix,
             }),
         }
-    }
-}
-
-impl Counterparty {
-    /// Getter for the client id.
-    pub fn client_id(&self) -> &ClientId {
-        &self.client_id
-    }
-
-    /// Getter for connection id.
-    pub fn connection_id(&self) -> Option<&ConnectionId> {
-        self.connection_id.as_ref()
-    }
-
-    pub fn prefix(&self) -> &[u8] {
-        &self.prefix
-    }
-
-    pub fn validate_basic(&self) -> Result<(), ValidationError> {
-        Ok(())
     }
 }
 

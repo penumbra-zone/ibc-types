@@ -79,7 +79,7 @@ impl TryFrom<RawMsgConnectionOpenAck> for MsgConnectionOpenAck {
                 .consensus_height
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(ConnectionError::MissingConsensusHeight)?,
-            signer: msg.signer.parse().map_err(ConnectionError::Signer)?,
+            signer: msg.signer,
         })
     }
 }
@@ -96,7 +96,7 @@ impl From<MsgConnectionOpenAck> for RawMsgConnectionOpenAck {
             proof_consensus: msg.proof_consensus_state_of_a_on_b.into(),
             consensus_height: Some(msg.consensus_height_of_a_on_b.into()),
             version: Some(msg.version.into()),
-            signer: msg.signer.to_string(),
+            signer: msg.signer,
         }
     }
 }
@@ -163,8 +163,7 @@ mod tests {
     use ibc_proto::ibc::core::client::v1::Height;
     use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck;
 
-    use crate::core::ics03_connection::msgs::conn_open_ack::test_util::get_dummy_raw_msg_conn_open_ack;
-    use crate::core::ics03_connection::msgs::conn_open_ack::MsgConnectionOpenAck;
+    use super::*;
 
     #[test]
     fn parse_connection_open_ack_msg() {
@@ -175,7 +174,7 @@ mod tests {
             want_pass: bool,
         }
 
-        let default_ack_msg = get_dummy_raw_msg_conn_open_ack(5, 5);
+        let default_ack_msg = test_util::get_dummy_raw_msg_conn_open_ack(5, 5);
 
         let tests: Vec<Test> = vec![
             Test {
@@ -241,7 +240,7 @@ mod tests {
 
     #[test]
     fn to_and_from() {
-        let raw = get_dummy_raw_msg_conn_open_ack(5, 6);
+        let raw = test_util::get_dummy_raw_msg_conn_open_ack(5, 6);
         let msg = MsgConnectionOpenAck::try_from(raw.clone()).unwrap();
         let raw_back = RawMsgConnectionOpenAck::from(msg.clone());
         let msg_back = MsgConnectionOpenAck::try_from(raw_back.clone()).unwrap();

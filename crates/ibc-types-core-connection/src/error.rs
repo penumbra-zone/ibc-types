@@ -1,8 +1,8 @@
-use crate::ValidationError;
 use crate::{ConnectionId, Version};
 use ibc_types_core_client::ClientId;
 use ibc_types_core_client::Error as ClientError;
 use ibc_types_core_client::Height;
+use ibc_types_identifier::IdentifierError;
 
 use alloc::string::String;
 use displaydoc::Display;
@@ -21,7 +21,7 @@ pub enum ConnectionError {
         current_height: Height,
     },
     /// identifier error: `{0}`
-    InvalidIdentifier(ValidationError),
+    InvalidIdentifier(IdentifierError),
     /// ConnectionEnd domain object could not be constructed out of empty proto object
     EmptyProtoConnectionEnd,
     /// empty supported versions
