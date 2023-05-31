@@ -5,7 +5,6 @@ extern crate alloc;
 #[cfg(any(test, feature = "std"))]
 extern crate std;
 
-// TODO: make private
 mod connection;
 mod error;
 mod identifier;
