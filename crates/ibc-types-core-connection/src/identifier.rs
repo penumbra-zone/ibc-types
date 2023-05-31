@@ -28,8 +28,7 @@ impl ChainId {
     ///
     /// The returned `ChainId` will have the format: `{chain name}-{epoch number}`.
     /// ```
-    /// use ibc_types::core::ics24_host::identifier::ChainId;
-    ///
+    /// # use ibc_types_core_connection::ChainId;
     /// let epoch_number = 10;
     /// let id = ChainId::new("chainA".to_string(), epoch_number);
     /// assert_eq!(id.version(), epoch_number);
@@ -67,8 +66,7 @@ impl ChainId {
 
     /// Extract the version from the given chain identifier.
     /// ```
-    /// use ibc_types::core::ics24_host::identifier::ChainId;
-    ///
+    /// # use ibc_types_core_connection::ChainId;
     /// assert_eq!(ChainId::chain_version("chain--a-0"), 0);
     /// assert_eq!(ChainId::chain_version("ibc-10"), 10);
     /// assert_eq!(ChainId::chain_version("cosmos-hub-97"), 97);
@@ -90,7 +88,7 @@ impl ChainId {
     /// is_epoch_format() checks if a chain_id is in the format required for parsing epochs
     /// The chainID must be in the form: `{chainID}-{version}`
     /// ```
-    /// use ibc_types::core::ics24_host::identifier::ChainId;
+    /// # use ibc_types_core_connection::ChainId;
     /// assert_eq!(ChainId::is_epoch_format("chainA-0"), false);
     /// assert_eq!(ChainId::is_epoch_format("chainA"), false);
     /// assert_eq!(ChainId::is_epoch_format("chainA-1"), true);
@@ -104,7 +102,7 @@ impl ChainId {
     /// with_version() checks if a chain_id is in the format required for parsing epochs, and if so
     /// replaces it's version with the specified version
     /// ```
-    /// use ibc_types::core::ics24_host::identifier::ChainId;
+    /// # use ibc_types_core_connection::ChainId;
     /// assert_eq!(ChainId::new("chainA".to_string(), 1).with_version(2), ChainId::new("chainA".to_string(), 2));
     /// assert_eq!("chain1".parse::<ChainId>().unwrap().with_version(2), "chain1".parse::<ChainId>().unwrap());
     /// ```
@@ -218,8 +216,8 @@ impl Default for ConnectionId {
 
 /// Equality check against string literal (satisfies &ConnectionId == &str).
 /// ```
-/// use core::str::FromStr;
-/// use ibc_types::core::ics24_host::identifier::ConnectionId;
+/// # use core::str::FromStr;
+/// # use ibc_types_core_connection::ConnectionId;
 /// let conn_id = ConnectionId::from_str("connectionId-0");
 /// assert!(conn_id.is_ok());
 /// conn_id.map(|id| {assert_eq!(&id, "connectionId-0")});
