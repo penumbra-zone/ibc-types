@@ -16,7 +16,7 @@ mod prelude;
 pub mod events;
 pub mod msgs;
 
-pub use client_id::{ClientId, ClientIdParseError};
+pub use client_id::ClientId;
 pub use client_type::ClientType;
 pub use error::Error;
 pub use height::{Height, HeightParseError};

@@ -2,12 +2,10 @@ use crate::prelude::*;
 
 use displaydoc::Display;
 use ibc_proto::protobuf::Error as TendermintProtoError;
+use ibc_types_identifier::IdentifierError;
 use ibc_types_timestamp::Timestamp;
 
-use crate::{
-    client_id::{self, ClientId},
-    client_type::ClientType,
-};
+use crate::{client_id::ClientId, client_type::ClientType};
 
 use crate::height::Height;
 
@@ -20,7 +18,7 @@ pub enum Error {
     ClientIdentifierConstructor {
         client_type: ClientType,
         counter: u64,
-        validation_error: client_id::ClientIdParseError,
+        validation_error: IdentifierError,
     },
     /// client not found: `{client_id}`
     ClientNotFound { client_id: ClientId },
@@ -51,19 +49,19 @@ pub enum Error {
     /// missing raw client consensus state
     MissingRawConsensusState,
     /// invalid client id in the update client message: `{0}`
-    InvalidMsgUpdateClientId(client_id::ClientIdParseError),
+    InvalidMsgUpdateClientId(IdentifierError),
     /// Encode error: `{0}`
     Encode(TendermintProtoError),
     /// decode error: `{0}`
     Decode(prost::DecodeError),
     /// invalid client identifier error: `{0}`
-    InvalidClientIdentifier(client_id::ClientIdParseError),
+    InvalidClientIdentifier(IdentifierError),
     /// invalid raw header error: `{0}`
     InvalidRawHeader(TendermintProtoError),
     /// missing raw header
     MissingRawHeader,
     /// invalid raw misbehaviour error: `{0}`
-    InvalidRawMisbehaviour(client_id::ClientIdParseError),
+    InvalidRawMisbehaviour(IdentifierError),
     /// missing raw misbehaviour
     MissingRawMisbehaviour,
     /// revision height cannot be zero
