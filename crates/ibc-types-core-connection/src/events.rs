@@ -1,34 +1,82 @@
-//! Types for the IBC events emitted from Tendermint Websocket by the connection module.
+//! Types for ABCI [`Event`](tendermint::abci::Event)s that inform relayers
+//! about IBC connection events.
 
-use tendermint::abci;
+use core::str::FromStr;
 
-//use crate::events::IbcEventType;
+use displaydoc::Display;
+use ibc_types_core_client::ClientId;
+use ibc_types_identifier::IdentifierError;
+use tendermint::{
+    abci,
+    abci::{Event, TypedEvent},
+};
+
 use crate::prelude::*;
 use crate::ConnectionId;
-use ibc_types_core_client::ClientId;
 
-/// The content of the `key` field for the attribute containing the connection identifier.
-pub const CONN_ID_ATTRIBUTE_KEY: &str = "connection_id";
-pub const CLIENT_ID_ATTRIBUTE_KEY: &str = "client_id";
-pub const COUNTERPARTY_CONN_ID_ATTRIBUTE_KEY: &str = "counterparty_connection_id";
-pub const COUNTERPARTY_CLIENT_ID_ATTRIBUTE_KEY: &str = "counterparty_client_id";
+/// An error while parsing an [`Event`].
+#[derive(Debug, Display)]
+pub enum Error {
+    /// Wrong event type: expected {expected}
+    WrongType {
+        // The actual event type is intentionally not included in the error, so
+        // that Error::WrongType doesn't allocate and is cheap to use for trial
+        // deserialization (attempt parsing of each event type in turn, which is
+        // then just as fast as matching over the event type)
+        //
+        // TODO: is this good?
+        expected: &'static str,
+    },
+    /// Missing expected event attribute "{0}"
+    MissingAttribute(&'static str),
+    /// Unexpected event attribute "{0}"
+    UnexpectedAttribute(String),
+    /// Error parsing connection ID in "{key}": {e}
+    ParseConnectionId {
+        key: &'static str,
+        e: IdentifierError,
+    },
+    /// Error parsing client ID in "{key}": {e}
+    ParseClientId {
+        key: &'static str,
+        e: IdentifierError,
+    },
+    /// Error parsing hex bytes in "{key}": {e}
+    ParseHex {
+        key: &'static str,
+        e: subtle_encoding::Error,
+    },
+}
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Attributes {
-    pub connection_id: ConnectionId,
-    pub client_id: ClientId,
-    pub counterparty_connection_id: Option<ConnectionId>,
-    pub counterparty_client_id: ClientId,
+#[cfg(feature = "std")]
+impl std::error::Error for Error {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        // Note: fill in if errors have causes
+        match &self {
+            Self::ParseConnectionId { e, .. } => Some(e),
+            _ => None,
+        }
+    }
+}
+
+/// Common attributes for IBC connection events.
+///
+/// This is an internal type only used to commonize (de)serialization code.
+struct Attributes {
+    connection_id: ConnectionId,
+    client_id: ClientId,
+    counterparty_connection_id: Option<ConnectionId>,
+    counterparty_client_id: ClientId,
 }
 
 /// Convert attributes to Tendermint ABCI tags
 impl From<Attributes> for Vec<abci::EventAttribute> {
     fn from(a: Attributes) -> Self {
-        let conn_id = (CONN_ID_ATTRIBUTE_KEY, a.connection_id.as_str()).into();
-        let client_id = (CLIENT_ID_ATTRIBUTE_KEY, a.client_id.as_str()).into();
+        let conn_id = ("connection_id", a.connection_id.as_str()).into();
+        let client_id = ("client_id", a.client_id.as_str()).into();
 
         let counterparty_conn_id = (
-            COUNTERPARTY_CONN_ID_ATTRIBUTE_KEY,
+            "counterparty_connection_id",
             a.counterparty_connection_id
                 .as_ref()
                 .map(|id| id.as_str())
@@ -36,11 +84,8 @@ impl From<Attributes> for Vec<abci::EventAttribute> {
         )
             .into();
 
-        let counterparty_client_id = (
-            COUNTERPARTY_CLIENT_ID_ATTRIBUTE_KEY,
-            a.counterparty_client_id.as_str(),
-        )
-            .into();
+        let counterparty_client_id =
+            ("counterparty_client_id", a.counterparty_client_id.as_str()).into();
 
         vec![
             conn_id,
@@ -51,173 +96,270 @@ impl From<Attributes> for Vec<abci::EventAttribute> {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenInit(pub Attributes);
+impl TryFrom<Vec<abci::EventAttribute>> for Attributes {
+    type Error = Error;
+    fn try_from(attributes: Vec<abci::EventAttribute>) -> Result<Self, Self::Error> {
+        let mut client_id = None;
+        let mut connection_id = None;
+        let mut counterparty_client_id = None;
+        let mut counterparty_connection_id = None;
 
-impl OpenInit {
-    /// Per our convention, this event is generated on chain A.
-    pub fn new(
-        conn_id_on_a: ConnectionId,
-        client_id_on_a: ClientId,
-        client_id_on_b: ClientId,
-    ) -> Self {
-        Self(Attributes {
-            connection_id: conn_id_on_a,
-            client_id: client_id_on_a,
+        for attr in attributes {
+            match attr.key.as_ref() {
+                "connection_id" => {
+                    connection_id =
+                        Some(ConnectionId::from_str(attr.value.as_ref()).map_err(|e| {
+                            Error::ParseConnectionId {
+                                key: "connection_id",
+                                e,
+                            }
+                        })?);
+                }
+                "client_id" => {
+                    client_id = Some(ClientId::from_str(attr.value.as_ref()).map_err(|e| {
+                        Error::ParseClientId {
+                            key: "client_id",
+                            e,
+                        }
+                    })?);
+                }
+                "counterparty_connection_id" => {
+                    counterparty_connection_id = if attr.value.is_empty() {
+                        // Don't try to parse the connection ID if it was empty; set it to
+                        // None instead, since we'll reject empty connection IDs in parsing.
+                        None
+                    } else {
+                        Some(ConnectionId::from_str(attr.value.as_ref()).map_err(|e| {
+                            Error::ParseConnectionId {
+                                key: "counterparty_connection_id",
+                                e,
+                            }
+                        })?)
+                    };
+                }
+                "counterparty_client_id" => {
+                    counterparty_client_id =
+                        Some(ClientId::from_str(attr.value.as_ref()).map_err(|e| {
+                            Error::ParseClientId {
+                                key: "counterparty_client_id",
+                                e,
+                            }
+                        })?);
+                }
+            }
+        }
+
+        Ok(Self {
+            connection_id: connection_id.ok_or(Error::MissingAttribute("connection_id"))?,
+            client_id: client_id.ok_or(Error::MissingAttribute("client_id"))?,
+            counterparty_connection_id,
+            counterparty_client_id: counterparty_client_id
+                .ok_or(Error::MissingAttribute("counterparty_client_id"))?,
+        })
+    }
+}
+
+/// Per our convention, this event is generated on chain A.
+pub struct ConnectionOpenInit {
+    pub connection_id: ConnectionId,
+    pub client_id_on_a: ClientId,
+    pub client_id_on_b: ClientId,
+}
+
+impl ConnectionOpenInit {
+    pub const TYPE_STR: &'static str = "connection_open_init";
+}
+
+impl TypedEvent for ConnectionOpenInit {}
+
+impl From<ConnectionOpenInit> for Event {
+    fn from(e: ConnectionOpenInit) -> Self {
+        let attributes: Vec<abci::EventAttribute> = Attributes {
+            connection_id: e.connection_id,
+            client_id: e.client_id_on_a,
             counterparty_connection_id: None,
-            counterparty_client_id: client_id_on_b,
+            counterparty_client_id: e.client_id_on_b,
+        }
+        .into();
+
+        Event::new(ConnectionOpenInit::TYPE_STR, attributes)
+    }
+}
+
+impl TryFrom<Event> for ConnectionOpenInit {
+    type Error = Error;
+
+    fn try_from(event: Event) -> Result<Self, Self::Error> {
+        if event.kind != ConnectionOpenInit::TYPE_STR {
+            return Err(Error::WrongType {
+                expected: ConnectionOpenInit::TYPE_STR,
+            });
+        }
+
+        let attributes = Attributes::try_from(event.attributes)?;
+
+        Ok(Self {
+            connection_id: attributes.connection_id,
+            client_id_on_a: attributes.client_id,
+            client_id_on_b: attributes.counterparty_client_id,
         })
     }
-
-    pub fn connection_id(&self) -> &ConnectionId {
-        &self.0.connection_id
-    }
-    pub fn client_id(&self) -> &ClientId {
-        &self.0.client_id
-    }
-    pub fn counterparty_connection_id(&self) -> Option<&ConnectionId> {
-        self.0.counterparty_connection_id.as_ref()
-    }
-    pub fn counterparty_client_id(&self) -> &ClientId {
-        &self.0.counterparty_client_id
-    }
 }
 
-impl From<OpenInit> for abci::Event {
-    fn from(v: OpenInit) -> Self {
-        abci::Event {
-            kind: "connection_open_init".to_string(),
-            attributes: v.0.into(),
+/// Per our convention, this event is generated on chain B.
+pub struct ConnectionOpenTry {
+    pub conn_id_on_b: ConnectionId,
+    pub client_id_on_b: ClientId,
+    pub conn_id_on_a: ConnectionId,
+    pub client_id_on_a: ClientId,
+}
+
+impl ConnectionOpenTry {
+    pub const TYPE_STR: &'static str = "connection_open_try";
+}
+
+impl TypedEvent for ConnectionOpenTry {}
+
+impl From<ConnectionOpenTry> for Event {
+    fn from(e: ConnectionOpenTry) -> Self {
+        let attributes: Vec<abci::EventAttribute> = Attributes {
+            connection_id: e.conn_id_on_b,
+            client_id: e.client_id_on_b,
+            counterparty_connection_id: Some(e.conn_id_on_a),
+            counterparty_client_id: e.client_id_on_a,
         }
+        .into();
+
+        Event::new(ConnectionOpenTry::TYPE_STR, attributes)
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenTry(pub Attributes);
+impl TryFrom<Event> for ConnectionOpenTry {
+    type Error = Error;
 
-impl OpenTry {
-    /// Per our convention, this event is generated on chain B.
-    pub fn new(
-        conn_id_on_b: ConnectionId,
-        client_id_on_b: ClientId,
-        conn_id_on_a: ConnectionId,
-        client_id_on_a: ClientId,
-    ) -> Self {
-        Self(Attributes {
-            connection_id: conn_id_on_b,
-            client_id: client_id_on_b,
-            counterparty_connection_id: Some(conn_id_on_a),
-            counterparty_client_id: client_id_on_a,
+    fn try_from(event: Event) -> Result<Self, Self::Error> {
+        if event.kind != ConnectionOpenTry::TYPE_STR {
+            return Err(Error::WrongType {
+                expected: ConnectionOpenTry::TYPE_STR,
+            });
+        }
+
+        let attributes = Attributes::try_from(event.attributes)?;
+
+        Ok(Self {
+            conn_id_on_b: attributes.connection_id,
+            client_id_on_b: attributes.client_id,
+            conn_id_on_a: attributes
+                .counterparty_connection_id
+                .ok_or(Error::MissingAttribute("counterparty_connection_id"))?,
+            client_id_on_a: attributes.counterparty_client_id,
         })
     }
-
-    pub fn connection_id(&self) -> &ConnectionId {
-        &self.0.connection_id
-    }
-    pub fn client_id(&self) -> &ClientId {
-        &self.0.client_id
-    }
-    pub fn counterparty_connection_id(&self) -> Option<&ConnectionId> {
-        self.0.counterparty_connection_id.as_ref()
-    }
-    pub fn counterparty_client_id(&self) -> &ClientId {
-        &self.0.counterparty_client_id
-    }
 }
 
-impl From<OpenTry> for abci::Event {
-    fn from(v: OpenTry) -> Self {
-        abci::Event {
-            kind: "connection_open_try".to_string(),
-            attributes: v.0.into(),
+/// Per our convention, this event is generated on chain A.
+pub struct ConnectionOpenAck {
+    pub conn_id_on_a: ConnectionId,
+    pub client_id_on_a: ClientId,
+    pub conn_id_on_b: ConnectionId,
+    pub client_id_on_b: ClientId,
+}
+
+impl ConnectionOpenAck {
+    pub const TYPE_STR: &'static str = "connection_open_ack";
+}
+
+impl TypedEvent for ConnectionOpenAck {}
+
+impl From<ConnectionOpenAck> for Event {
+    fn from(e: ConnectionOpenAck) -> Self {
+        let attributes: Vec<abci::EventAttribute> = Attributes {
+            connection_id: e.conn_id_on_a,
+            client_id: e.client_id_on_a,
+            counterparty_connection_id: Some(e.conn_id_on_b),
+            counterparty_client_id: e.client_id_on_b,
         }
+        .into();
+
+        Event::new(ConnectionOpenAck::TYPE_STR, attributes)
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenAck(pub Attributes);
+impl TryFrom<Event> for ConnectionOpenAck {
+    type Error = Error;
 
-impl OpenAck {
-    /// Per our convention, this event is generated on chain A.
-    pub fn new(
-        conn_id_on_a: ConnectionId,
-        client_id_on_a: ClientId,
-        conn_id_on_b: ConnectionId,
-        client_id_on_b: ClientId,
-    ) -> Self {
-        Self(Attributes {
-            connection_id: conn_id_on_a,
-            client_id: client_id_on_a,
-            counterparty_connection_id: Some(conn_id_on_b),
-            counterparty_client_id: client_id_on_b,
+    fn try_from(event: Event) -> Result<Self, Self::Error> {
+        if event.kind != ConnectionOpenAck::TYPE_STR {
+            return Err(Error::WrongType {
+                expected: ConnectionOpenAck::TYPE_STR,
+            });
+        }
+
+        let attributes = Attributes::try_from(event.attributes)?;
+
+        Ok(Self {
+            conn_id_on_a: attributes.connection_id,
+            client_id_on_a: attributes.client_id,
+            conn_id_on_b: attributes
+                .counterparty_connection_id
+                .ok_or(Error::MissingAttribute("counterparty_connection_id"))?,
+            client_id_on_b: attributes.counterparty_client_id,
         })
     }
-
-    pub fn connection_id(&self) -> &ConnectionId {
-        &self.0.connection_id
-    }
-    pub fn client_id(&self) -> &ClientId {
-        &self.0.client_id
-    }
-    pub fn counterparty_connection_id(&self) -> Option<&ConnectionId> {
-        self.0.counterparty_connection_id.as_ref()
-    }
-    pub fn counterparty_client_id(&self) -> &ClientId {
-        &self.0.counterparty_client_id
-    }
 }
 
-impl From<OpenAck> for abci::Event {
-    fn from(v: OpenAck) -> Self {
-        abci::Event {
-            kind: "connection_open_ack".to_string(),
-            attributes: v.0.into(),
+/// Per our convention, this event is generated on chain B.
+pub struct ConnectionOpenConfirm {
+    pub conn_id_on_b: ConnectionId,
+    pub client_id_on_b: ClientId,
+    pub conn_id_on_a: ConnectionId,
+    pub client_id_on_a: ClientId,
+}
+
+impl ConnectionOpenConfirm {
+    pub const TYPE_STR: &'static str = "connection_open_confirm";
+}
+
+impl TypedEvent for ConnectionOpenConfirm {}
+
+impl From<ConnectionOpenConfirm> for Event {
+    fn from(e: ConnectionOpenConfirm) -> Self {
+        let attributes: Vec<abci::EventAttribute> = Attributes {
+            connection_id: e.conn_id_on_b,
+            client_id: e.client_id_on_b,
+            counterparty_connection_id: Some(e.conn_id_on_a),
+            counterparty_client_id: e.client_id_on_a,
         }
+        .into();
+
+        Event::new(ConnectionOpenConfirm::TYPE_STR, attributes)
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct OpenConfirm(pub Attributes);
+impl TryFrom<Event> for ConnectionOpenConfirm {
+    type Error = Error;
 
-impl OpenConfirm {
-    /// Per our convention, this event is generated on chain B.
-    pub fn new(
-        conn_id_on_b: ConnectionId,
-        client_id_on_b: ClientId,
-        conn_id_on_a: ConnectionId,
-        client_id_on_a: ClientId,
-    ) -> Self {
-        Self(Attributes {
-            connection_id: conn_id_on_b,
-            client_id: client_id_on_b,
-            counterparty_connection_id: Some(conn_id_on_a),
-            counterparty_client_id: client_id_on_a,
+    fn try_from(event: Event) -> Result<Self, Self::Error> {
+        if event.kind != ConnectionOpenConfirm::TYPE_STR {
+            return Err(Error::WrongType {
+                expected: ConnectionOpenConfirm::TYPE_STR,
+            });
+        }
+
+        let attributes = Attributes::try_from(event.attributes)?;
+
+        Ok(Self {
+            conn_id_on_b: attributes.connection_id,
+            client_id_on_b: attributes.client_id,
+            conn_id_on_a: attributes
+                .counterparty_connection_id
+                .ok_or(Error::MissingAttribute("counterparty_connection_id"))?,
+            client_id_on_a: attributes.counterparty_client_id,
         })
     }
-
-    pub fn connection_id(&self) -> &ConnectionId {
-        &self.0.connection_id
-    }
-    pub fn client_id(&self) -> &ClientId {
-        &self.0.client_id
-    }
-    pub fn counterparty_connection_id(&self) -> Option<&ConnectionId> {
-        self.0.counterparty_connection_id.as_ref()
-    }
-    pub fn counterparty_client_id(&self) -> &ClientId {
-        &self.0.counterparty_client_id
-    }
 }
 
-impl From<OpenConfirm> for abci::Event {
-    fn from(v: OpenConfirm) -> Self {
-        abci::Event {
-            kind: "connection_open_confirm".to_string(),
-            attributes: v.0.into(),
-        }
-    }
-}
-
+/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -322,3 +464,4 @@ mod tests {
         }
     }
 }
+*/
