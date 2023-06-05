@@ -20,7 +20,8 @@ use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+//#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct IdentifiedConnectionEnd {
     pub connection_id: ConnectionId,
     pub connection_end: ConnectionEnd,
@@ -90,7 +91,8 @@ impl From<IdentifiedConnectionEnd> for RawIdentifiedConnection {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+//#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ConnectionEnd {
     pub state: State,
     pub client_id: ClientId,

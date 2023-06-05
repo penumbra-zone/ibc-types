@@ -9,6 +9,7 @@ members = [
     "crates/ibc-types-domain-type",
     "crates/ibc-types-core-client",
     "crates/ibc-types-core-connection",
+    "crates/ibc-types-core-channel",
     #"crates/ibc-types-lightclients-tendermint",
 ]
 
