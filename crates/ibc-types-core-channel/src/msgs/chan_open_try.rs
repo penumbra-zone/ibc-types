@@ -47,6 +47,9 @@ impl TryFrom<RawMsgChannelOpenTry> for MsgChannelOpenTry {
     type Error = ChannelError;
 
     fn try_from(raw_msg: RawMsgChannelOpenTry) -> Result<Self, Self::Error> {
+        if raw_msg.proof_init.is_empty() {
+            return Err(ChannelError::InvalidProof);
+        }
         let chan_end_on_b: ChannelEnd = raw_msg
             .channel
             .ok_or(ChannelError::MissingChannel)?

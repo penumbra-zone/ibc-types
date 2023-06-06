@@ -67,6 +67,9 @@ impl TryFrom<RawMsgAcknowledgement> for MsgAcknowledgement {
     type Error = PacketError;
 
     fn try_from(raw_msg: RawMsgAcknowledgement) -> Result<Self, Self::Error> {
+        if raw_msg.proof_acked.is_empty() {
+            return Err(PacketError::InvalidAcknowledgement);
+        }
         Ok(MsgAcknowledgement {
             packet: raw_msg
                 .packet

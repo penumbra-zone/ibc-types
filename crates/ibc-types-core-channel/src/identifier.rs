@@ -69,7 +69,7 @@ impl ChannelId {
     /// accepts a single argument, the `counter`.
     ///
     /// ```
-    /// # use ibc_types::core::ics24_host::identifier::ChannelId;
+    /// use ibc_types_core_channel::ChannelId;
     /// let chan_id = ChannelId::new(27);
     /// assert_eq!(chan_id.to_string(), "channel-27");
     /// ```
@@ -119,7 +119,7 @@ impl Default for ChannelId {
 /// Equality check against string literal (satisfies &ChannelId == &str).
 /// ```
 /// use core::str::FromStr;
-/// use ibc_types::core::ics24_host::identifier::ChannelId;
+/// use ibc_types_core_channel::ChannelId;
 /// let channel_id = ChannelId::from_str("channelId-0");
 /// assert!(channel_id.is_ok());
 /// channel_id.map(|id| {assert_eq!(&id, "channelId-0")});
