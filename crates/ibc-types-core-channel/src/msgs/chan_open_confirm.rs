@@ -33,6 +33,9 @@ impl TryFrom<RawMsgChannelOpenConfirm> for MsgChannelOpenConfirm {
     type Error = ChannelError;
 
     fn try_from(raw_msg: RawMsgChannelOpenConfirm) -> Result<Self, Self::Error> {
+        if raw_msg.proof_ack.is_empty() {
+            return Err(ChannelError::InvalidProof);
+        }
         Ok(MsgChannelOpenConfirm {
             port_id_on_b: raw_msg.port_id.parse().map_err(ChannelError::Identifier)?,
             chan_id_on_b: raw_msg

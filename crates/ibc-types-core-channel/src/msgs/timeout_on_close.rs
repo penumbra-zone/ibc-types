@@ -32,6 +32,12 @@ impl TryFrom<RawMsgTimeoutOnClose> for MsgTimeoutOnClose {
     type Error = PacketError;
 
     fn try_from(raw_msg: RawMsgTimeoutOnClose) -> Result<Self, Self::Error> {
+        if raw_msg.proof_close.is_empty() {
+            return Err(PacketError::InvalidProof);
+        }
+        if raw_msg.proof_unreceived.is_empty() {
+            return Err(PacketError::InvalidProof);
+        }
         // TODO: Domain type verification for the next sequence: this should probably be > 0.
         Ok(MsgTimeoutOnClose {
             packet: raw_msg

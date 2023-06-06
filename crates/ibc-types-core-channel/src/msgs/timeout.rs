@@ -33,6 +33,9 @@ impl TryFrom<RawMsgTimeout> for MsgTimeout {
 
     fn try_from(raw_msg: RawMsgTimeout) -> Result<Self, Self::Error> {
         // TODO: Domain type verification for the next sequence: this should probably be > 0.
+        if raw_msg.proof_unreceived.is_empty() {
+            return Err(PacketError::InvalidProof);
+        }
         Ok(MsgTimeout {
             packet: raw_msg
                 .packet

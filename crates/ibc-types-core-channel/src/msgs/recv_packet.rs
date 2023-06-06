@@ -34,6 +34,9 @@ impl TryFrom<RawMsgRecvPacket> for MsgRecvPacket {
     type Error = PacketError;
 
     fn try_from(raw_msg: RawMsgRecvPacket) -> Result<Self, Self::Error> {
+        if raw_msg.proof_commitment.is_empty() {
+            return Err(PacketError::InvalidProof);
+        }
         Ok(MsgRecvPacket {
             packet: raw_msg
                 .packet
