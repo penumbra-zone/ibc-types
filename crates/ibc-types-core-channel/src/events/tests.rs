@@ -48,13 +48,20 @@ fn ibc_to_abci_channel_events() {
                 version: version.clone(),
             }
             .into(),
-            expected_keys: expected_keys.clone(),
-            expected_values: expected_values
-                .iter()
-                .enumerate()
-                // ???
-                .map(|(i, v)| if i == 3 { "" } else { v })
-                .collect(),
+            expected_keys: vec![
+                "port_id",
+                "channel_id",
+                "counterparty_port_id",
+                "connection_id",
+                "version",
+            ],
+            expected_values: vec![
+                "transfer",
+                "channel-0",
+                "transfer",
+                "connection-0",
+                "ics20-1",
+            ],
         },
         Test {
             kind: "channel_open_try",
