@@ -1,0 +1,46 @@
+[package]
+name         = "ibc-types2"
+version      = "0.2.0"
+edition      = "2021"
+license      = "Apache-2.0"
+readme       = "../../README.md"
+keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
+repository   = "https://github.com/penumbra-zone/ibc-types"
+authors      = ["Penumbra Labs <team@penumbralabs.xyz"]
+rust-version = "1.60"
+description  = """
+    Data types for the Inter-Blockchain Communication (IBC) protocol.
+    This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
+"""
+# Not publishing to crates.io yet; will iterate quickly via git deps.
+publish      = false
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+default = ["std"]
+std = [ 
+    "ibc-types-timestamp/std",
+    "ibc-types-identifier/std",
+    "ibc-types-core-client/std",
+    "ibc-types-core-connection/std",
+    "ibc-types-core-channel/std",
+]
+
+# This feature grants access to development-time mocking libraries, such as `MockContext` or `MockHeader`.
+# Depends on the `testgen` suite for generating Tendermint light blocks.
+mocks = [
+    "ibc-types-timestamp/mocks",
+    "ibc-types-identifier/mocks",
+    "ibc-types-core-client/mocks",
+    "ibc-types-core-connection/mocks",
+    "ibc-types-core-channel/mocks",
+]
+
+[dependencies]
+ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", default-features = false }
+ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
+ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
+ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", default-features = false }
+ibc-types-core-connection = { version = "0.2.0", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel", default-features = false }
