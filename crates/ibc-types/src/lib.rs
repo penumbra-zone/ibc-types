@@ -2,14 +2,6 @@
 // https://github.com/informalsystems/ibc-rs/issues/987
 // #![cfg_attr(not(test), deny(clippy::unwrap_used))]
 #![no_std]
-#![deny(
-    warnings,
-    trivial_casts,
-    trivial_numeric_casts,
-    unused_import_braces,
-    rust_2018_idioms
-)]
-#![forbid(unsafe_code)]
 // https://github.com/cosmos/ibc-rs/issues/342
 #![allow(clippy::result_large_err)]
 //! This library provides data types for the InterBlockchain Communication (IBC) protocol in Rust.
