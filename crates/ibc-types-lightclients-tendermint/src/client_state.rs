@@ -7,10 +7,7 @@ use std::string::String;
 use ibc_proto::google::protobuf::Any;
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 
-
-use ibc_proto::ibc::lightclients::tendermint::v1::{
-    ClientState as RawTmClientState,
-};
+use ibc_proto::ibc::lightclients::tendermint::v1::ClientState as RawTmClientState;
 use ibc_proto::protobuf::Protobuf;
 use ics23::ProofSpec;
 use prost::Message;
@@ -18,20 +15,14 @@ use tendermint::chain::id::MAX_LENGTH as MaxChainIdLen;
 use tendermint::trust_threshold::TrustThresholdFraction as TendermintTrustThresholdFraction;
 use tendermint_light_client_verifier::options::Options;
 
+use crate::header::Header as TmHeader;
 
-
-
-use crate::consensus_state::ConsensusState as TmConsensusState;
-use crate::header::{Header as TmHeader, Header};
-
-use ibc_types_core_client::{Height};
+use ibc_types_core_client::Height;
 
 use ibc_types_core_connection::ChainId;
-use ibc_types_timestamp::{Timestamp};
+use ibc_types_timestamp::Timestamp;
 
 use crate::{Error, TrustThreshold};
-
-
 
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
@@ -251,24 +242,6 @@ impl ClientState {
             _ => Ok(()),
         }
     }
-
-    fn check_header_validator_set(
-        trusted_consensus_state: &TmConsensusState,
-        header: &Header,
-    ) -> Result<(), Error> {
-        let trusted_val_hash = header.trusted_validator_set.hash();
-
-        if trusted_consensus_state.next_validators_hash != trusted_val_hash {
-            return Err(Error::MisbehaviourTrustedValidatorHashMismatch {
-                trusted_validator_set: header.trusted_validator_set.validators().clone(),
-                next_validators_hash: trusted_consensus_state.next_validators_hash,
-                trusted_val_hash,
-            }
-            .into());
-        }
-
-        Ok(())
-    }
 }
 
 impl Protobuf<RawTmClientState> for ClientState {}
@@ -409,8 +382,6 @@ mod tests {
     use crate::prelude::*;
     use core::time::Duration;
     use test_log::test;
-
-    
 
     use ibc_types_core_client::Height;
     use ibc_types_core_connection::ChainId;

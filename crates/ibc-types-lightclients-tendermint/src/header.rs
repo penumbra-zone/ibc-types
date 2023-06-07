@@ -8,14 +8,13 @@ use ibc_proto::ibc::lightclients::tendermint::v1::Header as RawHeader;
 use ibc_proto::protobuf::Protobuf;
 use prost::Message;
 use tendermint::block::signed_header::SignedHeader;
-use tendermint::chain::Id as TmChainId;
 use tendermint::validator::Set as ValidatorSet;
-use tendermint_light_client_verifier::types::{TrustedBlockState, UntrustedBlockState};
+use tendermint_light_client_verifier::types::UntrustedBlockState;
 
 use ibc_types_core_client::Height;
 use ibc_types_core_connection::ChainId;
 
-use crate::{ConsensusState, Error};
+use crate::Error;
 
 pub const TENDERMINT_HEADER_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.Header";
 
@@ -54,26 +53,6 @@ impl Header {
             validators: &self.validator_set,
             next_validators: None,
         }
-    }
-
-    pub(crate) fn as_trusted_block_state<'a>(
-        &'a self,
-        consensus_state: &ConsensusState,
-        chain_id: &'a TmChainId,
-    ) -> Result<TrustedBlockState<'a>, Error> {
-        Ok(TrustedBlockState {
-            chain_id,
-            header_time: consensus_state.timestamp,
-            height: self
-                .trusted_height
-                .revision_height()
-                .try_into()
-                .map_err(|_| Error::InvalidHeaderHeight {
-                    height: self.trusted_height.revision_height(),
-                })?,
-            next_validators: &self.trusted_validator_set,
-            next_validators_hash: consensus_state.next_validators_hash,
-        })
     }
 }
 
