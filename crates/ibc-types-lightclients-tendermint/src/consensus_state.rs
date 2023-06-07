@@ -6,9 +6,7 @@ use ibc_proto::protobuf::Protobuf;
 use tendermint::{hash::Algorithm, time::Time, Hash};
 use tendermint_proto::google::protobuf as tpb;
 
-
 use ibc_types_core_commitment::MerkleRoot;
-
 
 use crate::{error::Error, header::Header};
 
