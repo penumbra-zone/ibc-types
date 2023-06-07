@@ -416,7 +416,7 @@ mod tests {
             unbonding_period: Duration::new(128000, 0),
             max_clock_drift: Duration::new(3, 0),
             latest_height: Height::new(0, 10).unwrap(),
-            proof_specs: Default::default(),
+            proof_specs: vec![ics23::iavl_spec()],
             upgrade_path: Default::default(),
             allow_update: AllowUpdate {
                 after_expiry: false,
@@ -661,7 +661,7 @@ mod tests {
             unbonding_period: Duration::new(128000, 0),
             max_clock_drift: Duration::new(3, 0),
             latest_height: Height::new(1, 10).unwrap(),
-            proof_specs: Default::default(),
+            proof_specs: vec![ics23::iavl_spec()],
             upgrade_path: Default::default(),
             allow_update: AllowUpdate {
                 after_expiry: false,
