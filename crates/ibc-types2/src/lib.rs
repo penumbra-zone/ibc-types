@@ -24,6 +24,8 @@ pub mod core {
     #[doc(inline)]
     pub use ibc_types_core_client as client;
     #[doc(inline)]
+    pub use ibc_types_core_commitment as commitment;
+    #[doc(inline)]
     pub use ibc_types_core_connection as connection;
 }
 
@@ -33,4 +35,6 @@ pub use ibc_types_timestamp as timestamp;
 /// Specific IBC light clients, such as the Tendermint light client.
 pub mod lightclients {
     // TODO: add Tendermint light client crate
+    #[doc(inline)]
+    pub use ibc_types_lightclients_tendermint as tendermint;
 }

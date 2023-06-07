@@ -5,20 +5,19 @@ extern crate alloc;
 #[cfg(any(test, feature = "std"))]
 extern crate std;
 
-mod client_id;
-mod client_type;
-mod error;
-mod height;
-
 mod prelude;
 
-pub mod events;
-pub mod msgs;
+mod error;
+mod path;
+mod prefix;
+mod proof;
+mod root;
 
-pub use client_id::ClientId;
-pub use client_type::ClientType;
 pub use error::Error;
-pub use height::{Height, HeightParseError};
+pub use path::MerklePath;
+pub use prefix::MerklePrefix;
+pub use proof::MerkleProof;
+pub use root::MerkleRoot;
 
 #[cfg(any(test, feature = "mocks", feature = "mocks-no-std"))]
 pub mod mock;
