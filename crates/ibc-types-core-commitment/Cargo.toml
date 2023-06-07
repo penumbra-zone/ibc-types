@@ -58,7 +58,7 @@ ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", defa
 ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { git = "https://github.com/penumbra-zone/ibc-proto-rs", branch = "penumbra",version = "0.30.0", default-features = false, features = ["parity-scale-codec", "borsh"] }
+ibc-proto = { version = "0.31.0", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
 time = { version = ">=0.3.0, <0.3.20", default-features = false }
 serde_derive = { version = "1.0.104", default-features = false, optional = true }
@@ -87,20 +87,20 @@ cfg-if = { version = "1.0.0", optional = true }
 anyhow = "1"
 
 [dependencies.tendermint]
-version = "0.31.1"
+version = "0.32.0"
 default-features = false
 
 [dependencies.tendermint-proto]
-version = "0.31.1"
+version = "0.32.0"
 default-features = false
 
 [dependencies.tendermint-light-client-verifier]
-version = "0.31.1"
+version = "0.32.0"
 default-features = false
 features = ["rust-crypto"]
 
 [dependencies.tendermint-testgen]
-version = "0.31.1"
+version = "0.32.0"
 optional = true
 default-features = false
 
@@ -109,8 +109,8 @@ env_logger = "0.10.0"
 rstest = "0.16.0"
 tracing-subscriber = { version = "0.3.14", features = ["fmt", "env-filter", "json"]}
 test-log = { version = "0.2.10", features = ["trace"] }
-tendermint-rpc = { version = "0.31.1", features = ["http-client", "websocket-client"] }
-tendermint-testgen = { version = "0.31.1" } # Needed for generating (synthetic) light blocks.
+tendermint-rpc = { version = "0.32.0", features = ["http-client", "websocket-client"] }
+tendermint-testgen = { version = "0.32.0" } # Needed for generating (synthetic) light blocks.
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 
