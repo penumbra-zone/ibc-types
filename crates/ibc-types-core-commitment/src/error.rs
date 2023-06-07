@@ -4,7 +4,10 @@ use displaydoc::Display;
 
 /// A catch-all error type.
 #[derive(Debug, Display)]
-pub enum Error {}
+pub enum Error {
+    /// Unused.
+    Unused,
+}
 
 #[cfg(feature = "std")]
 impl std::error::Error for Error {
