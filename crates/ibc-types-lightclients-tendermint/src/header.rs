@@ -1,6 +1,6 @@
 use alloc::string::ToString;
 use core::cmp::Ordering;
-use core::fmt::{Display, Error as FmtError, Formatter};
+use core::fmt::{Error as FmtError, Formatter};
 
 use bytes::Buf;
 use ibc_proto::google::protobuf::Any;

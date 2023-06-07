@@ -6,10 +6,10 @@ use std::string::String;
 
 use ibc_proto::google::protobuf::Any;
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
-use ibc_proto::ibc::core::commitment::v1::{MerklePath, MerkleProof as RawMerkleProof, MerkleRoot};
-use ibc_proto::ibc::lightclients::solomachine::v1::ConsensusState;
+
+
 use ibc_proto::ibc::lightclients::tendermint::v1::{
-    ClientState as RawTmClientState, ConsensusState as RawTmConsensusState,
+    ClientState as RawTmClientState,
 };
 use ibc_proto::protobuf::Protobuf;
 use ics23::ProofSpec;
@@ -17,21 +17,21 @@ use prost::Message;
 use tendermint::chain::id::MAX_LENGTH as MaxChainIdLen;
 use tendermint::trust_threshold::TrustThresholdFraction as TendermintTrustThresholdFraction;
 use tendermint_light_client_verifier::options::Options;
-use tendermint_light_client_verifier::types::{TrustedBlockState, UntrustedBlockState};
-use tendermint_light_client_verifier::{ProdVerifier, Verifier};
 
-use crate::client_state::ClientState as TmClientState;
+
+
+
 use crate::consensus_state::ConsensusState as TmConsensusState;
 use crate::header::{Header as TmHeader, Header};
-use crate::misbehaviour::Misbehaviour as TmMisbehaviour;
-use ibc_types_core_client::{ClientType, Height};
-use ibc_types_core_commitment::{MerklePrefix, MerkleProof};
+
+use ibc_types_core_client::{Height};
+
 use ibc_types_core_connection::ChainId;
-use ibc_types_timestamp::{Timestamp, ZERO_DURATION};
+use ibc_types_timestamp::{Timestamp};
 
-use crate::{error::IntoResult, Error, TrustThreshold, VerificationError};
+use crate::{Error, TrustThreshold};
 
-use super::client_type as tm_client_type;
+
 
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
@@ -410,7 +410,7 @@ mod tests {
     use core::time::Duration;
     use test_log::test;
 
-    use ibc_proto::ics23::ProofSpec as Ics23ProofSpec;
+    
 
     use ibc_types_core_client::Height;
     use ibc_types_core_connection::ChainId;
