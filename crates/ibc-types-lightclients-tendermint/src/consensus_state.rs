@@ -6,25 +6,24 @@ use ibc_proto::protobuf::Protobuf;
 use tendermint::{hash::Algorithm, time::Time, Hash};
 use tendermint_proto::google::protobuf as tpb;
 
-use crate::clients::ics07_tendermint::error::Error;
-use crate::clients::ics07_tendermint::header::Header;
-use crate::core::ics02_client::error::ClientError;
-use crate::core::ics23_commitment::commitment::CommitmentRoot;
+use ibc_types_core_client::Error as ClientError;
+use ibc_types_core_commitment::MerkleRoot;
 use ibc_types_timestamp::Timestamp;
+
+use crate::{error::Error, header::Header};
 
 pub const TENDERMINT_CONSENSUS_STATE_TYPE_URL: &str =
     "/ibc.lightclients.tendermint.v1.ConsensusState";
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct ConsensusState {
     pub timestamp: Time,
-    pub root: CommitmentRoot,
+    pub root: MerkleRoot,
     pub next_validators_hash: Hash,
 }
 
 impl ConsensusState {
-    pub fn new(root: CommitmentRoot, timestamp: Time, next_validators_hash: Hash) -> Self {
+    pub fn new(root: MerkleRoot, timestamp: Time, next_validators_hash: Hash) -> Self {
         Self {
             timestamp,
             root,
@@ -55,11 +54,13 @@ impl TryFrom<RawConsensusState> for ConsensusState {
         Ok(Self {
             root: raw
                 .root
-                .ok_or(Error::InvalidRawClientState {
+                .ok_or_else(|| Error::InvalidRawClientState {
                     reason: "missing commitment root".into(),
                 })?
-                .hash
-                .into(),
+                .try_into()
+                .map_err(|e| Error::InvalidRawClientState {
+                    reason: format!("invalid commitment root: {e}"),
+                })?,
             timestamp,
             next_validators_hash: Hash::from_bytes(Algorithm::Sha256, &raw.next_validators_hash)
                 .map_err(|e| Error::InvalidRawClientState {
@@ -78,9 +79,7 @@ impl From<ConsensusState> for RawConsensusState {
 
         RawConsensusState {
             timestamp: Some(timestamp),
-            root: Some(ibc_proto::ibc::core::commitment::v1::MerkleRoot {
-                hash: value.root.into_vec(),
-            }),
+            root: Some(value.root.into()),
             next_validators_hash: value.next_validators_hash.as_bytes().to_vec(),
         }
     }
@@ -89,7 +88,7 @@ impl From<ConsensusState> for RawConsensusState {
 impl Protobuf<Any> for ConsensusState {}
 
 impl TryFrom<Any> for ConsensusState {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: Any) -> Result<Self, Self::Error> {
         use bytes::Buf;
@@ -106,9 +105,7 @@ impl TryFrom<Any> for ConsensusState {
             TENDERMINT_CONSENSUS_STATE_TYPE_URL => {
                 decode_consensus_state(raw.value.deref()).map_err(Into::into)
             }
-            _ => Err(ClientError::UnknownConsensusStateType {
-                consensus_state_type: raw.type_url,
-            }),
+            _ => Err(Error::WrongTypeUrl { url: raw.type_url }),
         }
     }
 }
@@ -125,7 +122,9 @@ impl From<ConsensusState> for Any {
 impl From<tendermint::block::Header> for ConsensusState {
     fn from(header: tendermint::block::Header) -> Self {
         Self {
-            root: CommitmentRoot::from_bytes(header.app_hash.as_ref()),
+            root: MerkleRoot {
+                hash: header.app_hash.as_bytes().to_vec(),
+            },
             timestamp: header.time,
             next_validators_hash: header.next_validators_hash,
         }
@@ -138,6 +137,7 @@ impl From<Header> for ConsensusState {
     }
 }
 
+/*
 #[cfg(test)]
 #[cfg(feature = "serde")]
 mod tests {
@@ -160,3 +160,4 @@ mod tests {
         test_serialization_roundtrip::<AbciQuery>(json_data);
     }
 }
+ */

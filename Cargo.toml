@@ -11,7 +11,8 @@ members = [
     "crates/ibc-types-core-client",
     "crates/ibc-types-core-connection",
     "crates/ibc-types-core-channel",
-    "crates/ibc-types-lightclients-tendermint",
+    "crates/ibc-types-core-commitment",
+  #  "crates/ibc-types-lightclients-tendermint",
 ]
 
 exclude = [

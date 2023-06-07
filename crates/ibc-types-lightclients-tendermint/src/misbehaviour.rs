@@ -7,15 +7,12 @@ use ibc_proto::protobuf::Protobuf;
 use prost::Message;
 use tendermint_light_client_verifier::ProdVerifier;
 
-use crate::clients::ics07_tendermint::error::{Error, IntoResult};
-use crate::clients::ics07_tendermint::header::Header;
-use crate::core::ics02_client::error::ClientError;
-use crate::core::ics24_host::identifier::{ChainId, ClientId};
-use ibc_types_core_client::Height;
+use crate::{error::IntoResult, header::Header, Error};
+use ibc_types_core_client::ClientId;
+use ibc_types_core_connection::ChainId;
 
 pub const TENDERMINT_MISBEHAVIOUR_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.Misbehaviour";
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Misbehaviour {
     pub client_id: ClientId,
@@ -127,9 +124,9 @@ impl From<Misbehaviour> for RawMisbehaviour {
 impl Protobuf<Any> for Misbehaviour {}
 
 impl TryFrom<Any> for Misbehaviour {
-    type Error = ClientError;
+    type Error = Error;
 
-    fn try_from(raw: Any) -> Result<Self, ClientError> {
+    fn try_from(raw: Any) -> Result<Self, Error> {
         use core::ops::Deref;
 
         fn decode_misbehaviour<B: Buf>(buf: B) -> Result<Misbehaviour, Error> {
@@ -142,9 +139,7 @@ impl TryFrom<Any> for Misbehaviour {
             TENDERMINT_MISBEHAVIOUR_TYPE_URL => {
                 decode_misbehaviour(raw.value.deref()).map_err(Into::into)
             }
-            _ => Err(ClientError::UnknownMisbehaviourType {
-                misbehaviour_type: raw.type_url,
-            }),
+            _ => Err(Error::WrongTypeUrl { url: raw.type_url }),
         }
     }
 }

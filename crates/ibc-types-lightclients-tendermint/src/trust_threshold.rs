@@ -55,7 +55,7 @@ impl TrustThreshold {
             || (denominator == 0 && numerator != 0)
             || (numerator == denominator && numerator != 0)
         {
-            return Err(Error::InvalidTrustThreshold {
+            return Err(Error::FailedTrustThresholdConversion {
                 numerator,
                 denominator,
             });

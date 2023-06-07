@@ -12,16 +12,13 @@ use tendermint::chain::Id as TmChainId;
 use tendermint::validator::Set as ValidatorSet;
 use tendermint_light_client_verifier::types::{TrustedBlockState, UntrustedBlockState};
 
-use crate::clients::ics07_tendermint::consensus_state::ConsensusState;
-use crate::clients::ics07_tendermint::error::Error;
-use crate::core::ics02_client::error::ClientError;
-use crate::core::ics24_host::identifier::ChainId;
-use crate::utils::pretty::{PrettySignedHeader, PrettyValidatorSet};
 use ibc_types_core_client::Height;
+use ibc_types_core_connection::ChainId;
+
+use crate::{ConsensusState, Error};
 
 pub const TENDERMINT_HEADER_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.Header";
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 /// Tendermint consensus header
 #[derive(Clone, PartialEq, Eq)]
 pub struct Header {
@@ -35,12 +32,6 @@ pub struct Header {
 impl core::fmt::Debug for Header {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
         write!(f, " Header {{...}}")
-    }
-}
-
-impl Display for Header {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
-        write!(f, "Header {{ signed_header: {}, validator_set: {}, trusted_height: {}, trusted_validator_set: {} }}", PrettySignedHeader(&self.signed_header), PrettyValidatorSet(&self.validator_set), self.trusted_height, PrettyValidatorSet(&self.trusted_validator_set))
     }
 }
 
@@ -151,16 +142,14 @@ impl TryFrom<RawHeader> for Header {
 impl Protobuf<Any> for Header {}
 
 impl TryFrom<Any> for Header {
-    type Error = ClientError;
+    type Error = Error;
 
     fn try_from(raw: Any) -> Result<Self, Self::Error> {
         use core::ops::Deref;
 
         match raw.type_url.as_str() {
             TENDERMINT_HEADER_TYPE_URL => decode_header(raw.value.deref()).map_err(Into::into),
-            _ => Err(ClientError::UnknownHeaderType {
-                header_type: raw.type_url,
-            }),
+            _ => Err(Error::WrongTypeUrl { url: raw.type_url }),
         }
     }
 }
@@ -191,6 +180,9 @@ impl From<Header> for RawHeader {
 
 #[cfg(any(test, feature = "mocks"))]
 pub mod test_util {
+    // TODO: replace with tendermint-testgen?
+
+    /*
     use alloc::vec;
 
     use subtle_encoding::hex;
@@ -269,4 +261,5 @@ pub mod test_util {
             }
         }
     }
+     */
 }

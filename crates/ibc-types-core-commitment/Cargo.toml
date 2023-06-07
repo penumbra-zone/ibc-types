@@ -1,5 +1,5 @@
 [package]
-name         = "ibc-types-lightclients-tendermint"
+name         = "ibc-types-core-commitment"
 version      = "0.2.0"
 edition      = "2021"
 license      = "Apache-2.0"
@@ -22,8 +22,6 @@ default = ["std"]
 std = [ 
     "ibc-types-timestamp/std",
     "ibc-types-identifier/std",
-    "ibc-types-core-client/std",
-    "ibc-types-core-connection/std",
     "ibc-proto/std",
     "ics23/std",
     "serde/std",
@@ -59,9 +57,6 @@ mocks-no-std = ["cfg-if"]
 ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", default-features = false }
 ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
-ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", default-features = false }
-ibc-types-core-connection = { version = "0.2.0", path = "../ibc-types-core-connection", default-features = false }
-ibc-types-core-commitment = { version = "0.2.0", path = "../ibc-types-core-commitment", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
 ibc-proto = { git = "https://github.com/penumbra-zone/ibc-proto-rs", branch = "penumbra",version = "0.30.0", default-features = false, features = ["parity-scale-codec", "borsh"] }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
@@ -89,6 +84,7 @@ scale-info = { version = "2.1.2", default-features = false, features = ["derive"
 borsh = {version = "0.10.0", default-features = false, optional = true }
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
 cfg-if = { version = "1.0.0", optional = true }
+anyhow = "1"
 
 [dependencies.tendermint]
 version = "0.31.1"
@@ -118,4 +114,3 @@ tendermint-testgen = { version = "0.31.1" } # Needed for generating (synthetic) 
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 
-ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", features = ["mocks"] }

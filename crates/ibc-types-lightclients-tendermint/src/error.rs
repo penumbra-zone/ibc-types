@@ -1,8 +1,7 @@
 use crate::prelude::*;
 
-use crate::core::ics02_client::error::ClientError;
-use crate::core::ics24_host::identifier::{ChainId, ClientId};
-use ibc_types_core_client::Height;
+use ibc_types_core_client::{ClientId, Height};
+use ibc_types_core_connection::ChainId;
 use ibc_types_timestamp::{Timestamp, TimestampOverflowError};
 
 use core::time::Duration;
@@ -30,6 +29,8 @@ pub enum Error {
     },
     /// invalid client state trust threshold: `{reason}`
     InvalidTrustThreshold { reason: String },
+    /// failed to build Tendermint domain type trust threshold from fraction: `{numerator}`/`{denominator}`
+    FailedTrustThresholdConversion { numerator: u64, denominator: u64 },
     /// invalid tendermint client state trust threshold error: `{0}`
     InvalidTendermintTrustThreshold(TendermintError),
     /// invalid client state max clock drift: `{reason}`
@@ -62,6 +63,8 @@ pub enum Error {
     InvalidRawMisbehaviour { reason: String },
     /// decode error: `{0}`
     Decode(prost::DecodeError),
+    /// wrong type url for tendermint light client state: `{url}`
+    WrongTypeUrl { url: String },
     /// given other previous updates, header timestamp should be at most `{max}`, but was `{actual}`
     HeaderTimestampTooHigh { actual: String, max: String },
     /// given other previous updates, header timestamp should be at least `{min}`, but was `{actual}`
@@ -152,14 +155,6 @@ pub enum VerificationError {
     DuplicateValidator { id: Id },
     /// insufficient signers overlap between `{q1}` and `{q2}`
     InsufficientOverlap { q1: u64, q2: u64 },
-}
-
-impl From<Error> for ClientError {
-    fn from(e: Error) -> Self {
-        Self::ClientSpecific {
-            description: e.to_string(),
-        }
-    }
 }
 
 pub(crate) trait IntoResult<T, E> {

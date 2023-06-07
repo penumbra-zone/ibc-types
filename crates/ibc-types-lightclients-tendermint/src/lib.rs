@@ -8,11 +8,18 @@ use ibc_types_core_client::ClientType;
 
 mod prelude;
 
+mod trust_threshold;
+pub use trust_threshold::TrustThreshold;
+
+mod error;
+pub use error::{Error, VerificationError};
+
 pub mod client_state;
 pub mod consensus_state;
-pub mod error;
 pub mod header;
 pub mod misbehaviour;
+
+pub use consensus_state::ConsensusState;
 
 pub const TENDERMINT_CLIENT_TYPE: &str = "07-tendermint";
 
