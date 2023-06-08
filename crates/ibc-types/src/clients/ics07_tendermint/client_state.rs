@@ -563,7 +563,7 @@ impl Ics2ClientState for ClientState {
             .unwrap();
 
         self.verifier
-            .verify(untrusted_state, trusted_state, &options, now)
+            .verify_update_header(untrusted_state, trusted_state, &options, now)
             .into_result()?;
 
         // If the header has verified, but its corresponding consensus state
