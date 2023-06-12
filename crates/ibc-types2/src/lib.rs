@@ -18,16 +18,14 @@ pub use ibc_types_domain_type::{DomainType, TypeUrl};
 pub use ibc_types_identifier::IdentifierError;
 
 /// Core IBC data modeling such as clients, connections, and channels.
-pub mod core {
-    #[doc(inline)]
-    pub use ibc_types_core_channel as channel;
-    #[doc(inline)]
-    pub use ibc_types_core_client as client;
-    #[doc(inline)]
-    pub use ibc_types_core_commitment as commitment;
-    #[doc(inline)]
-    pub use ibc_types_core_connection as connection;
-}
+#[doc(inline)]
+pub use ibc_types_core_channel as channel;
+#[doc(inline)]
+pub use ibc_types_core_client as client;
+#[doc(inline)]
+pub use ibc_types_core_commitment as commitment;
+#[doc(inline)]
+pub use ibc_types_core_connection as connection;
 
 #[doc(inline)]
 pub use ibc_types_timestamp as timestamp;
