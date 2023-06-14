@@ -44,15 +44,9 @@ mocks-no-std = ["cfg-if"]
 
 [dependencies]
 derive_more = { version = "0.99.17", default-features = false, features = ["from", "into", "display"] }
-#ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", default-features = false }
-#ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
-#ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
 ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", default-features = false }
 ibc-types-core-connection = { version = "0.2.0", path = "../ibc-types-core-connection", default-features = false }
 ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel", default-features = false }
-#ibc-types-core-commitment = { version = "0.2.0", path = "../ibc-types-core-commitment", default-features = false }
-#ibc-types-lightclients-tendermint = { version = "0.2.0", path = "../ibc-types-lightclients-tendermint", default-features = false }
-#ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel", default-features = false }
 borsh = {version = "0.10.0", default-features = false, optional = true }
 bytes = { version = "1.2.1", default-features = false }
 cfg-if = { version = "1.0.0", optional = true }
