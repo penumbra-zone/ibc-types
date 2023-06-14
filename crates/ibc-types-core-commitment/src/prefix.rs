@@ -1,4 +1,5 @@
 use crate::prelude::*;
+use crate::MerklePath;
 
 use crate::Error;
 
@@ -8,6 +9,18 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MerklePrefix {
     pub key_prefix: Vec<u8>,
+}
+
+impl MerklePrefix {
+    /// apply the prefix to the supplied paths
+    pub fn apply(&self, paths: Vec<String>) -> MerklePath {
+        let commitment_str =
+            core::str::from_utf8(&self.key_prefix).expect("commitment prefix is not valid utf-8");
+        let mut key_path: Vec<String> = vec![format!("{commitment_str:?}")];
+        key_path.append(paths.clone().as_mut());
+
+        MerklePath { key_path }
+    }
 }
 
 impl TypeUrl for MerklePrefix {
