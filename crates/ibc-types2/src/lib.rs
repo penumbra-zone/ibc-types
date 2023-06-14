@@ -38,3 +38,6 @@ pub mod lightclients {
     #[doc(inline)]
     pub use ibc_types_lightclients_tendermint as tendermint;
 }
+
+#[doc(inline)]
+pub use ibc_types_path as path;

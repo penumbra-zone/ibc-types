@@ -1,0 +1,79 @@
+[package]
+name         = "ibc-types-path"
+version      = "0.2.0"
+edition      = "2021"
+license      = "Apache-2.0"
+readme       = "../../README.md"
+keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
+repository   = "https://github.com/penumbra-zone/ibc-types"
+authors      = ["Penumbra Labs <team@penumbralabs.xyz"]
+rust-version = "1.60"
+description  = """
+    Data types for the Inter-Blockchain Communication (IBC) protocol.
+    This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
+"""
+# Not publishing to crates.io yet; will iterate quickly via git deps.
+publish      = false
+[package.metadata.docs.rs]
+all-features = true
+
+[features]
+default = ["std"]
+std = [
+    "bytes/std",
+    "displaydoc/std",
+    "num-traits/std",
+    "prost/std",
+    "serde/std",
+    "serde_json/std",
+    "subtle-encoding/std",
+    "tendermint/clock",
+    "tendermint/std",
+    "ibc-types-core-client/std",
+    "ibc-types-core-connection/std",
+    "ibc-types-core-channel/std",
+]
+
+# This feature guards the unfinished implementation of the `UpgradeClient` handler.
+upgrade_client = []
+
+# This feature grants access to development-time mocking libraries, such as `MockContext` or `MockHeader`.
+# Depends on the `testgen` suite for generating Tendermint light blocks.
+mocks = ["tendermint-testgen", "tendermint/clock", "cfg-if", "parking_lot"]
+mocks-no-std = ["cfg-if"]
+
+[dependencies]
+derive_more = { version = "0.99.17", default-features = false, features = ["from", "into", "display"] }
+#ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", default-features = false }
+#ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
+#ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
+ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", default-features = false }
+ibc-types-core-connection = { version = "0.2.0", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel", default-features = false }
+#ibc-types-core-commitment = { version = "0.2.0", path = "../ibc-types-core-commitment", default-features = false }
+#ibc-types-lightclients-tendermint = { version = "0.2.0", path = "../ibc-types-lightclients-tendermint", default-features = false }
+#ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel", default-features = false }
+borsh = {version = "0.10.0", default-features = false, optional = true }
+bytes = { version = "1.2.1", default-features = false }
+cfg-if = { version = "1.0.0", optional = true }
+displaydoc = { version = "0.2", default-features = false }
+num-traits = { version = "0.2.15", default-features = false }
+parity-scale-codec = { version = "3.0.0", default-features = false, features = ["full"], optional = true }
+parking_lot = { version = "0.12.1", default-features = false, optional = true }
+prost = { version = "0.11", default-features = false }
+scale-info = { version = "2.1.2", default-features = false, features = ["derive"], optional = true }
+serde = { version = "1.0", default-features = false, optional = true }
+serde_derive = { version = "1.0.104", default-features = false, optional = true }
+serde_json = { version = "1", default-features = false, optional = true }
+subtle-encoding = { version = "0.5", default-features = false }
+time = { version = ">=0.3.0, <0.3.20", default-features = false }
+tendermint = { version = "0.32.0", default-features = false }
+tendermint-proto = { version = "0.32.0", default-features = false }
+tendermint-testgen = { version = "0.32.0", default-features = false, optional = true }
+
+[dev-dependencies]
+cfg-if = { version = "1.0.0" }
+env_logger = "0.10.0"
+test-log = { version = "0.2.10", features = ["trace"] }
+tracing = { version = "0.1.36", default-features = false }
+tracing-subscriber = { version = "0.3.14", features = ["fmt", "env-filter", "json"]}
