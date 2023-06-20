@@ -15,7 +15,7 @@ mod prelude;
 mod timeout;
 mod version;
 
-pub use channel::{ChannelEnd, IdentifiedChannelEnd};
+pub use channel::{ChannelEnd, Counterparty, IdentifiedChannelEnd};
 pub use commitment::{AcknowledgementCommitment, PacketCommitment};
 pub use error::{ChannelError, PacketError};
 pub use identifier::{ChannelId, PortId};
