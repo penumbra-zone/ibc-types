@@ -11,7 +11,7 @@ mod identifier;
 mod prelude;
 mod version;
 
-pub use connection::{ConnectionEnd, Counterparty, IdentifiedConnectionEnd};
+pub use connection::{ConnectionEnd, Counterparty, IdentifiedConnectionEnd, State};
 pub use error::ConnectionError;
 pub use identifier::{ChainId, ConnectionId};
 pub use version::Version;
