@@ -157,6 +157,11 @@ impl ClientState {
         self.latest_height
     }
 
+    /// returns a bool indicating if the client is frozen, i.e. if a frozen height is set.
+    pub fn is_frozen(&self) -> bool {
+        self.frozen_height.is_some()
+    }
+
     pub fn with_header(self, h: TmHeader) -> Result<Self, Error> {
         Ok(ClientState {
             latest_height: Height::new(
