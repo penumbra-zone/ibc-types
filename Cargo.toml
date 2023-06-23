@@ -14,6 +14,7 @@ members = [
     "crates/ibc-types-core-commitment",
     "crates/ibc-types-lightclients-tendermint",
     "crates/ibc-types-path",
+    "crates/ibc-types-transfer",
 ]
 
 exclude = [

@@ -41,3 +41,6 @@ pub mod lightclients {
 
 #[doc(inline)]
 pub use ibc_types_path as path;
+
+#[doc(inline)]
+pub use ibc_types_transfer as transfer;

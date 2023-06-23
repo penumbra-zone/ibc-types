@@ -28,6 +28,7 @@ std = [
     "ibc-types-core-commitment/std",
     "ibc-types-lightclients-tendermint/std",
     "ibc-types-path/std",
+    "ibc-types-transfer/std",
 ]
 
 # This feature grants access to development-time mocking libraries, such as `MockContext` or `MockHeader`.
@@ -40,6 +41,7 @@ mocks = [
     "ibc-types-core-channel/mocks",
     "ibc-types-core-commitment/std",
     "ibc-types-path/std",
+    "ibc-types-transfer/std",
 ]
 
 [dependencies]
@@ -52,3 +54,4 @@ ibc-types-core-channel = { version = "0.2.0", path = "../ibc-types-core-channel"
 ibc-types-core-commitment = { version = "0.2.0", path = "../ibc-types-core-commitment", default-features = false }
 ibc-types-lightclients-tendermint = { version = "0.2.0", path = "../ibc-types-lightclients-tendermint", default-features = false }
 ibc-types-path = { version = "0.2.0", path = "../ibc-types-path", default-features = false }
+ibc-types-transfer = { version = "0.2.0", path = "../ibc-types-transfer", default-features = false }
