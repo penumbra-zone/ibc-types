@@ -31,6 +31,12 @@ impl DomainType for MerklePrefix {
     type Proto = RawMerklePrefix;
 }
 
+impl From<Vec<u8>> for MerklePrefix {
+    fn from(value: Vec<u8>) -> MerklePrefix {
+        MerklePrefix { key_prefix: value }
+    }
+}
+
 impl From<MerklePrefix> for RawMerklePrefix {
     fn from(value: MerklePrefix) -> RawMerklePrefix {
         RawMerklePrefix {
