@@ -171,6 +171,10 @@ impl ClientState {
         self.frozen_height.is_some()
     }
 
+    pub fn expired(&self, elapsed: Duration) -> bool {
+        elapsed > self.trusting_period
+    }
+
     pub fn with_header(self, h: TmHeader) -> Result<Self, Error> {
         Ok(ClientState {
             latest_height: Height::new(
