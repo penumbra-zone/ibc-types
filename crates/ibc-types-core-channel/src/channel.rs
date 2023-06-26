@@ -14,6 +14,7 @@ use ibc_types_core_connection::ConnectionId;
 use crate::{ChannelError, ChannelId, PortId, Version};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct IdentifiedChannelEnd {
     pub port_id: PortId,
     pub channel_id: ChannelId,
@@ -72,6 +73,7 @@ impl From<IdentifiedChannelEnd> for RawIdentifiedChannel {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ChannelEnd {
     pub state: State,
     pub ordering: Order,
@@ -238,6 +240,7 @@ impl ChannelEnd {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Counterparty {
     pub port_id: PortId,
     pub channel_id: Option<ChannelId>,
@@ -320,6 +323,7 @@ impl From<Counterparty> for RawCounterparty {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum Order {
     None = 0isize,
     Unordered = 1isize,
@@ -378,6 +382,7 @@ impl FromStr for Order {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum State {
     Uninitialized = 0isize,
     Init = 1isize,

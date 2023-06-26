@@ -10,6 +10,7 @@ use ibc_types_identifier::{
 use crate::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct PortId(pub String);
 
 impl PortId {
@@ -57,6 +58,7 @@ impl Default for PortId {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ChannelId(pub String);
 
 impl ChannelId {

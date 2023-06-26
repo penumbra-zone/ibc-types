@@ -14,6 +14,7 @@ use crate::prelude::*;
 /// No explicit validation is necessary, and the
 /// spec (v1) currently allows empty strings.
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Version(pub String);
 
 impl Version {
