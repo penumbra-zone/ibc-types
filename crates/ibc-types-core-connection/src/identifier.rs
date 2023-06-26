@@ -18,6 +18,7 @@ use crate::prelude::*;
 ///
 /// Also, contrast with tendermint-rs `ChainId` type.
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ChainId {
     pub id: String,
     pub version: u64,
