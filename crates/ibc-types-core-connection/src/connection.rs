@@ -22,6 +22,7 @@ use crate::{ConnectionError, ConnectionId, Version};
 
 //#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct IdentifiedConnectionEnd {
     pub connection_id: ConnectionId,
     pub connection_end: ConnectionEnd,
@@ -93,6 +94,7 @@ impl From<IdentifiedConnectionEnd> for RawIdentifiedConnection {
 
 //#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ConnectionEnd {
     pub state: State,
     pub client_id: ClientId,
@@ -190,6 +192,7 @@ impl ConnectionEnd {
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Counterparty {
     pub client_id: ClientId,
     pub connection_id: Option<ConnectionId>,
@@ -243,6 +246,7 @@ impl From<Counterparty> for RawCounterparty {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum State {
     Uninitialized = 0isize,
     Init = 1isize,
