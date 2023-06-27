@@ -14,6 +14,7 @@ use crate::{client_type::ClientType, prelude::*};
 /// derived from the client type `ctype`, and a monotonically increasing
 /// `counter`; these are separated by a dash "-".
 #[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Into)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClientId(pub(crate) String);
 
 impl ClientId {

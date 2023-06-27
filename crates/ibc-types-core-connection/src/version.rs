@@ -10,6 +10,7 @@ use crate::ConnectionError;
 
 /// Stores the identifier and the features supported by a version
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Version {
     /// unique version identifier
     pub identifier: String,

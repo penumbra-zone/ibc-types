@@ -12,6 +12,7 @@ use crate::error::Error;
 
 /// An IBC height, containing a revision number (epoch) and a revision height (block height).
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Height {
     /// Previously known as "epoch"
     pub revision_number: u64,
