@@ -15,6 +15,7 @@ use ibc_proto::{
 };
 
 use ibc_types_core_client::ClientId;
+use ibc_types_core_commitment::MerklePrefix;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 use ibc_types_timestamp::ZERO_DURATION;
 
@@ -196,7 +197,7 @@ impl ConnectionEnd {
 pub struct Counterparty {
     pub client_id: ClientId,
     pub connection_id: Option<ConnectionId>,
-    pub prefix: Vec<u8>,
+    pub prefix: MerklePrefix,
 }
 
 impl Protobuf<RawCounterparty> for Counterparty {}
@@ -226,7 +227,7 @@ impl TryFrom<RawCounterparty> for Counterparty {
             prefix: raw_counterparty
                 .prefix
                 .ok_or(ConnectionError::MissingCounterparty)?
-                .key_prefix,
+                .into(),
         })
     }
 }
@@ -238,9 +239,7 @@ impl From<Counterparty> for RawCounterparty {
             connection_id: value
                 .connection_id
                 .map_or_else(|| "".to_string(), |v| v.as_str().to_string()),
-            prefix: Some(ibc_proto::ibc::core::commitment::v1::MerklePrefix {
-                key_prefix: value.prefix,
-            }),
+            prefix: Some(value.prefix.into()),
         }
     }
 }
