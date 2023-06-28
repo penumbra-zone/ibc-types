@@ -2,18 +2,19 @@ use crate::prelude::*;
 use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenConfirm as RawMsgConnectionOpenConfirm;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ConnectionError, ConnectionId};
 
 /// Per our convention, this message is sent to chain B.
 /// The handler will check proofs of chain A.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgConnectionOpenConfirm {
     /// ConnectionId that chain B has chosen for it's ConnectionEnd
     pub conn_id_on_b: ConnectionId,
     /// proof of ConnectionEnd stored on Chain A during ConnOpenInit
-    pub proof_conn_end_on_a: Vec<u8>,
+    pub proof_conn_end_on_a: MerkleProof,
     /// Height at which `proof_conn_end_on_a` in this message was taken
     pub proof_height_on_a: Height,
     pub signer: String,
@@ -53,7 +54,7 @@ impl From<MsgConnectionOpenConfirm> for RawMsgConnectionOpenConfirm {
     fn from(msg: MsgConnectionOpenConfirm) -> Self {
         RawMsgConnectionOpenConfirm {
             connection_id: msg.conn_id_on_b.as_str().to_string(),
-            proof_ack: msg.proof_conn_end_on_a.into(),
+            proof_ack: msg.proof_conn_end_on_a.encode_to_vec(),
             proof_height: Some(msg.proof_height_on_a.into()),
             signer: msg.signer.to_string(),
         }

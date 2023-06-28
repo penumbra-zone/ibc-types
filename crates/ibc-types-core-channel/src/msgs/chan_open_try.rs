@@ -1,6 +1,7 @@
 use crate::prelude::*;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_core_connection::ConnectionId;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
@@ -19,14 +20,14 @@ impl TypeUrl for MsgChannelOpenTry {
 /// Message definition for the second step in the channel open handshake (`ChanOpenTry` datagram).
 /// Per our convention, this message is sent to chain B.
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgChannelOpenTry {
     pub port_id_on_b: PortId,
     pub connection_hops_on_b: Vec<ConnectionId>,
     pub port_id_on_a: PortId,
     pub chan_id_on_a: ChannelId,
     pub version_supported_on_a: Version,
-    pub proof_chan_end_on_a: Vec<u8>,
+    pub proof_chan_end_on_a: MerkleProof,
     pub proof_height_on_a: Height,
     pub ordering: Order,
     pub signer: String,
@@ -97,7 +98,7 @@ impl From<MsgChannelOpenTry> for RawMsgChannelOpenTry {
             previous_channel_id: domain_msg.previous_channel_id,
             channel: Some(chan_end_on_b.into()),
             counterparty_version: domain_msg.version_supported_on_a.to_string(),
-            proof_init: domain_msg.proof_chan_end_on_a.clone().into(),
+            proof_init: domain_msg.proof_chan_end_on_a.clone().encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_a.into()),
             signer: domain_msg.signer,
         }

@@ -9,6 +9,7 @@ use ibc_proto::{
     google::protobuf::Any,
     ibc::core::connection::v1::MsgConnectionOpenTry as RawMsgConnectionOpenTry,
 };
+use ibc_types_core_commitment::MerkleProof;
 
 use crate::{connection::Counterparty, Version};
 
@@ -18,7 +19,7 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 /// Per our convention, this message is sent to chain B.
 /// The handler will check proofs of chain A.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgConnectionOpenTry {
     /// ClientId on B that the connection is being opened for
     pub client_id_on_b: ClientId,
@@ -29,11 +30,11 @@ pub struct MsgConnectionOpenTry {
     /// Versions supported by chain A
     pub versions_on_a: Vec<Version>,
     /// proof of ConnectionEnd stored on Chain A during ConnOpenInit
-    pub proof_conn_end_on_a: Vec<u8>,
+    pub proof_conn_end_on_a: MerkleProof,
     /// proof that chain A has stored ClientState of chain B on its client
-    pub proof_client_state_of_b_on_a: Vec<u8>,
+    pub proof_client_state_of_b_on_a: MerkleProof,
     /// proof that chain A has stored ConsensusState of chain B on its client
-    pub proof_consensus_state_of_b_on_a: Vec<u8>,
+    pub proof_consensus_state_of_b_on_a: MerkleProof,
     /// Height at which all proofs in this message were taken
     pub proofs_height_on_a: Height,
     /// height of latest header of chain A that updated the client on chain B
@@ -122,9 +123,9 @@ impl From<MsgConnectionOpenTry> for RawMsgConnectionOpenTry {
             delay_period: msg.delay_period.as_nanos() as u64,
             counterparty_versions: msg.versions_on_a.iter().map(|v| v.clone().into()).collect(),
             proof_height: Some(msg.proofs_height_on_a.into()),
-            proof_init: msg.proof_conn_end_on_a.into(),
-            proof_client: msg.proof_client_state_of_b_on_a.into(),
-            proof_consensus: msg.proof_consensus_state_of_b_on_a.into(),
+            proof_init: msg.proof_conn_end_on_a.encode_to_vec(),
+            proof_client: msg.proof_client_state_of_b_on_a.encode_to_vec(),
+            proof_consensus: msg.proof_consensus_state_of_b_on_a.encode_to_vec(),
             consensus_height: Some(msg.consensus_height_of_b_on_a.into()),
             signer: msg.signer,
         }

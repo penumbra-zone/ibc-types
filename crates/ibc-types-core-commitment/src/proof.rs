@@ -35,6 +35,7 @@ impl TryFrom<Vec<u8>> for MerkleProof {
         MerkleProof::try_from(raw_proof)
     }
 }
+
 impl From<MerkleProof> for RawMerkleProof {
     fn from(value: MerkleProof) -> RawMerkleProof {
         RawMerkleProof {

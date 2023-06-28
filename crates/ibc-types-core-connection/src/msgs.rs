@@ -23,7 +23,7 @@ pub use conn_open_init::MsgConnectionOpenInit;
 pub use conn_open_try::MsgConnectionOpenTry;
 
 /// Enumeration of all possible messages that the ICS3 protocol processes.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum ConnectionMsg {
     OpenInit(MsgConnectionOpenInit),
     OpenTry(MsgConnectionOpenTry),
