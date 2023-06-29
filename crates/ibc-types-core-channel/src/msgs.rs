@@ -41,7 +41,7 @@ pub enum ChannelMsg {
     CloseConfirm(MsgChannelCloseConfirm),
 }
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum PacketMsg {
     Recv(MsgRecvPacket),
     Ack(MsgAcknowledgement),

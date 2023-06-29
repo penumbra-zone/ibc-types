@@ -3,6 +3,7 @@ use crate::prelude::*;
 use ibc_proto::ibc::core::channel::v1::MsgTimeout as RawMsgTimeout;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{packet::Sequence, Packet, PacketError};
@@ -15,11 +16,11 @@ impl TypeUrl for MsgTimeout {
 /// Message definition for packet timeout domain type,
 /// which is sent on chain A and needs to prove that a previously sent packet was not received on chain B
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgTimeout {
     pub packet: Packet,
     pub next_seq_recv_on_b: Sequence,
-    pub proof_unreceived_on_b: Vec<u8>,
+    pub proof_unreceived_on_b: MerkleProof,
     pub proof_height_on_b: Height,
     pub signer: String,
 }
@@ -42,7 +43,8 @@ impl TryFrom<RawMsgTimeout> for MsgTimeout {
                 .ok_or(PacketError::MissingPacket)?
                 .try_into()?,
             next_seq_recv_on_b: Sequence::from(raw_msg.next_sequence_recv),
-            proof_unreceived_on_b: raw_msg.proof_unreceived,
+            proof_unreceived_on_b: MerkleProof::decode(raw_msg.proof_unreceived.as_ref())
+                .map_err(|_| PacketError::InvalidProof)?,
             proof_height_on_b: raw_msg
                 .proof_height
                 .and_then(|raw_height| raw_height.try_into().ok())
@@ -56,7 +58,7 @@ impl From<MsgTimeout> for RawMsgTimeout {
     fn from(domain_msg: MsgTimeout) -> Self {
         RawMsgTimeout {
             packet: Some(domain_msg.packet.into()),
-            proof_unreceived: domain_msg.proof_unreceived_on_b.into(),
+            proof_unreceived: domain_msg.proof_unreceived_on_b.encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_b.into()),
             next_sequence_recv: domain_msg.next_seq_recv_on_b.into(),
             signer: domain_msg.signer,

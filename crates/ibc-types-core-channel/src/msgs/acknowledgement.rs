@@ -3,6 +3,7 @@ use crate::prelude::*;
 use ibc_proto::ibc::core::channel::v1::MsgAcknowledgement as RawMsgAcknowledgement;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{Packet, PacketError};
@@ -48,12 +49,12 @@ impl TryFrom<Vec<u8>> for Acknowledgement {
 ///
 /// Message definition for packet acknowledgements.
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgAcknowledgement {
     pub packet: Packet,
     pub acknowledgement: Vec<u8>,
     /// Proof of packet acknowledgement on the receiving chain
-    pub proof_acked_on_b: Vec<u8>,
+    pub proof_acked_on_b: MerkleProof,
     /// Height at which the commitment proof in this message were taken
     pub proof_height_on_b: Height,
     pub signer: String,
@@ -76,7 +77,8 @@ impl TryFrom<RawMsgAcknowledgement> for MsgAcknowledgement {
                 .ok_or(PacketError::MissingPacket)?
                 .try_into()?,
             acknowledgement: raw_msg.acknowledgement,
-            proof_acked_on_b: raw_msg.proof_acked,
+            proof_acked_on_b: MerkleProof::decode(raw_msg.proof_acked.as_ref())
+                .map_err(|_| PacketError::InvalidProof)?,
             proof_height_on_b: raw_msg
                 .proof_height
                 .and_then(|raw_height| raw_height.try_into().ok())
@@ -93,7 +95,7 @@ impl From<MsgAcknowledgement> for RawMsgAcknowledgement {
             acknowledgement: domain_msg.acknowledgement.into(),
             signer: domain_msg.signer,
             proof_height: Some(domain_msg.proof_height_on_b.into()),
-            proof_acked: domain_msg.proof_acked_on_b.into(),
+            proof_acked: domain_msg.proof_acked_on_b.encode_to_vec(),
         }
     }
 }

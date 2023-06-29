@@ -1,6 +1,7 @@
 use crate::prelude::*;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{Packet, PacketError};
@@ -14,12 +15,12 @@ impl TypeUrl for MsgRecvPacket {
 ///
 /// Message definition for the "packet receiving" datagram.
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgRecvPacket {
     /// The packet to be received
     pub packet: Packet,
     /// Proof of packet commitment on the sending chain
-    pub proof_commitment_on_a: Vec<u8>,
+    pub proof_commitment_on_a: MerkleProof,
     /// Height at which the commitment proof in this message were taken
     pub proof_height_on_a: Height,
     /// The signer of the message
@@ -42,9 +43,7 @@ impl TryFrom<RawMsgRecvPacket> for MsgRecvPacket {
                 .packet
                 .ok_or(PacketError::MissingPacket)?
                 .try_into()?,
-            proof_commitment_on_a: raw_msg
-                .proof_commitment
-                .try_into()
+            proof_commitment_on_a: MerkleProof::decode(raw_msg.proof_commitment.as_ref())
                 .map_err(|_| PacketError::InvalidProof)?,
             proof_height_on_a: raw_msg
                 .proof_height
@@ -59,7 +58,7 @@ impl From<MsgRecvPacket> for RawMsgRecvPacket {
     fn from(domain_msg: MsgRecvPacket) -> Self {
         RawMsgRecvPacket {
             packet: Some(domain_msg.packet.into()),
-            proof_commitment: domain_msg.proof_commitment_on_a.into(),
+            proof_commitment: domain_msg.proof_commitment_on_a.encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_a.into()),
             signer: domain_msg.signer,
         }
