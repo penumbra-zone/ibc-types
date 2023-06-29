@@ -43,9 +43,7 @@ impl TryFrom<RawMsgChannelOpenConfirm> for MsgChannelOpenConfirm {
                 .channel_id
                 .parse()
                 .map_err(ChannelError::Identifier)?,
-            proof_chan_end_on_a: raw_msg
-                .proof_ack
-                .try_into()
+            proof_chan_end_on_a: MerkleProof::decode(raw_msg.proof_ack.as_ref())
                 .map_err(|_| ChannelError::InvalidProof)?,
             proof_height_on_a: raw_msg
                 .proof_height

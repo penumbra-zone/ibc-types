@@ -62,17 +62,11 @@ impl TryFrom<RawMsgConnectionOpenAck> for MsgConnectionOpenAck {
                 .version
                 .ok_or(ConnectionError::EmptyVersions)?
                 .try_into()?,
-            proof_conn_end_on_b: msg
-                .proof_try
-                .try_into()
+            proof_conn_end_on_b: MerkleProof::decode(msg.proof_try.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_client_state_of_a_on_b: msg
-                .proof_client
-                .try_into()
+            proof_client_state_of_a_on_b: MerkleProof::decode(msg.proof_client.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_consensus_state_of_a_on_b: msg
-                .proof_consensus
-                .try_into()
+            proof_consensus_state_of_a_on_b: MerkleProof::decode(msg.proof_consensus.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
             proofs_height_on_b: msg
                 .proof_height

@@ -49,9 +49,7 @@ impl TryFrom<RawMsgChannelOpenAck> for MsgChannelOpenAck {
                 .parse()
                 .map_err(ChannelError::Identifier)?,
             version_on_b: raw_msg.counterparty_version.into(),
-            proof_chan_end_on_b: raw_msg
-                .proof_try
-                .try_into()
+            proof_chan_end_on_b: MerkleProof::decode(raw_msg.proof_try.as_ref())
                 .map_err(|_| ChannelError::InvalidProof)?,
             proof_height_on_b: raw_msg
                 .proof_height

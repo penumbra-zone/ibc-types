@@ -37,9 +37,7 @@ impl TryFrom<RawMsgConnectionOpenConfirm> for MsgConnectionOpenConfirm {
                 .connection_id
                 .parse()
                 .map_err(ConnectionError::InvalidIdentifier)?,
-            proof_conn_end_on_a: msg
-                .proof_ack
-                .try_into()
+            proof_conn_end_on_a: MerkleProof::decode(msg.proof_ack.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
             proof_height_on_a: msg
                 .proof_height

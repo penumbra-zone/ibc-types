@@ -10,7 +10,6 @@ use ics23::CommitmentProof;
 use ics23::{
     calculate_existence_root, verify_membership, verify_non_membership, NonExistenceProof,
 };
-use prost::Message;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct MerkleProof {
@@ -25,17 +24,6 @@ impl DomainType for MerkleProof {
     type Proto = RawMerkleProof;
 }
 
-impl TryFrom<Vec<u8>> for MerkleProof {
-    type Error = anyhow::Error;
-
-    fn try_from(value: Vec<u8>) -> Result<Self, Self::Error> {
-        let raw_proof = RawMerkleProof::decode(value.as_slice())
-            .map_err(|_| anyhow::anyhow!("invalid merkle proof"))?;
-
-        MerkleProof::try_from(raw_proof)
-    }
-}
-
 impl From<MerkleProof> for RawMerkleProof {
     fn from(value: MerkleProof) -> RawMerkleProof {
         RawMerkleProof {
@@ -44,12 +32,22 @@ impl From<MerkleProof> for RawMerkleProof {
     }
 }
 
+/// Convert to ics23::CommitmentProof
+/// The encoding and decoding shouldn't fail since ics23::CommitmentProof and ibc_proto::ics23::CommitmentProof should be the same
+/// Ref. <https://github.com/informalsystems/ibc-rs/issues/853>
 impl TryFrom<RawMerkleProof> for MerkleProof {
     type Error = anyhow::Error;
-    fn try_from(value: RawMerkleProof) -> Result<MerkleProof, anyhow::Error> {
-        Ok(MerkleProof {
-            proofs: value.proofs,
-        })
+    fn try_from(proof: RawMerkleProof) -> Result<Self, Self::Error> {
+        let proofs: Vec<CommitmentProof> = proof
+            .proofs
+            .into_iter()
+            .map(|p| {
+                let mut encoded = Vec::new();
+                prost::Message::encode(&p, &mut encoded).unwrap();
+                prost::Message::decode(&*encoded).unwrap()
+            })
+            .collect();
+        Ok(Self { proofs })
     }
 }
 

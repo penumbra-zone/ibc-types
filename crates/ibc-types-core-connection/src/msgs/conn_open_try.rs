@@ -86,17 +86,11 @@ impl TryFrom<RawMsgConnectionOpenTry> for MsgConnectionOpenTry {
                 .ok_or(ConnectionError::MissingCounterparty)?
                 .try_into()?,
             versions_on_a: counterparty_versions,
-            proof_conn_end_on_a: msg
-                .proof_init
-                .try_into()
+            proof_conn_end_on_a: MerkleProof::decode(msg.proof_init.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_client_state_of_b_on_a: msg
-                .proof_client
-                .try_into()
+            proof_client_state_of_b_on_a: MerkleProof::decode(msg.proof_client.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_consensus_state_of_b_on_a: msg
-                .proof_consensus
-                .try_into()
+            proof_consensus_state_of_b_on_a: MerkleProof::decode(msg.proof_consensus.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
             proofs_height_on_a: msg
                 .proof_height

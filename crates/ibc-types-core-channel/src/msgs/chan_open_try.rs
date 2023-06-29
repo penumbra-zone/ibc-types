@@ -67,9 +67,7 @@ impl TryFrom<RawMsgChannelOpenTry> for MsgChannelOpenTry {
                 .channel_id
                 .ok_or(ChannelError::InvalidCounterpartyChannelId)?,
             version_supported_on_a: raw_msg.counterparty_version.into(),
-            proof_chan_end_on_a: raw_msg
-                .proof_init
-                .try_into()
+            proof_chan_end_on_a: MerkleProof::decode(raw_msg.proof_init.as_ref())
                 .map_err(|_| ChannelError::InvalidProof)?,
             proof_height_on_a: raw_msg
                 .proof_height
