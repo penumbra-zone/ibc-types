@@ -1,12 +1,11 @@
 use crate::prelude::*;
 use crate::MerklePath;
 
-use crate::Error;
-
 use ibc_proto::ibc::core::commitment::v1::MerklePrefix as RawMerklePrefix;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Default, Hash)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct MerklePrefix {
     pub key_prefix: Vec<u8>,
 }
@@ -45,11 +44,10 @@ impl From<MerklePrefix> for RawMerklePrefix {
     }
 }
 
-impl TryFrom<RawMerklePrefix> for MerklePrefix {
-    type Error = Error;
-    fn try_from(value: RawMerklePrefix) -> Result<MerklePrefix, Error> {
-        Ok(MerklePrefix {
+impl From<RawMerklePrefix> for MerklePrefix {
+    fn from(value: RawMerklePrefix) -> MerklePrefix {
+        MerklePrefix {
             key_prefix: value.key_prefix,
-        })
+        }
     }
 }

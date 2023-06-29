@@ -23,7 +23,7 @@ pub use conn_open_init::MsgConnectionOpenInit;
 pub use conn_open_try::MsgConnectionOpenTry;
 
 /// Enumeration of all possible messages that the ICS3 protocol processes.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum ConnectionMsg {
     OpenInit(MsgConnectionOpenInit),
     OpenTry(MsgConnectionOpenTry),
@@ -39,6 +39,9 @@ pub mod test_util {
         commitment::v1::MerklePrefix, connection::v1::Counterparty as RawCounterparty,
     };
     use ibc_types_core_client::ClientId;
+    use ibc_types_core_commitment::MerkleProof;
+    use ibc_types_domain_type::DomainType;
+    use ics23::CommitmentProof;
 
     pub fn get_dummy_raw_counterparty(conn_id: Option<u64>) -> RawCounterparty {
         let connection_id = match conn_id {
@@ -59,8 +62,9 @@ pub mod test_util {
     }
 
     pub fn get_dummy_proof() -> Vec<u8> {
-        "Y29uc2Vuc3VzU3RhdGUvaWJjb25lY2xpZW50LzIy"
-            .as_bytes()
-            .to_vec()
+        MerkleProof {
+            proofs: vec![CommitmentProof::default()],
+        }
+        .encode_to_vec()
     }
 }

@@ -1,6 +1,7 @@
 use ibc_proto::ibc::core::channel::v1::MsgChannelCloseConfirm as RawMsgChannelCloseConfirm;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::prelude::*;
@@ -15,11 +16,11 @@ impl TypeUrl for MsgChannelCloseConfirm {
 /// datagram).
 /// Per our convention, this message is sent to chain B.
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgChannelCloseConfirm {
     pub port_id_on_b: PortId,
     pub chan_id_on_b: ChannelId,
-    pub proof_chan_end_on_a: Vec<u8>,
+    pub proof_chan_end_on_a: MerkleProof,
     pub proof_height_on_a: Height,
     pub signer: String,
 }
@@ -38,7 +39,8 @@ impl TryFrom<RawMsgChannelCloseConfirm> for MsgChannelCloseConfirm {
                 .channel_id
                 .parse()
                 .map_err(ChannelError::Identifier)?,
-            proof_chan_end_on_a: raw_msg.proof_init,
+            proof_chan_end_on_a: MerkleProof::decode(raw_msg.proof_init.as_ref())
+                .map_err(|_| ChannelError::InvalidProof)?,
             proof_height_on_a: raw_msg
                 .proof_height
                 .and_then(|raw_height| raw_height.try_into().ok())
@@ -53,7 +55,7 @@ impl From<MsgChannelCloseConfirm> for RawMsgChannelCloseConfirm {
         RawMsgChannelCloseConfirm {
             port_id: domain_msg.port_id_on_b.to_string(),
             channel_id: domain_msg.chan_id_on_b.to_string(),
-            proof_init: domain_msg.proof_chan_end_on_a.clone().into(),
+            proof_init: domain_msg.proof_chan_end_on_a.clone().encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_a.into()),
             signer: domain_msg.signer,
         }

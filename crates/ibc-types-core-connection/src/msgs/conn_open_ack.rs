@@ -5,13 +5,14 @@ use ibc_proto::{
     ibc::core::connection::v1::MsgConnectionOpenAck as RawMsgConnectionOpenAck,
 };
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ConnectionError, ConnectionId, Version};
 
 /// Per our convention, this message is sent to chain A.
 /// The handler will check proofs of chain B.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgConnectionOpenAck {
     /// ConnectionId that chain A has chosen for it's ConnectionEnd
     pub conn_id_on_a: ConnectionId,
@@ -20,11 +21,11 @@ pub struct MsgConnectionOpenAck {
     /// ClientState of client tracking chain A on chain B
     pub client_state_of_a_on_b: Any,
     /// proof of ConnectionEnd stored on Chain B during ConnOpenTry
-    pub proof_conn_end_on_b: Vec<u8>,
+    pub proof_conn_end_on_b: MerkleProof,
     /// proof of ClientState tracking chain A on chain B
-    pub proof_client_state_of_a_on_b: Vec<u8>,
+    pub proof_client_state_of_a_on_b: MerkleProof,
     /// proof that chain B has stored ConsensusState of chain A on its client
-    pub proof_consensus_state_of_a_on_b: Vec<u8>,
+    pub proof_consensus_state_of_a_on_b: MerkleProof,
     /// Height at which all proofs in this message were taken
     pub proofs_height_on_b: Height,
     /// height of latest header of chain A that updated the client on chain B
@@ -61,17 +62,11 @@ impl TryFrom<RawMsgConnectionOpenAck> for MsgConnectionOpenAck {
                 .version
                 .ok_or(ConnectionError::EmptyVersions)?
                 .try_into()?,
-            proof_conn_end_on_b: msg
-                .proof_try
-                .try_into()
+            proof_conn_end_on_b: MerkleProof::decode(msg.proof_try.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_client_state_of_a_on_b: msg
-                .proof_client
-                .try_into()
+            proof_client_state_of_a_on_b: MerkleProof::decode(msg.proof_client.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_consensus_state_of_a_on_b: msg
-                .proof_consensus
-                .try_into()
+            proof_consensus_state_of_a_on_b: MerkleProof::decode(msg.proof_consensus.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
             proofs_height_on_b: msg
                 .proof_height
@@ -93,9 +88,9 @@ impl From<MsgConnectionOpenAck> for RawMsgConnectionOpenAck {
             counterparty_connection_id: msg.conn_id_on_b.as_str().to_string(),
             client_state: Some(msg.client_state_of_a_on_b),
             proof_height: Some(msg.proofs_height_on_b.into()),
-            proof_try: msg.proof_conn_end_on_b.into(),
-            proof_client: msg.proof_client_state_of_a_on_b.into(),
-            proof_consensus: msg.proof_consensus_state_of_a_on_b.into(),
+            proof_try: msg.proof_conn_end_on_b.encode_to_vec(),
+            proof_client: msg.proof_client_state_of_a_on_b.encode_to_vec(),
+            proof_consensus: msg.proof_consensus_state_of_a_on_b.encode_to_vec(),
             consensus_height: Some(msg.consensus_height_of_a_on_b.into()),
             version: Some(msg.version.into()),
             signer: msg.signer,

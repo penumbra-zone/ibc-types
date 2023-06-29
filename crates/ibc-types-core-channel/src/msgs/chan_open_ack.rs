@@ -3,6 +3,7 @@ use crate::prelude::*;
 use ibc_proto::ibc::core::channel::v1::MsgChannelOpenAck as RawMsgChannelOpenAck;
 
 use ibc_types_core_client::Height;
+use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ChannelError, ChannelId, PortId, Version};
@@ -15,13 +16,13 @@ impl TypeUrl for MsgChannelOpenAck {
 /// Per our convention, this message is sent to chain A.
 /// Message definition for the third step in the channel open handshake (`ChanOpenAck` datagram).
 ///
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MsgChannelOpenAck {
     pub port_id_on_a: PortId,
     pub chan_id_on_a: ChannelId,
     pub chan_id_on_b: ChannelId,
     pub version_on_b: Version,
-    pub proof_chan_end_on_b: Vec<u8>,
+    pub proof_chan_end_on_b: MerkleProof,
     pub proof_height_on_b: Height,
     pub signer: String,
 }
@@ -48,9 +49,7 @@ impl TryFrom<RawMsgChannelOpenAck> for MsgChannelOpenAck {
                 .parse()
                 .map_err(ChannelError::Identifier)?,
             version_on_b: raw_msg.counterparty_version.into(),
-            proof_chan_end_on_b: raw_msg
-                .proof_try
-                .try_into()
+            proof_chan_end_on_b: MerkleProof::decode(raw_msg.proof_try.as_ref())
                 .map_err(|_| ChannelError::InvalidProof)?,
             proof_height_on_b: raw_msg
                 .proof_height
@@ -68,7 +67,7 @@ impl From<MsgChannelOpenAck> for RawMsgChannelOpenAck {
             channel_id: domain_msg.chan_id_on_a.to_string(),
             counterparty_channel_id: domain_msg.chan_id_on_b.to_string(),
             counterparty_version: domain_msg.version_on_b.to_string(),
-            proof_try: domain_msg.proof_chan_end_on_b.into(),
+            proof_try: domain_msg.proof_chan_end_on_b.encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_b.into()),
             signer: domain_msg.signer,
         }

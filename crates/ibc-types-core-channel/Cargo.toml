@@ -55,6 +55,7 @@ mocks-no-std = ["cfg-if"]
 [dependencies]
 ibc-types-core-client = { version = "0.2.0", path = "../ibc-types-core-client", default-features = false }
 ibc-types-core-connection = { version = "0.2.0", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-commitment = { version = "0.2.0", path = "../ibc-types-core-commitment", default-features = false }
 ibc-types-domain-type = { version = "0.2.0", path = "../ibc-types-domain-type", default-features = false }
 ibc-types-identifier = { version = "0.2.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-timestamp = { version = "0.2.0", path = "../ibc-types-timestamp", default-features = false }

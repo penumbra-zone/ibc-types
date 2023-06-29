@@ -31,7 +31,7 @@ pub use timeout::MsgTimeout;
 pub use timeout_on_close::MsgTimeoutOnClose;
 
 /// Enumeration of all possible messages that the ICS4 protocol processes.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum ChannelMsg {
     OpenInit(MsgChannelOpenInit),
     OpenTry(MsgChannelOpenTry),

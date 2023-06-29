@@ -1,9 +1,14 @@
+use ibc_types_core_commitment::MerkleProof;
+use ibc_types_domain_type::DomainType;
+use ics23::CommitmentProof;
+
 use crate::prelude::*;
 
 pub fn get_dummy_proof() -> Vec<u8> {
-    "Y29uc2Vuc3VzU3RhdGUvaWJjb25lY2xpZW50LzIy"
-        .as_bytes()
-        .to_vec()
+    let m = MerkleProof {
+        proofs: vec![CommitmentProof::default()],
+    };
+    m.encode_to_vec()
 }
 
 pub fn get_dummy_account_id() -> String {
