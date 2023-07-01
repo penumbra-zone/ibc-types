@@ -1,43 +1,46 @@
-// TODO: disable unwraps:
-// https://github.com/informalsystems/ibc-rs/issues/987
-// #![cfg_attr(not(test), deny(clippy::unwrap_used))]
 #![no_std]
-// https://github.com/cosmos/ibc-rs/issues/342
-#![allow(clippy::result_large_err)]
-//! This library provides data types for the InterBlockchain Communication (IBC) protocol in Rust.
+//! Data types for the InterBlockchain Communication (IBC) protocol in Rust.
 //!
-//! This crate will eventually be a minimal implementation just providing IBC data types.  Currently, it's undergoing refactoring post-forking.
+//! This crate will eventually replace the `ibc-types` crate and be renamed `ibc-types`.
 
 extern crate alloc;
 
 #[cfg(any(test, feature = "std"))]
 extern crate std;
 
-mod prelude;
+#[doc(inline)]
+pub use ibc_types_domain_type::{DomainType, TypeUrl};
 
-pub mod applications;
-pub mod clients;
-pub mod core;
-pub mod dynamic_typing;
-mod erased;
-pub mod events;
-pub mod handler;
-pub mod hosts;
-pub mod signer;
-pub mod timestamp;
-pub mod tx_msg;
-pub mod utils;
+// TODO: anywhere better to put this?
+// we don't need/want the whole crate since it should be encapsulated
+// in the identifier types themselves
+#[doc(inline)]
+pub use ibc_types_identifier::IdentifierError;
 
-#[cfg(feature = "serde")]
-mod serializers;
+/// Core IBC data modeling such as clients, connections, and channels.
+pub mod core {
+    #[doc(inline)]
+    pub use ibc_types_core_channel as channel;
+    #[doc(inline)]
+    pub use ibc_types_core_client as client;
+    #[doc(inline)]
+    pub use ibc_types_core_commitment as commitment;
+    #[doc(inline)]
+    pub use ibc_types_core_connection as connection;
+}
 
-/// Re-export of ICS 002 Height domain type
-pub type Height = crate::core::ics02_client::height::Height;
+#[doc(inline)]
+pub use ibc_types_timestamp as timestamp;
 
-#[cfg(test)]
-mod test;
+/// Specific IBC light clients, such as the Tendermint light client.
+pub mod lightclients {
+    // TODO: add Tendermint light client crate
+    #[doc(inline)]
+    pub use ibc_types_lightclients_tendermint as tendermint;
+}
 
-#[cfg(any(test, feature = "mocks"))]
-pub mod test_utils;
+#[doc(inline)]
+pub use ibc_types_path as path;
 
-pub mod mock; // Context mock, the underlying host chain, and client types: for testing all handlers.
+#[doc(inline)]
+pub use ibc_types_transfer as transfer;
