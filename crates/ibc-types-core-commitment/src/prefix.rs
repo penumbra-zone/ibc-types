@@ -15,7 +15,7 @@ impl MerklePrefix {
     pub fn apply(&self, paths: Vec<String>) -> MerklePath {
         let commitment_str =
             core::str::from_utf8(&self.key_prefix).expect("commitment prefix is not valid utf-8");
-        let mut key_path: Vec<String> = vec![format!("{commitment_str:?}")];
+        let mut key_path: Vec<String> = vec![commitment_str.to_string()];
         key_path.append(paths.clone().as_mut());
 
         MerklePath { key_path }
