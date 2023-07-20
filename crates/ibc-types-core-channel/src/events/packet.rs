@@ -342,7 +342,7 @@ pub struct ReceivePacket {
 }
 
 impl ReceivePacket {
-    pub const TYPE_STR: &'static str = "receive_packet";
+    pub const TYPE_STR: &'static str = "recv_packet";
 
     pub fn new(packet: Packet, channel_ordering: Order, dst_connection_id: ConnectionId) -> Self {
         Self {
