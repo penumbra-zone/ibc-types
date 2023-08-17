@@ -62,7 +62,6 @@ ibc-types-domain-type = { version = "0.3.0", path = "../ibc-types-domain-type", 
 ibc-types-core-client = { version = "0.3.0", path = "../ibc-types-core-client", default-features = false }
 ibc-types-core-connection = { version = "0.3.0", path = "../ibc-types-core-connection", default-features = false }
 ibc-types-core-commitment = { version = "0.3.0", path = "../ibc-types-core-commitment", default-features = false }
-ibc-types-utils = { version = "0.3.0", path = "../ibc-types-utils", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
 ibc-proto = { version = "0.31.0", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }

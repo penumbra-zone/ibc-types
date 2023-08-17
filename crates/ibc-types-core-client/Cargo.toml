@@ -59,7 +59,6 @@ ibc-proto = { version = "0.31.0", default-features = false }
 ibc-types-domain-type = { version = "0.3.0", path = "../ibc-types-domain-type", default-features = false }
 ibc-types-identifier = { version = "0.3.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-timestamp = { version = "0.3.0", path = "../ibc-types-timestamp", default-features = false }
-ibc-types-utils = { version = "0.3.0", path = "../ibc-types-utils", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
 num-traits = { version = "0.2.15", default-features = false }
 parity-scale-codec = { version = "3.0.0", default-features = false, features = ["full"], optional = true }

@@ -9,23 +9,23 @@ pub const ACK_ERR_STR: &str = "error handling packet on destination chain: see e
 /// A successful acknowledgement, equivalent to `base64::encode(0x01)`.
 pub const ACK_SUCCESS_B64: &str = "AQ==";
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum ConstAckSuccess {
-    #[cfg_attr(feature = "serde", serde(rename = "AQ=="))]
+    #[cfg_attr(feature = "with_serde", serde(rename = "AQ=="))]
     Success,
 }
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum TokenTransferAcknowledgement {
     /// Successful Acknowledgement
     /// e.g. `{"result":"AQ=="}`
-    #[cfg_attr(feature = "serde", serde(rename = "result"))]
+    #[cfg_attr(feature = "with_serde", serde(rename = "result"))]
     Success(ConstAckSuccess),
     /// Error Acknowledgement
     /// e.g. `{"error":"cannot unmarshal ICS-20 transfer packet data"}`
-    #[cfg_attr(feature = "serde", serde(rename = "error"))]
+    #[cfg_attr(feature = "with_serde", serde(rename = "error"))]
     Error(String),
 }
 

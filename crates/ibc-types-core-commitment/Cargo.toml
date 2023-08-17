@@ -57,7 +57,6 @@ mocks-no-std = ["cfg-if"]
 ibc-types-timestamp = { version = "0.3.0", path = "../ibc-types-timestamp", default-features = false }
 ibc-types-identifier = { version = "0.3.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-domain-type = { version = "0.3.0", path = "../ibc-types-domain-type", default-features = false }
-ibc-types-utils = { version = "0.3.0", path = "../ibc-types-utils", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
 ibc-proto = { version = "0.31.0", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }

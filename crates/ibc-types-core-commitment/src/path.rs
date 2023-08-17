@@ -1,7 +1,5 @@
 use crate::prelude::*;
 
-use crate::Error;
-
 use ibc_proto::ibc::core::commitment::v1::MerklePath as RawMerklePath;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
@@ -28,7 +26,7 @@ impl From<MerklePath> for RawMerklePath {
 
 impl TryFrom<RawMerklePath> for MerklePath {
     type Error = anyhow::Error;
-    fn try_from(value: RawMerklePath) -> Result<MerklePath, anyhow::Error> {
+    fn try_from(value: RawMerklePath) -> Result<MerklePath, Self::Error> {
         Ok(MerklePath {
             key_path: value.key_path,
         })

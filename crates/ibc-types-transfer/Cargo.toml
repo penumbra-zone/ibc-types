@@ -31,6 +31,7 @@ upgrade_client = []
 # Depends on the `testgen` suite for generating Tendermint light blocks.
 mocks = ["tendermint-testgen", "cfg-if", "parking_lot"]
 mocks-no-std = ["cfg-if"]
+with_serde = ["serde", "serde_derive"]
 
 [dependencies]
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
