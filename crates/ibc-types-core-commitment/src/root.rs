@@ -25,8 +25,8 @@ impl From<MerkleRoot> for RawMerkleRoot {
 }
 
 impl TryFrom<RawMerkleRoot> for MerkleRoot {
-    type Error = Error;
-    fn try_from(value: RawMerkleRoot) -> Result<MerkleRoot, Error> {
+    type Error = anyhow::Error;
+    fn try_from(value: RawMerkleRoot) -> Result<MerkleRoot, Self::Error> {
         Ok(MerkleRoot { hash: value.hash })
     }
 }

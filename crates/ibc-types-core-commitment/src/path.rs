@@ -27,8 +27,8 @@ impl From<MerklePath> for RawMerklePath {
 }
 
 impl TryFrom<RawMerklePath> for MerklePath {
-    type Error = Error;
-    fn try_from(value: RawMerklePath) -> Result<MerklePath, Error> {
+    type Error = anyhow::Error;
+    fn try_from(value: RawMerklePath) -> Result<MerklePath, anyhow::Error> {
         Ok(MerklePath {
             key_path: value.key_path,
         })

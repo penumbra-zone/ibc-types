@@ -8,6 +8,7 @@ use ibc_types_timestamp::Timestamp;
 use crate::{client_id::ClientId, client_type::ClientType};
 
 use crate::height::Height;
+use anyhow;
 
 // TODO: after code cleanup, go through and remove never-constructed errors
 

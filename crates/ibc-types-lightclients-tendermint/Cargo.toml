@@ -62,6 +62,7 @@ ibc-types-domain-type = { version = "0.3.0", path = "../ibc-types-domain-type", 
 ibc-types-core-client = { version = "0.3.0", path = "../ibc-types-core-client", default-features = false }
 ibc-types-core-connection = { version = "0.3.0", path = "../ibc-types-core-connection", default-features = false }
 ibc-types-core-commitment = { version = "0.3.0", path = "../ibc-types-core-commitment", default-features = false }
+ibc-types-utils = { version = "0.3.0", path = "../ibc-types-utils", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
 ibc-proto = { version = "0.31.0", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
@@ -89,6 +90,7 @@ scale-info = { version = "2.1.2", default-features = false, features = ["derive"
 borsh = {version = "0.10.0", default-features = false, optional = true }
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
 cfg-if = { version = "1.0.0", optional = true }
+anyhow = { version = "1", default-features = false }
 
 [dependencies.tendermint]
 version = "0.32.0"
