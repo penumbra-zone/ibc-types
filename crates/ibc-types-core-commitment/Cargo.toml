@@ -13,7 +13,7 @@ description  = """
     This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
 """
 # Not publishing to crates.io yet; will iterate quickly via git deps.
-publish      = false
+publish	= true
 [package.metadata.docs.rs]
 all-features = true
 
