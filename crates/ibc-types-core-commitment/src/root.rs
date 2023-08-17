@@ -1,7 +1,5 @@
 use crate::prelude::*;
 
-use crate::Error;
-
 use ibc_proto::ibc::core::commitment::v1::MerkleRoot as RawMerkleRoot;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 

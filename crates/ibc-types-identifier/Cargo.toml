@@ -23,6 +23,7 @@ std = [
     "serde/std",
     "displaydoc/std",
 ]
+with_serde = ["serde", "serde_derive"]
 
 # This feature guards the unfinished implementation of the `UpgradeClient` handler.
 upgrade_client = []

@@ -10,8 +10,8 @@ use prelude::*;
 
 use displaydoc::Display;
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Debug, Display)]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize))]
 pub enum IdentifierError {
     /// identifier `{id}` cannot contain separator '/'
     ContainSeparator { id: String },
