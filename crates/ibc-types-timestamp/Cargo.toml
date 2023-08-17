@@ -54,9 +54,9 @@ serde_derive = { version = "1.0.104", default-features = false, optional = true 
 serde_json = { version = "1", default-features = false, optional = true }
 subtle-encoding = { version = "0.5", default-features = false }
 time = { version = ">=0.3.0, <0.3.20", default-features = false }
-tendermint = { version = "0.33.0", default-features = false }
-tendermint-proto = { version = "0.33.0", default-features = false }
-tendermint-testgen = { version = "0.33.0", default-features = false, optional = true }
+tendermint = { version = "0.32.0", default-features = false }
+tendermint-proto = { version = "0.32.0", default-features = false }
+tendermint-testgen = { version = "0.32.0", default-features = false, optional = true }
 
 [dev-dependencies]
 cfg-if = { version = "1.0.0" }
