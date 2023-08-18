@@ -62,12 +62,6 @@ publish() {
   echo ""
 }
 
-dry_publish() {
-  echo "Publishing crate $1..."
-  cargo publish --dry-run --manifest-path "$(get_manifest_path "${1}")" ${CARGO_PUBLISH_FLAGS}
-  echo ""
-}
-
 wait_until_available() {
   echo "Waiting for crate ${1} to become available via crates.io..."
   for retry in {1..5}; do
@@ -89,9 +83,9 @@ wait_until_available() {
   sleep 10
 }
 
-echo "Doing a dry-run"
+echo "Checking that each crate compiles"
 for crate in ${CRATES}; do
-  dry_publish "${crate}"
+    ./check_crates.sh
 done
 
 echo "Attempting to publish crate(s): ${CRATES}"
