@@ -6,9 +6,7 @@ extern crate alloc;
 extern crate std;
 
 mod prelude;
-use displaydoc::Display;
 use prelude::*;
-use prost::DecodeError;
 
 pub trait TypeUrl {
     const TYPE_URL: &'static str;
@@ -40,26 +38,8 @@ where
     /// Decode this domain type from a byte buffer, via proto type `P`.
     fn decode<B: bytes::Buf>(buf: B) -> Result<Self, anyhow::Error> {
         <Self::Proto as prost::Message>::decode(buf)
-            .map_err(|e| crate::Error::from(e))?
+            .map_err(anyhow::Error::msg)?
             .try_into()
             .map_err(Into::into)
-    }
-}
-
-#[derive(Display, Debug)]
-pub enum Error {
-    /// A prost decoding error
-    Decode(DecodeError),
-}
-
-impl From<DecodeError> for Error {
-    fn from(err: DecodeError) -> Error {
-        Error::Decode(err)
-    }
-}
-
-impl From<Error> for anyhow::Error {
-    fn from(value: Error) -> Self {
-        anyhow::Error::msg(value.to_string())
     }
 }
