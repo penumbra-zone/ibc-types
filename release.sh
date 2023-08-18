@@ -85,6 +85,10 @@ wait_until_available() {
 
 echo "Attempting to publish crate(s): ${CRATES}"
 
+# Since crates.io has rate-limit and we always want to publish 
+# every crate in lockstep, we need to wait 5min every 5 pubs
+COUNTER=1
+
 for crate in ${CRATES}; do
   VERSION="$(get_local_version "${crate}")"
   ONLINE_DATE="$(check_version_online "${crate}" "${VERSION}")"
@@ -94,6 +98,13 @@ for crate in ${CRATES}; do
     continue
   fi
 
+  if [ $COUNTER -eq 5 ]; then
+    echo "Reached 5 crates, waiting for 5 minutes..."
+    sleep 300 # Wait for 5 minutes
+    COUNTER=1 # Reset the counter
+  fi
+
   publish "${crate}"
   wait_until_available "${crate}" "${VERSION}"
+  ((COUNTER++))
 done
