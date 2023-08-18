@@ -18,16 +18,17 @@ set -e
 # A space-separated list of all the crates we want to publish, in the order in
 # which they must be published. It's important to respect this order, since
 # each subsequent crate depends on one or more of the preceding ones.
-DEFAULT_CRATES="ibc-types-transfer \
-  ibc-types-timestamp \
-  ibc-types-path \
-  ibc-types-lightclients-tendermint \
-  ibc-types-identifier \
+DEFAULT_CRATES="
   ibc-types-domain-type \
-  ibc-types-core-connection \
+  ibc-types-identifier \
+  ibc-types-timestamp \
   ibc-types-core-commitment \
   ibc-types-core-client \
+  ibc-types-transfer \
+  ibc-types-core-connection \
   ibc-types-core-channel \
+  ibc-types-lightclients-tendermint \
+  ibc-types-path \
   ibc-types"
 
 # Allows us to override the crates we want to publish.
