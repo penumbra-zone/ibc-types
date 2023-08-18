@@ -2,6 +2,19 @@
 name = "ibc-types-domain-type"
 version = "0.3.0"
 edition = "2021"
+license      = "Apache-2.0"
+publish = true
+keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
+repository   = "https://github.com/penumbra-zone/ibc-types"
+authors      = ["Penumbra Labs <team@penumbralabs.xyz"]
+rust-version = "1.60"
+description  = """
+    Data types for the Inter-Blockchain Communication (IBC) protocol.
+    This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
+"""
+
+[package.metadata.docs.rs]
+all-features = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
