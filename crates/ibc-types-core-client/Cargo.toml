@@ -12,8 +12,7 @@ description  = """
     Data types for the Inter-Blockchain Communication (IBC) protocol.
     This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
 """
-# Not publishing to crates.io yet; will iterate quickly via git deps.
-publish	= true
+
 [package.metadata.docs.rs]
 all-features = true
 
