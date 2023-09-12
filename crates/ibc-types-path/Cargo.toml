@@ -34,6 +34,8 @@ std = [
     "ibc-types-core-channel/std",
 ]
 
+with_serde = ["serde", "serde_derive", "serde_json"]
+
 # This feature guards the unfinished implementation of the `UpgradeClient` handler.
 upgrade_client = []
 
