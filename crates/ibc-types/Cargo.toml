@@ -30,6 +30,18 @@ std = [
     "ibc-types-transfer/std",
 ]
 
+with_serde = [
+    "ibc-types-timestamp/with_serde",
+    "ibc-types-identifier/with_serde",
+    "ibc-types-core-client/with_serde",
+    "ibc-types-core-connection/with_serde",
+    "ibc-types-core-channel/with_serde",
+    "ibc-types-core-commitment/with_serde",
+    "ibc-types-lightclients-tendermint/with_serde",
+    "ibc-types-path/with_serde",
+    "ibc-types-transfer/with_serde",
+    ]
+
 # This feature grants access to development-time mocking libraries, such as `MockContext` or `MockHeader`.
 # Depends on the `testgen` suite for generating Tendermint light blocks.
 mocks = [
