@@ -96,7 +96,8 @@ struct PacketData<'a>(&'a [u8]);
 
 impl<'a> core::fmt::Debug for PacketData<'a> {
     fn fmt(&self, formatter: &mut core::fmt::Formatter<'_>) -> Result<(), core::fmt::Error> {
-        write!(formatter, "{:?}", self.0)
+        let data_str = String::from_utf8_lossy(self.0);
+        write!(formatter, "{data_str:?}")
     }
 }
 
