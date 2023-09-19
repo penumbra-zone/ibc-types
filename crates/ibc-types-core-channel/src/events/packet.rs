@@ -590,16 +590,14 @@ impl From<WriteAcknowledgement> for Event {
         attrs.push(("packet_src_channel", event.src_channel_id.0));
         attrs.push(("packet_dst_port", event.dst_port_id.0));
         attrs.push(("packet_dst_channel", event.dst_channel_id.0));
-        // TODO: do we need to support any relayers who only know
-        // about packet_ack and not packet_ack_hex
-        // > Note: this attribute forces us to assume that Packet data
-        // > is valid UTF-8, even though the standard doesn't require
-        // > it. It has been deprecated in ibc-go. It will be removed
-        // > in the future.
         attrs.push((
             "packet_ack_hex",
             String::from_utf8(hex::encode(&event.acknowledgement)).unwrap(),
         ));
+        // Like packet_data, conditionally include packet_ack only if UTF-8 encodable.
+        if let Ok(utf8_ack_data) = String::from_utf8(event.acknowledgement) {
+            attrs.push(("packet_ack", utf8_ack_data));
+        }
         attrs.push(("packet_connection", event.dst_connection_id.0));
 
         Event::new(WriteAcknowledgement::TYPE_STR, attrs)
@@ -705,12 +703,29 @@ impl TryFrom<Event> for WriteAcknowledgement {
                             e,
                         })?);
                 }
+                "packet_ack" => {
+                    let new_ack = attr.value.into_bytes();
+                    if let Some(existing_ack) = acknowledgement {
+                        if new_ack != existing_ack {
+                            return Err(Error::MismatchedAcks);
+                        } else {
+                            acknowledgement = Some(new_ack);
+                        }
+                    }
+                }
                 "packet_ack_hex" => {
-                    acknowledgement =
-                        Some(hex::decode(&attr.value).map_err(|e| Error::ParseHex {
-                            key: "packet_data_hex",
-                            e,
-                        })?);
+                    let new_ack = hex::decode(&attr.value).map_err(|e| Error::ParseHex {
+                        key: "packet_ack_hex",
+                        e,
+                    })?;
+
+                    if let Some(existing_ack) = acknowledgement {
+                        if new_ack != existing_ack {
+                            return Err(Error::MismatchedAcks);
+                        } else {
+                            acknowledgement = Some(new_ack);
+                        }
+                    }
                 }
                 "packet_connection" => {
                     dst_connection_id =
@@ -735,7 +750,8 @@ impl TryFrom<Event> for WriteAcknowledgement {
             dst_port_id: dst_port_id.ok_or(Error::MissingAttribute("packet_dst_port"))?,
             src_channel_id: src_channel_id.ok_or(Error::MissingAttribute("packet_src_channel"))?,
             dst_channel_id: dst_channel_id.ok_or(Error::MissingAttribute("packet_dst_channel"))?,
-            acknowledgement: acknowledgement.ok_or(Error::MissingAttribute("packet_ack_hex"))?,
+            acknowledgement: acknowledgement
+                .ok_or(Error::MissingAttribute("packet_ack_hex or packet_ack"))?,
             dst_connection_id: dst_connection_id
                 .ok_or(Error::MissingAttribute("packet_connection"))?,
         })
