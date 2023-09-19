@@ -74,6 +74,8 @@ parity-scale-codec = { version = "3.0.0", default-features = false, features = [
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
 prost = { version = "0.11", default-features = false }
 safe-regex = { version = "0.2.5", default-features = false }
+# proc-macro2 to unbreak docs.rs build, see GH#56
+proc-macro2 = { version = "0.1", default-features = false }
 serde = { version = "1.0", default-features = false, optional = true }
 serde_derive = { version = "1.0.104", default-features = false, optional = true }
 serde_json = { version = "1", default-features = false, optional = true }
