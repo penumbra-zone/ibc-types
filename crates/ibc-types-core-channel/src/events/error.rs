@@ -62,6 +62,8 @@ pub enum Error {
     ParseSequence { key: &'static str, e: ChannelError },
     /// Two different encodings of the same packet data were supplied, but they don't match.
     MismatchedPacketData,
+    /// Two different encodings of the same acknowledgements were supplied, but they don't match.
+    MismatchedAcks,
 }
 
 #[cfg(feature = "std")]
