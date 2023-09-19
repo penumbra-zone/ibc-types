@@ -133,6 +133,8 @@ pub enum HeightParseError {
         height: String,
         error: ParseIntError,
     },
+    /// attempted to parse a height with invalid format (not in the form `revision_number-revision_height`)
+    InvalidFormat,
     /// attempted to parse an invalid zero height
     ZeroHeight,
 }
@@ -143,6 +145,7 @@ impl std::error::Error for HeightParseError {
         match &self {
             HeightParseError::HeightConversion { error: e, .. } => Some(e),
             HeightParseError::ZeroHeight => None,
+            HeightParseError::InvalidFormat => None,
         }
     }
 }
@@ -152,6 +155,10 @@ impl TryFrom<&str> for Height {
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let split: Vec<&str> = value.split('-').collect();
+
+        if split.len() != 2 {
+            return Err(HeightParseError::InvalidFormat);
+        }
 
         let revision_number =
             split[0]
