@@ -2,6 +2,7 @@ use crate::prelude::*;
 
 use core::{
     fmt::{Display, Error as FmtError, Formatter},
+    str::FromStr,
     time::Duration,
     u64,
 };
@@ -21,10 +22,10 @@ use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
-#[derive(Default, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClientPaths {
-    pub paths: Vec<String>,
+    pub paths: Vec<ConnectionId>,
 }
 
 impl DomainType for ClientPaths {
@@ -39,13 +40,19 @@ impl TryFrom<RawClientPaths> for ClientPaths {
     type Error = ConnectionError;
 
     fn try_from(value: RawClientPaths) -> Result<Self, Self::Error> {
-        Ok(ClientPaths { paths: value.paths })
+        let mut paths = vec![];
+        for path in value.paths {
+            paths.push(ConnectionId::from_str(&path).map_err(ConnectionError::InvalidIdentifier)?)
+        }
+        Ok(ClientPaths { paths })
     }
 }
 
 impl From<ClientPaths> for RawClientPaths {
     fn from(value: ClientPaths) -> Self {
-        RawClientPaths { paths: value.paths }
+        RawClientPaths {
+            paths: value.paths.iter().map(|p| p.to_string()).collect(),
+        }
     }
 }
 
