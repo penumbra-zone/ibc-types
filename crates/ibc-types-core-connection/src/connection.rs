@@ -8,8 +8,8 @@ use core::{
 
 use ibc_proto::{
     ibc::core::connection::v1::{
-        ConnectionEnd as RawConnectionEnd, Counterparty as RawCounterparty,
-        IdentifiedConnection as RawIdentifiedConnection,
+        ClientPaths as RawClientPaths, ConnectionEnd as RawConnectionEnd,
+        Counterparty as RawCounterparty, IdentifiedConnection as RawIdentifiedConnection,
     },
     protobuf::Protobuf,
 };
@@ -20,6 +20,34 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ClientPaths {
+    pub paths: Vec<String>,
+}
+
+impl DomainType for ClientPaths {
+    type Proto = RawClientPaths;
+}
+
+impl TypeUrl for ClientPaths {
+    const TYPE_URL: &'static str = "/ibc.core.connection.v1.ClientPaths";
+}
+
+impl TryFrom<RawClientPaths> for ClientPaths {
+    type Error = ConnectionError;
+
+    fn try_from(value: RawClientPaths) -> Result<Self, Self::Error> {
+        Ok(ClientPaths { paths: value.paths })
+    }
+}
+
+impl From<ClientPaths> for RawClientPaths {
+    fn from(value: ClientPaths) -> Self {
+        RawClientPaths { paths: value.paths }
+    }
+}
 
 //#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 #[derive(Clone, Debug, PartialEq, Eq)]
