@@ -21,7 +21,7 @@ use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Default, Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClientPaths {
     pub paths: Vec<String>,
