@@ -63,6 +63,7 @@ impl From<TokenTransferAcknowledgement> for Vec<u8> {
 mod test {
     use super::*;
 
+    #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_ser() {
         fn ser_json_assert_eq(ack: TokenTransferAcknowledgement, json_str: &str) {
@@ -82,6 +83,7 @@ mod test {
         );
     }
 
+    #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_success_to_vec() {
         let ack_success: Vec<u8> = TokenTransferAcknowledgement::success().into();
@@ -92,6 +94,7 @@ mod test {
         assert_eq!(ack_success, r#"{"result":"AQ=="}"#.as_bytes());
     }
 
+    #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_error_to_vec() {
         let ack_error: Vec<u8> = TokenTransferAcknowledgement::Error(
@@ -108,6 +111,7 @@ mod test {
         );
     }
 
+    #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_de() {
         fn de_json_assert_eq(json_str: &str, ack: TokenTransferAcknowledgement) {
