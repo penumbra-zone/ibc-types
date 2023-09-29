@@ -22,6 +22,8 @@ use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
+/// ClientPaths contains a list of all of the connection paths that are associated with a specific
+/// client
 #[derive(Clone, Debug, PartialEq, Eq)]
 #[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ClientPaths {
