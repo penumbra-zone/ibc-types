@@ -7,7 +7,7 @@ use ibc_types_core_client::HeightParseError;
 use ibc_types_identifier::IdentifierError;
 use ibc_types_timestamp::ParseTimestampError;
 
-/// An error while parsing an [`Event`].
+/// An error while parsing an event.
 #[derive(Debug, Display)]
 pub enum Error {
     /// Wrong event type: expected {expected}
