@@ -16,14 +16,14 @@
 //! producing and consuming events.
 //!
 //! The `ibc-types` crate is a top-level wrapper crate re-exporting the contents
-//! of subcrates scoped by IBC module. For example, the `ibc-types` crate
-//! re-exports the client types defined in the `ibc-types-core-client` crate, as
-//! well as the types for the Tendermint light client defined in the
-//! `ibc-types-lightclients-tendermint` crate.  This structure means that
-//! external users of the library can use one catch-all crate, but allows
-//! dependency relationships between different IBC modules. For example, the
-//! Tendermint light client can depend on the core client types.  This prevents
-//! cyclic dependency issues when creating new IBC light clients.
+//! of subcrates scoped by IBC module.  This structure means that external users
+//! of the library can use one catch-all crate, but allows dependency
+//! relationships between different IBC modules.  For example, the `ibc-types`
+//! crate re-exports the client types defined in the `ibc-types-core-client`
+//! crate, as well as the types for the Tendermint light client defined in the
+//! `ibc-types-lightclients-tendermint` crate.   But because these are separate
+//! crates, the Tendermint light client types can depend on the core IBC client
+//! types, preventing cyclic dependency issues.
 #![no_std]
 // Requires nightly.
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
