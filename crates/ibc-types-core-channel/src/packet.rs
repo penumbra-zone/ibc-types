@@ -135,7 +135,7 @@ impl core::fmt::Debug for Packet {
 
 impl Packet {
     /// Checks whether a packet from a
-    /// [`SendPacket`](crate::core::ics04_channel::events::SendPacket)
+    /// [`SendPacket`](crate::events::packet::SendPacket)
     /// event is timed-out relative to the current state of the
     /// destination chain.
     ///
@@ -144,9 +144,9 @@ impl Packet {
     /// the height `dst_chain_height`.
     ///
     /// Note: a timed-out packet should result in a
-    /// [`MsgTimeout`](crate::core::ics04_channel::msgs::timeout::MsgTimeout),
+    /// [`MsgTimeout`](crate::msgs::MsgTimeout),
     /// instead of the common-case where it results in
-    /// [`MsgRecvPacket`](crate::core::ics04_channel::msgs::recv_packet::MsgRecvPacket).
+    /// [`MsgRecvPacket`](crate::msgs::MsgRecvPacket).
     pub fn timed_out(&self, dst_chain_ts: &Timestamp, dst_chain_height: Height) -> bool {
         let height_timed_out = self.timeout_height_on_b.has_expired(dst_chain_height);
 
