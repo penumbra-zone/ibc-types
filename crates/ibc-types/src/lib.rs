@@ -24,8 +24,9 @@
 //! dependency relationships between different IBC modules. For example, the
 //! Tendermint light client can depend on the core client types.  This prevents
 //! cyclic dependency issues when creating new IBC light clients.
-
 #![no_std]
+// Requires nightly.
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 extern crate alloc;
 

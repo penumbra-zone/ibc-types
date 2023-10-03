@@ -1,5 +1,9 @@
 //! ICS 07: Tendermint Client implements a client verification algorithm for blockchains which use
 //! the Tendermint consensus algorithm.
+
+// Requires nightly.
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
 extern crate alloc;
 
 use alloc::string::ToString;
