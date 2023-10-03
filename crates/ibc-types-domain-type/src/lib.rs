@@ -1,5 +1,7 @@
 //! Provides a marker type capturing the relationship between a domain type and a protobuf type.
 #![no_std]
+// Requires nightly.
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 extern crate alloc;
 #[cfg(any(test, feature = "std"))]
