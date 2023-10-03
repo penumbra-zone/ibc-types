@@ -9,14 +9,29 @@ IBC, `ibc-types` just defines Rust types that allow working with IBC messages,
 allowing an IBC implementation or IBC ecosystem tooling to be built on top using
 a common language.
 
+In addition to defining Rust types for IBC messages, `ibc-types` also defines
+Rust types for IBC events, and provides code for parsing IBC events to and from
+ABCI messages.  IBC events are de facto a critical part of IBC, in that they're
+needed to interoperate with relayers, but are not really specified anywhere.
+Providing event parsing code in `ibc-types` allows IBC implementations and
+relayer implementations to share common code for producing and consuming events.
+
+The `ibc-types` crate is a top-level wrapper crate re-exporting the contents
+of subcrates scoped by IBC module. For example, the `ibc-types` crate
+re-exports the client types defined in the `ibc-types-core-client` crate, as
+well as the types for the Tendermint light client defined in the
+`ibc-types-lightclients-tendermint` crate.  This structure means that
+external users of the library can use one catch-all crate, but allows
+dependency relationships between different IBC modules. For example, the
+Tendermint light client can depend on the core client types.  This prevents
+cyclic dependency issues when creating new IBC light clients.
+
 ## Contributing
 
 IBC is specified in English in the [cosmos/ibc repo][ibc]. Any
 protocol changes or clarifications should be contributed there.
 
 This repo contains Rust datatypes modeling IBC messages.  
-
-Currently it is undergoing heavy refactoring; check in soon.
 
 ## Versioning
 
