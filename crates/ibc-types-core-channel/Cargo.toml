@@ -60,7 +60,7 @@ ibc-types-domain-type = { version = "0.6.4", path = "../ibc-types-domain-type", 
 ibc-types-identifier = { version = "0.6.4", path = "../ibc-types-identifier", default-features = false }
 ibc-types-timestamp = { version = "0.6.4", path = "../ibc-types-timestamp", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { version = "0.33.0", default-features = false }
+ibc-proto = { version = "0.37.0", default-features = false }
 ## for borsh encode or decode
 borsh = {version = "0.10.0", default-features = false, optional = true }
 bytes = { version = "1.2.1", default-features = false }
