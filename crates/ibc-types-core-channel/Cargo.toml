@@ -72,7 +72,7 @@ num-traits = { version = "0.2.15", default-features = false }
 ## for codec encode or decode
 parity-scale-codec = { version = "3.0.0", default-features = false, features = ["full"], optional = true }
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
-prost = { version = "0.11", default-features = false }
+prost = { version = "0.12", default-features = false }
 safe-regex = { version = "0.2.5", default-features = false }
 # proc-macro2 to unbreak docs.rs build, see GH#56
 proc-macro2 = { version = "0.1", default-features = false }
