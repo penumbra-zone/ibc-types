@@ -63,7 +63,7 @@ ibc-types-core-client = { version = "0.6.4", path = "../ibc-types-core-client", 
 ibc-types-core-connection = { version = "0.6.4", path = "../ibc-types-core-connection", default-features = false }
 ibc-types-core-commitment = { version = "0.6.4", path = "../ibc-types-core-commitment", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { version = "0.33.0", default-features = false }
+ibc-proto = { version = "0.37.0", default-features = false }
 ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
 time = { version = ">=0.3.0, <0.3.20", default-features = false }
 serde_derive = { version = "1.0.104", default-features = false, optional = true }
@@ -92,20 +92,20 @@ cfg-if = { version = "1.0.0", optional = true }
 anyhow = { version = "1", default-features = false }
 
 [dependencies.tendermint]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dependencies.tendermint-proto]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dependencies.tendermint-light-client-verifier]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 features = ["rust-crypto"]
 
 [dependencies.tendermint-testgen]
-version = "0.33.0"
+version = "0.34.0"
 optional = true
 default-features = false
 
@@ -114,8 +114,8 @@ env_logger = "0.10.0"
 rstest = "0.16.0"
 tracing-subscriber = { version = "0.3.14", features = ["fmt", "env-filter", "json"]}
 test-log = { version = "0.2.10", features = ["trace"] }
-tendermint-rpc = { version = "0.33.0", features = ["http-client", "websocket-client"] }
-tendermint-testgen = { version = "0.33.0" } # Needed for generating (synthetic) light blocks.
+tendermint-rpc = { version = "0.34.0", features = ["http-client", "websocket-client"] }
+tendermint-testgen = { version = "0.34.0" } # Needed for generating (synthetic) light blocks.
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 

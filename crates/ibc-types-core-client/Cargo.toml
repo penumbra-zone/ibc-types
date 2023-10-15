@@ -72,11 +72,11 @@ time = { version = ">=0.3.0, <0.3.20", default-features = false }
 anyhow = { version = "1", default-features = false }
 
 [dependencies.tendermint]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dependencies.tendermint-proto]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dev-dependencies]
