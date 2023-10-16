@@ -13,7 +13,7 @@ use crate::{error::Error, ClientId};
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MsgUpdateClient {
     pub client_id: ClientId,
-    pub header: Any,
+    pub client_message: Any,
     pub signer: String,
 }
 
@@ -34,7 +34,7 @@ impl TryFrom<RawMsgUpdateClient> for MsgUpdateClient {
                 .client_id
                 .parse()
                 .map_err(Error::InvalidMsgUpdateClientId)?,
-            header: raw.header.ok_or(Error::MissingRawHeader)?,
+            client_message: raw.client_message.ok_or(Error::MissingRawClientMessage)?,
             signer: raw.signer,
         })
     }
@@ -44,7 +44,7 @@ impl From<MsgUpdateClient> for RawMsgUpdateClient {
     fn from(ics_msg: MsgUpdateClient) -> Self {
         RawMsgUpdateClient {
             client_id: ics_msg.client_id.to_string(),
-            header: Some(ics_msg.header),
+            client_message: Some(ics_msg.client_message),
             signer: ics_msg.signer,
         }
     }

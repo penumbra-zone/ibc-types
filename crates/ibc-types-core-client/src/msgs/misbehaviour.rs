@@ -30,6 +30,7 @@ impl DomainType for MsgSubmitMisbehaviour {
 impl TryFrom<RawMsgSubmitMisbehaviour> for MsgSubmitMisbehaviour {
     type Error = Error;
 
+    #[allow(deprecated)]
     fn try_from(raw: RawMsgSubmitMisbehaviour) -> Result<Self, Self::Error> {
         let raw_misbehaviour = raw.misbehaviour.ok_or(Error::MissingRawMisbehaviour)?;
 
@@ -45,6 +46,7 @@ impl TryFrom<RawMsgSubmitMisbehaviour> for MsgSubmitMisbehaviour {
 }
 
 impl From<MsgSubmitMisbehaviour> for RawMsgSubmitMisbehaviour {
+    #[allow(deprecated)]
     fn from(ics_msg: MsgSubmitMisbehaviour) -> Self {
         RawMsgSubmitMisbehaviour {
             client_id: ics_msg.client_id.to_string(),

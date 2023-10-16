@@ -60,6 +60,8 @@ pub enum Error {
     InvalidRawHeader(TendermintProtoError),
     /// missing raw header
     MissingRawHeader,
+    /// missing raw client message
+    MissingRawClientMessage,
     /// invalid raw misbehaviour error: `{0}`
     InvalidRawMisbehaviour(IdentifierError),
     /// missing raw misbehaviour

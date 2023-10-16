@@ -60,19 +60,19 @@ ibc-types-domain-type = { version = "0.6.4", path = "../ibc-types-domain-type", 
 ibc-types-identifier = { version = "0.6.4", path = "../ibc-types-identifier", default-features = false }
 ibc-types-timestamp = { version = "0.6.4", path = "../ibc-types-timestamp", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { version = "0.33.0", default-features = false }
+ibc-proto = { version = "0.37.0", default-features = false }
 ## for borsh encode or decode
 borsh = {version = "0.10.0", default-features = false, optional = true }
 bytes = { version = "1.2.1", default-features = false }
 cfg-if = { version = "1.0.0", optional = true }
 derive_more = { version = "0.99.17", default-features = false, features = ["from", "into", "display"] }
 displaydoc = { version = "0.2", default-features = false }
-ics23 = { version = "0.10.1", default-features = false, features = ["host-functions"] }
+ics23 = { version = "0.11.0", default-features = false, features = ["host-functions"] }
 num-traits = { version = "0.2.15", default-features = false }
 ## for codec encode or decode
 parity-scale-codec = { version = "3.0.0", default-features = false, features = ["full"], optional = true }
 parking_lot = { version = "0.12.1", default-features = false, optional = true }
-prost = { version = "0.11", default-features = false }
+prost = { version = "0.12", default-features = false }
 safe-regex = { version = "0.2.5", default-features = false }
 # proc-macro2 to unbreak docs.rs build, see GH#56
 proc-macro2 = { version = "0.1", default-features = false }
@@ -87,15 +87,15 @@ scale-info = { version = "2.1.2", default-features = false, features = ["derive"
 anyhow = { version = "1", default-features = false }
 
 [dependencies.tendermint]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dependencies.tendermint-proto]
-version = "0.33.0"
+version = "0.34.0"
 default-features = false
 
 [dependencies.tendermint-testgen]
-version = "0.33.0"
+version = "0.34.0"
 optional = true
 default-features = false
 
