@@ -87,6 +87,7 @@ impl Protobuf<RawMisbehaviour> for Misbehaviour {}
 impl TryFrom<RawMisbehaviour> for Misbehaviour {
     type Error = Error;
 
+    #[allow(deprecated)]
     fn try_from(raw: RawMisbehaviour) -> Result<Self, Self::Error> {
         let client_id = raw
             .client_id
@@ -112,6 +113,7 @@ impl TryFrom<RawMisbehaviour> for Misbehaviour {
 }
 
 impl From<Misbehaviour> for RawMisbehaviour {
+    #[allow(deprecated)]
     fn from(value: Misbehaviour) -> Self {
         RawMisbehaviour {
             client_id: value.client_id.to_string(),

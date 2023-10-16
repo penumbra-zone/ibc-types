@@ -30,7 +30,7 @@ pub struct MsgConnectionOpenAck {
     pub proofs_height_on_b: Height,
     /// height of latest header of chain A that updated the client on chain B
     pub consensus_height_of_a_on_b: Height,
-    ///
+    /// optional proof of the consensus state of the host chain, see: https://github.com/cosmos/ibc/pull/839
     host_consensus_state_proof: Option<MerkleProof>,
     pub version: Version,
     pub signer: String,
