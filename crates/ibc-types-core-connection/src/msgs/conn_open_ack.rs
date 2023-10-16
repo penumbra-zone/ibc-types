@@ -30,6 +30,8 @@ pub struct MsgConnectionOpenAck {
     pub proofs_height_on_b: Height,
     /// height of latest header of chain A that updated the client on chain B
     pub consensus_height_of_a_on_b: Height,
+    ///
+    host_consensus_state_proof: Option<MerkleProof>,
     pub version: Version,
     pub signer: String,
 }
@@ -45,38 +47,46 @@ impl DomainType for MsgConnectionOpenAck {
 impl TryFrom<RawMsgConnectionOpenAck> for MsgConnectionOpenAck {
     type Error = ConnectionError;
 
-    fn try_from(msg: RawMsgConnectionOpenAck) -> Result<Self, Self::Error> {
+    fn try_from(raw: RawMsgConnectionOpenAck) -> Result<Self, Self::Error> {
         Ok(Self {
-            conn_id_on_a: msg
+            conn_id_on_a: raw
                 .connection_id
                 .parse()
                 .map_err(ConnectionError::InvalidIdentifier)?,
-            conn_id_on_b: msg
+            conn_id_on_b: raw
                 .counterparty_connection_id
                 .parse()
                 .map_err(ConnectionError::InvalidIdentifier)?,
-            client_state_of_a_on_b: msg
+            client_state_of_a_on_b: raw
                 .client_state
                 .ok_or(ConnectionError::MissingClientState)?,
-            version: msg
+            version: raw
                 .version
                 .ok_or(ConnectionError::EmptyVersions)?
                 .try_into()?,
-            proof_conn_end_on_b: MerkleProof::decode(msg.proof_try.as_ref())
+            proof_conn_end_on_b: MerkleProof::decode(raw.proof_try.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_client_state_of_a_on_b: MerkleProof::decode(msg.proof_client.as_ref())
+            proof_client_state_of_a_on_b: MerkleProof::decode(raw.proof_client.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proof_consensus_state_of_a_on_b: MerkleProof::decode(msg.proof_consensus.as_ref())
+            proof_consensus_state_of_a_on_b: MerkleProof::decode(raw.proof_consensus.as_ref())
                 .map_err(|_| ConnectionError::InvalidProof)?,
-            proofs_height_on_b: msg
+            proofs_height_on_b: raw
                 .proof_height
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(ConnectionError::MissingProofHeight)?,
-            consensus_height_of_a_on_b: msg
+            consensus_height_of_a_on_b: raw
                 .consensus_height
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(ConnectionError::MissingConsensusHeight)?,
-            signer: msg.signer,
+            signer: raw.signer,
+            host_consensus_state_proof: if raw.host_consensus_state_proof.is_empty() {
+                None
+            } else {
+                Some(
+                    MerkleProof::decode(raw.host_consensus_state_proof.as_ref())
+                        .map_err(|_| ConnectionError::InvalidProof)?,
+                )
+            },
         })
     }
 }
@@ -91,6 +101,10 @@ impl From<MsgConnectionOpenAck> for RawMsgConnectionOpenAck {
             proof_try: msg.proof_conn_end_on_b.encode_to_vec(),
             proof_client: msg.proof_client_state_of_a_on_b.encode_to_vec(),
             proof_consensus: msg.proof_consensus_state_of_a_on_b.encode_to_vec(),
+            host_consensus_state_proof: match msg.host_consensus_state_proof {
+                Some(proof) => proof.encode_to_vec(),
+                None => vec![],
+            },
             consensus_height: Some(msg.consensus_height_of_a_on_b.into()),
             version: Some(msg.version.into()),
             signer: msg.signer,
@@ -152,6 +166,7 @@ pub mod test_util {
             proof_client: get_dummy_proof(),
             version: Some(Version::default().into()),
             signer: get_dummy_bech32_account(),
+            host_consensus_state_proof: vec![],
         }
     }
 }
