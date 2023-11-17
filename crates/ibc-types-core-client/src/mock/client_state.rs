@@ -47,6 +47,13 @@ impl MockClientState {
             ..self
         }
     }
+
+    pub fn unfrozen(self) -> Self {
+        Self {
+            frozen_height: None,
+            ..self
+        }
+    }
 }
 
 impl Protobuf<RawMockClientState> for MockClientState {}
