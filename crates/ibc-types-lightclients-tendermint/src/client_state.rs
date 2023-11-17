@@ -196,6 +196,13 @@ impl ClientState {
         }
     }
 
+    pub fn unfrozen(self) -> Self {
+        Self {
+            frozen_height: None,
+            ..self
+        }
+    }
+
     /// Get the refresh time to ensure the state does not expire
     pub fn refresh_time(&self) -> Option<Duration> {
         Some(2 * self.trusting_period / 3)
