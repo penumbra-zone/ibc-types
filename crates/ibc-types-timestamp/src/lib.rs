@@ -30,7 +30,7 @@ pub const ZERO_DURATION: Duration = Duration::from_secs(0);
 /// a `u64` value and a raw timestamp. In protocol buffer, the timestamp is
 /// represented as a `u64` Unix timestamp in nanoseconds, with 0 representing the absence
 /// of timestamp.
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(PartialEq, Eq, Copy, Clone, Debug, Default)]
 pub struct Timestamp {
     pub time: Option<Time>,
@@ -53,7 +53,7 @@ impl Hash for Timestamp {
 ///
 /// User of this result may want to determine whether error should be raised,
 /// when either of the timestamp being compared is invalid.
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(PartialEq, Eq, Copy, Clone, Debug, Hash)]
 pub enum Expiry {
     Expired,

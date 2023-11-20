@@ -28,7 +28,11 @@ use crate::{Error, TrustThreshold};
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
 #[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "with_serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(try_from = "RawTmClientState", into = "RawTmClientState")
+)]
 pub struct ClientState {
     pub chain_id: ChainId,
     pub trust_level: TrustThreshold,
@@ -50,7 +54,7 @@ impl DomainType for ClientState {
     type Proto = Any;
 }
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct AllowUpdate {
     pub after_expiry: bool,
