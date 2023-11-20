@@ -92,7 +92,7 @@ impl From<MsgAcknowledgement> for RawMsgAcknowledgement {
     fn from(domain_msg: MsgAcknowledgement) -> Self {
         RawMsgAcknowledgement {
             packet: Some(domain_msg.packet.into()),
-            acknowledgement: domain_msg.acknowledgement.into(),
+            acknowledgement: domain_msg.acknowledgement,
             signer: domain_msg.signer,
             proof_height: Some(domain_msg.proof_height_on_b.into()),
             proof_acked: domain_msg.proof_acked_on_b.encode_to_vec(),
