@@ -5,7 +5,11 @@ use ibc_proto::ibc::core::commitment::v1::MerklePrefix as RawMerklePrefix;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 
 #[derive(Clone, Debug, PartialEq, Eq, Default, Hash)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "with_serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(try_from = "RawMerklePrefix", into = "RawMerklePrefix")
+)]
 pub struct MerklePrefix {
     pub key_prefix: Vec<u8>,
 }

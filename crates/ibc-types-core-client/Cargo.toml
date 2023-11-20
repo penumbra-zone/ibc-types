@@ -38,7 +38,7 @@ parity-scale-codec = ["dep:parity-scale-codec", "dep:scale-info"]
 borsh = ["dep:borsh"]
 
 # This feature is required for token transfer (ICS-20)
-with_serde = ["serde", "serde_derive", "serde_json"]
+with_serde = ["serde", "serde_derive", "serde_json", "ibc-proto/serde"]
 
 # This feature guards the unfinished implementation of the `UpgradeClient` handler.
 upgrade_client = []
@@ -54,7 +54,7 @@ bytes = { version = "1.2.1", default-features = false }
 cfg-if = { version = "1.0.0", optional = true }
 derive_more = { version = "0.99.17", default-features = false, features = ["from", "into", "display"] }
 displaydoc = { version = "0.2", default-features = false }
-ibc-proto = { version = "0.37.0", default-features = false, features = ["serde"] }
+ibc-proto = { version = "0.37.0", default-features = false }
 ibc-types-domain-type = { version = "0.7.0", path = "../ibc-types-domain-type", default-features = false }
 ibc-types-identifier = { version = "0.7.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-timestamp = { version = "0.7.0", path = "../ibc-types-timestamp", default-features = false }

@@ -28,7 +28,11 @@ use crate::{Error, TrustThreshold};
 pub const TENDERMINT_CLIENT_STATE_TYPE_URL: &str = "/ibc.lightclients.tendermint.v1.ClientState";
 
 #[derive(Clone, Debug, PartialEq)]
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "with_serde",
+    derive(serde::Serialize, serde::Deserialize),
+    serde(try_from = "RawTmClientState", into = "RawTmClientState")
+)]
 pub struct ClientState {
     pub chain_id: ChainId,
     pub trust_level: TrustThreshold,
@@ -50,7 +54,7 @@ impl DomainType for ClientState {
     type Proto = Any;
 }
 
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "with_serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct AllowUpdate {
     pub after_expiry: bool,
@@ -336,7 +340,7 @@ impl TryFrom<RawTmClientState> for ClientState {
             unbonding_period,
             max_clock_drift,
             latest_height,
-            raw.proof_specs.into(),
+            raw.proof_specs,
             raw.upgrade_path,
             allow_update,
             frozen_height,
@@ -362,7 +366,7 @@ impl From<ClientState> for RawTmClientState {
                 },
             )),
             latest_height: Some(value.latest_height.into()),
-            proof_specs: value.proof_specs.into(),
+            proof_specs: value.proof_specs,
             upgrade_path: value.upgrade_path,
             allow_update_after_expiry: value.allow_update.after_expiry,
             allow_update_after_misbehaviour: value.allow_update.after_misbehaviour,

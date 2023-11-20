@@ -149,8 +149,8 @@ impl SendPacket {
             src_channel_id: packet.chan_on_a,
             dst_port_id: packet.port_on_b,
             dst_channel_id: packet.chan_on_b,
-            channel_ordering: channel_ordering,
-            src_connection_id: src_connection_id,
+            channel_ordering,
+            src_connection_id,
         }
     }
 }
@@ -354,8 +354,8 @@ impl ReceivePacket {
             src_channel_id: packet.chan_on_a,
             dst_port_id: packet.port_on_b,
             dst_channel_id: packet.chan_on_b,
-            channel_ordering: channel_ordering,
-            dst_connection_id: dst_connection_id,
+            channel_ordering,
+            dst_connection_id,
         }
     }
 }
@@ -559,8 +559,8 @@ impl WriteAcknowledgement {
             src_channel_id: packet.chan_on_a,
             dst_port_id: packet.port_on_b,
             dst_channel_id: packet.chan_on_b,
-            acknowledgement: acknowledgement,
-            dst_connection_id: dst_connection_id,
+            acknowledgement,
+            dst_connection_id,
         }
     }
 }
@@ -783,8 +783,8 @@ impl AcknowledgePacket {
             src_channel_id: packet.chan_on_a,
             dst_port_id: packet.port_on_b,
             dst_channel_id: packet.chan_on_b,
-            channel_ordering: channel_ordering,
-            src_connection_id: src_connection_id,
+            channel_ordering,
+            src_connection_id,
         }
     }
 }
@@ -948,7 +948,7 @@ impl TimeoutPacket {
             src_channel_id: packet.chan_on_a,
             dst_port_id: packet.port_on_b,
             dst_channel_id: packet.chan_on_b,
-            channel_ordering: channel_ordering,
+            channel_ordering,
         }
     }
 }

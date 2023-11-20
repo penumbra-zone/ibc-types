@@ -81,7 +81,7 @@ impl MerkleProof {
             return Err(anyhow::anyhow!("root hash cannot be empty"));
         }
         let num = self.proofs.len();
-        let ics23_specs = Vec::<ics23::ProofSpec>::from(specs.clone());
+        let ics23_specs = Vec::<ics23::ProofSpec>::from(specs);
         if ics23_specs.len() != num {
             return Err(anyhow::anyhow!(
                 "number of specs does not match number of proofs"
@@ -150,7 +150,7 @@ impl MerkleProof {
             return Err(anyhow::anyhow!("root hash cannot be empty"));
         }
         let num = self.proofs.len();
-        let ics23_specs = Vec::<ics23::ProofSpec>::from(specs.clone());
+        let ics23_specs = Vec::<ics23::ProofSpec>::from(specs);
         if ics23_specs.len() != num {
             return Err(anyhow::anyhow!(
                 "number of specs does not match number of proofs"
