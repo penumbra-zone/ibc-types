@@ -1,4 +1,4 @@
-//! Types for ABCI [`Event`](tendermint::abci::Event)s that inform relayers about IBC client events.
+//! Types for ABCI [`Event`]s that inform relayers about IBC client events.
 
 use displaydoc::Display;
 use subtle_encoding::hex;

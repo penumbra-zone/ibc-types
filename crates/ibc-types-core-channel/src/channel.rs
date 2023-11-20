@@ -3,10 +3,9 @@ use crate::prelude::*;
 use core::fmt::{Display, Error as FmtError, Formatter};
 use core::str::FromStr;
 
-#[allow(unused_imports)] // RawState is used in the serde derive.
 use ibc_proto::ibc::core::channel::v1::{
     Channel as RawChannel, Counterparty as RawCounterparty,
-    IdentifiedChannel as RawIdentifiedChannel, State as RawState,
+    IdentifiedChannel as RawIdentifiedChannel,
 };
 use ibc_proto::protobuf::Protobuf;
 
@@ -395,11 +394,6 @@ impl FromStr for Order {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(
-    feature = "with_serde",
-    derive(serde::Serialize, serde::Deserialize),
-    serde(try_from = "RawState", into = "RawState")
-)]
 pub enum State {
     Uninitialized = 0isize,
     Init = 1isize,
