@@ -90,7 +90,7 @@ pub enum Error {
     },
     /// timestamp is invalid or missing, timestamp=`{time1}`,  now=`{time2}`
     InvalidConsensusStateTimestamp { time1: Timestamp, time2: Timestamp },
-    /// header not withing trusting period: expires_at=`{latest_time}` now=`{update_time}`
+    /// header not within trusting period: expires_at=`{latest_time}` now=`{update_time}`
     HeaderNotWithinTrustPeriod {
         latest_time: Timestamp,
         update_time: Timestamp,
