@@ -59,7 +59,7 @@ ibc-types-timestamp = { version = "0.8.0", path = "../ibc-types-timestamp", defa
 ibc-types-identifier = { version = "0.8.0", path = "../ibc-types-identifier", default-features = false }
 ibc-types-domain-type = { version = "0.8.0", path = "../ibc-types-domain-type", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { version = "0.37.0", default-features = false }
+ibc-proto = { version = "0.39.0", default-features = false }
 ics23 = { version = "0.11.0", default-features = false, features = ["host-functions"] }
 time = { version = ">=0.3.0, <0.3.20", default-features = false }
 serde_derive = { version = "1.0.104", default-features = false, optional = true }
