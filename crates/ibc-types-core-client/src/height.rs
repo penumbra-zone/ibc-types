@@ -4,7 +4,7 @@ use core::cmp::Ordering;
 use core::{num::ParseIntError, str::FromStr};
 
 use displaydoc::Display;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::Protobuf;
 
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 

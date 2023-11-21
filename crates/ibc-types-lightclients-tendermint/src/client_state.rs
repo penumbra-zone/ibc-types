@@ -8,7 +8,7 @@ use ibc_proto::google::protobuf::Any;
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 
 use ibc_proto::ibc::lightclients::tendermint::v1::ClientState as RawTmClientState;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::Protobuf;
 use ibc_types_domain_type::{DomainType, TypeUrl};
 use ics23::ProofSpec;
 use prost::Message;
