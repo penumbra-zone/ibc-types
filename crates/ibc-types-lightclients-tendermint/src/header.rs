@@ -137,7 +137,7 @@ impl From<Header> for Any {
     fn from(header: Header) -> Self {
         Any {
             type_url: TENDERMINT_HEADER_TYPE_URL.to_string(),
-            value: Protobuf::<RawHeader>::encode_vec(&header),
+            value: Protobuf::<RawHeader>::encode_vec(header),
         }
     }
 }
