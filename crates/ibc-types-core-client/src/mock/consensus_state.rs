@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
 use ibc_proto::{
-    google::protobuf::Any, ibc::mock::ConsensusState as RawMockConsensusState, protobuf::Protobuf,
+    google::protobuf::Any, ibc::mock::ConsensusState as RawMockConsensusState, Protobuf,
 };
 use ibc_types_timestamp::Timestamp;
 
