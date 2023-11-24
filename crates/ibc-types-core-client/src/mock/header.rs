@@ -106,7 +106,7 @@ impl From<MockHeader> for Any {
     fn from(header: MockHeader) -> Self {
         Any {
             type_url: MOCK_HEADER_TYPE_URL.to_string(),
-            value: Protobuf::<RawMockHeader>::encode_vec(&header),
+            value: Protobuf::<RawMockHeader>::encode_vec(header),
         }
     }
 }
@@ -119,7 +119,7 @@ mod tests {
     #[test]
     fn encode_any() {
         let header = MockHeader::new(Height::new(1, 10).unwrap()).with_timestamp(Timestamp::none());
-        let bytes = <MockHeader as Protobuf<Any>>::encode_vec(&header);
+        let bytes = <MockHeader as Protobuf<Any>>::encode_vec(header);
 
         assert_eq!(
             &bytes,
