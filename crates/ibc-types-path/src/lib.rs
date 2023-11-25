@@ -1,15 +1,8 @@
-#![no_std]
-// Requires nightly.
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
-
 extern crate alloc;
-#[cfg(any(test, feature = "std"))]
-extern crate std;
-
-mod prelude;
-use crate::prelude::*;
 
 use ibc_types_core_client::Height;
+use alloc::string::{String, ToString};
+use alloc::vec::Vec;
 
 /// Path-space as listed in ICS-024
 /// https://github.com/cosmos/ibc/tree/master/spec/core/ics-024-host-requirements#path-space
