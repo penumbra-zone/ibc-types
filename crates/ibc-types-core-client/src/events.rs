@@ -129,7 +129,7 @@ pub struct UpdateClient {
     pub client_type: ClientType,
     pub consensus_height: Height,
     /// This can't be an Any because we don't have a type URL.
-    pub header: Vec<u8>,
+    pub header: vec::Vec<u8>,
 }
 
 impl UpdateClient {

@@ -158,7 +158,7 @@ impl TryFrom<&str> for Height {
     type Error = HeightParseError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        let split: Vec<&str> = value.split('-').collect();
+        let split: vec::Vec<&str> = value.split('-').collect();
 
         if split.len() != 2 {
             return Err(HeightParseError::InvalidFormat);

@@ -5,7 +5,6 @@ pub use core::prelude::v1::*;
 pub use alloc::{
     borrow::ToOwned,
     string::{String, ToString},
-    vec::Vec,
 };
 
 pub use alloc::{format, vec};
