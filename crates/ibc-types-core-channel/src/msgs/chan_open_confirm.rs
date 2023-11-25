@@ -8,9 +8,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ChannelError, ChannelId, PortId};
 
-impl TypeUrl for MsgChannelOpenConfirm {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelOpenConfirm";
-}
 
 ///
 /// Message definition for the fourth step in the channel open handshake (`ChanOpenConfirm`

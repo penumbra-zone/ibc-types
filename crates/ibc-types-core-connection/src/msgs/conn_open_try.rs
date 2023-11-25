@@ -48,9 +48,6 @@ pub struct MsgConnectionOpenTry {
     pub previous_connection_id: String,
 }
 
-impl TypeUrl for MsgConnectionOpenTry {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenTry";
-}
 
 impl DomainType for MsgConnectionOpenTry {
     type Proto = RawMsgConnectionOpenTry;

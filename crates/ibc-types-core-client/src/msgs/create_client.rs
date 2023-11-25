@@ -17,9 +17,6 @@ pub struct MsgCreateClient {
     pub signer: String,
 }
 
-impl TypeUrl for MsgCreateClient {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgCreateClient";
-}
 
 impl DomainType for MsgCreateClient {
     type Proto = RawMsgCreateClient;

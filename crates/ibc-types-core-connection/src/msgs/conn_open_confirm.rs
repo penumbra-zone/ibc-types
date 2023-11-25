@@ -20,9 +20,6 @@ pub struct MsgConnectionOpenConfirm {
     pub signer: String,
 }
 
-impl TypeUrl for MsgConnectionOpenConfirm {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenConfirm";
-}
 
 impl DomainType for MsgConnectionOpenConfirm {
     type Proto = RawMsgConnectionOpenConfirm;

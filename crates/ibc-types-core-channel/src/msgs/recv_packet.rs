@@ -8,9 +8,6 @@ use crate::{Packet, PacketError};
 
 use ibc_proto::ibc::core::channel::v1::MsgRecvPacket as RawMsgRecvPacket;
 
-impl TypeUrl for MsgRecvPacket {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgRecvPacket";
-}
 
 ///
 /// Message definition for the "packet receiving" datagram.

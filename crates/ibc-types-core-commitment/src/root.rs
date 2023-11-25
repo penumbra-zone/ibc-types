@@ -16,9 +16,6 @@ impl Debug for MerkleRoot {
     }
 }
 
-impl TypeUrl for MerkleRoot {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerkleRoot";
-}
 
 impl DomainType for MerkleRoot {
     type Proto = RawMerkleRoot;

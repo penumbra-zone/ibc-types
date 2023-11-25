@@ -8,9 +8,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{packet::Sequence, Packet, PacketError};
 
-impl TypeUrl for MsgTimeout {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgTimeout";
-}
 
 ///
 /// Message definition for packet timeout domain type,

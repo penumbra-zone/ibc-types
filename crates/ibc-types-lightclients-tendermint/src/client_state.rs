@@ -46,9 +46,6 @@ pub struct ClientState {
     pub frozen_height: Option<Height>,
 }
 
-impl TypeUrl for ClientState {
-    const TYPE_URL: &'static str = TENDERMINT_CLIENT_STATE_TYPE_URL;
-}
 
 impl DomainType for ClientState {
     type Proto = Any;

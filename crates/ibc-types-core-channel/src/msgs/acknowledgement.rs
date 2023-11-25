@@ -8,9 +8,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{Packet, PacketError};
 
-impl TypeUrl for MsgAcknowledgement {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgAcknowledgement";
-}
 
 /*
 use derive_more::Into;

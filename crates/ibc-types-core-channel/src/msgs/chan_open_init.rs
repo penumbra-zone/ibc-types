@@ -10,9 +10,6 @@ use crate::{
 
 use ibc_proto::ibc::core::channel::v1::MsgChannelOpenInit as RawMsgChannelOpenInit;
 
-impl TypeUrl for MsgChannelOpenInit {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelOpenInit";
-}
 
 ///
 /// Message definition for the first step in the channel open handshake (`ChanOpenInit` datagram).

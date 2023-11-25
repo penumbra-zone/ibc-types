@@ -36,9 +36,6 @@ pub struct MsgConnectionOpenAck {
     pub signer: String,
 }
 
-impl TypeUrl for MsgConnectionOpenAck {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenAck";
-}
 
 impl DomainType for MsgConnectionOpenAck {
     type Proto = RawMsgConnectionOpenAck;

@@ -26,9 +26,6 @@ impl MerklePrefix {
     }
 }
 
-impl TypeUrl for MerklePrefix {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerklePrefix";
-}
 
 impl DomainType for MerklePrefix {
     type Proto = RawMerklePrefix;

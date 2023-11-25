@@ -34,9 +34,6 @@ pub struct MsgUpgradeClient {
     pub signer: String,
 }
 
-impl TypeUrl for MsgUpgradeClient {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgUpgradeClient";
-}
 
 impl DomainType for MsgUpgradeClient {
     type Proto = RawMsgUpgradeClient;

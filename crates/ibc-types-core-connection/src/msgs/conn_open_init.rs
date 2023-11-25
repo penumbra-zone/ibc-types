@@ -20,9 +20,6 @@ pub struct MsgConnectionOpenInit {
     pub signer: String,
 }
 
-impl TypeUrl for MsgConnectionOpenInit {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenInit";
-}
 
 impl DomainType for MsgConnectionOpenInit {
     type Proto = RawMsgConnectionOpenInit;

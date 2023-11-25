@@ -31,9 +31,6 @@ impl ConsensusState {
     }
 }
 
-impl TypeUrl for ConsensusState {
-    const TYPE_URL: &'static str = TENDERMINT_CONSENSUS_STATE_TYPE_URL;
-}
 
 impl DomainType for ConsensusState {
     type Proto = Any;

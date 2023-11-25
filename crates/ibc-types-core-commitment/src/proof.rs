@@ -16,9 +16,6 @@ pub struct MerkleProof {
     pub proofs: Vec<CommitmentProof>,
 }
 
-impl TypeUrl for MerkleProof {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerkleProof";
-}
 
 impl DomainType for MerkleProof {
     type Proto = RawMerkleProof;

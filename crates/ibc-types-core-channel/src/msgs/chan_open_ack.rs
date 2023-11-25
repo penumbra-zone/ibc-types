@@ -8,9 +8,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ChannelError, ChannelId, PortId, Version};
 
-impl TypeUrl for MsgChannelOpenAck {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelOpenAck";
-}
 
 ///
 /// Per our convention, this message is sent to chain A.

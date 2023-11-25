@@ -7,9 +7,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 use crate::prelude::*;
 use crate::{ChannelError, ChannelId, PortId};
 
-impl TypeUrl for MsgChannelCloseConfirm {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelCloseConfirm";
-}
 
 ///
 /// Message definition for the second step in the channel close handshake (the `ChanCloseConfirm`

@@ -19,9 +19,6 @@ pub struct MsgSubmitMisbehaviour {
     pub signer: String,
 }
 
-impl TypeUrl for MsgSubmitMisbehaviour {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgSubmitMisbehaviour";
-}
 
 impl DomainType for MsgSubmitMisbehaviour {
     type Proto = RawMsgSubmitMisbehaviour;

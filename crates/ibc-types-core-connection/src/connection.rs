@@ -33,9 +33,6 @@ impl DomainType for ClientPaths {
     type Proto = RawClientPaths;
 }
 
-impl TypeUrl for ClientPaths {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.ClientPaths";
-}
 
 impl TryFrom<RawClientPaths> for ClientPaths {
     type Error = ConnectionError;
@@ -84,9 +81,6 @@ impl IdentifiedConnectionEnd {
 
 impl DomainType for IdentifiedConnectionEnd {
     type Proto = RawIdentifiedConnection;
-}
-impl TypeUrl for IdentifiedConnectionEnd {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.IdentifiedConnection";
 }
 
 impl TryFrom<RawIdentifiedConnection> for IdentifiedConnectionEnd {

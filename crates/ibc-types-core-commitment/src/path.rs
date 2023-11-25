@@ -8,9 +8,6 @@ pub struct MerklePath {
     pub key_path: Vec<String>,
 }
 
-impl TypeUrl for MerklePath {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerklePath";
-}
 
 impl DomainType for MerklePath {
     type Proto = RawMerklePath;

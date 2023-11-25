@@ -6,9 +6,6 @@ use ibc_types_domain_type::{DomainType, TypeUrl};
 
 use crate::{ChannelError, ChannelId, PortId};
 
-impl TypeUrl for MsgChannelCloseInit {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelCloseInit";
-}
 
 ///
 /// Message definition for the first step in the channel close handshake (`ChanCloseInit` datagram).
