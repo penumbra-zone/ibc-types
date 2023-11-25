@@ -2,7 +2,7 @@ use crate::prelude::*;
 use crate::MerklePath;
 
 use ibc_proto::ibc::core::commitment::v1::MerklePrefix as RawMerklePrefix;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 #[derive(Clone, Debug, PartialEq, Eq, Default, Hash)]
 #[cfg_attr(
@@ -25,7 +25,6 @@ impl MerklePrefix {
         MerklePath { key_path }
     }
 }
-
 
 impl DomainType for MerklePrefix {
     type Proto = RawMerklePrefix;

@@ -3,7 +3,7 @@ use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenConfirm as RawMsgConn
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{ConnectionError, ConnectionId};
 
@@ -19,7 +19,6 @@ pub struct MsgConnectionOpenConfirm {
     pub proof_height_on_a: Height,
     pub signer: String,
 }
-
 
 impl DomainType for MsgConnectionOpenConfirm {
     type Proto = RawMsgConnectionOpenConfirm;

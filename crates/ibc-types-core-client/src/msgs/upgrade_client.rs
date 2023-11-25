@@ -11,7 +11,7 @@ use ibc_proto::{
         commitment::v1::MerkleProof as RawMerkleProof,
     },
 };
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 use prost::Message;
 
 use crate::{error::Error, ClientId};
@@ -33,7 +33,6 @@ pub struct MsgUpgradeClient {
     // signer address
     pub signer: String,
 }
-
 
 impl DomainType for MsgUpgradeClient {
     type Proto = RawMsgUpgradeClient;

@@ -4,7 +4,7 @@ use ibc_proto::{
     google::protobuf::Any as ProtoAny,
     ibc::core::client::v1::MsgSubmitMisbehaviour as RawMsgSubmitMisbehaviour,
 };
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{error::Error, ClientId};
 
@@ -18,7 +18,6 @@ pub struct MsgSubmitMisbehaviour {
     /// signer address
     pub signer: String,
 }
-
 
 impl DomainType for MsgSubmitMisbehaviour {
     type Proto = RawMsgSubmitMisbehaviour;

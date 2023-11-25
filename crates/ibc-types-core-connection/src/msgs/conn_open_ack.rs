@@ -6,7 +6,7 @@ use ibc_proto::{
 };
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
@@ -35,7 +35,6 @@ pub struct MsgConnectionOpenAck {
     pub version: Version,
     pub signer: String,
 }
-
 
 impl DomainType for MsgConnectionOpenAck {
     type Proto = RawMsgConnectionOpenAck;

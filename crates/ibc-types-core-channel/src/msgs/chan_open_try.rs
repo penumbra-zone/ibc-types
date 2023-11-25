@@ -3,7 +3,7 @@ use crate::prelude::*;
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
 use ibc_types_core_connection::ConnectionId;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{
     channel::{ChannelEnd, Counterparty, Order, State},
@@ -11,7 +11,6 @@ use crate::{
 };
 
 use ibc_proto::ibc::core::channel::v1::MsgChannelOpenTry as RawMsgChannelOpenTry;
-
 
 ///
 /// Message definition for the second step in the channel open handshake (`ChanOpenTry` datagram).

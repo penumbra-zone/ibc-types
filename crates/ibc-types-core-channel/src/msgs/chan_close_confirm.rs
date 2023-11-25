@@ -2,11 +2,10 @@ use ibc_proto::ibc::core::channel::v1::MsgChannelCloseConfirm as RawMsgChannelCl
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::prelude::*;
 use crate::{ChannelError, ChannelId, PortId};
-
 
 ///
 /// Message definition for the second step in the channel close handshake (the `ChanCloseConfirm`

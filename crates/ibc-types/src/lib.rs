@@ -34,7 +34,7 @@ extern crate alloc;
 extern crate std;
 
 #[doc(inline)]
-pub use ibc_types_domain_type::{DomainType, TypeUrl};
+pub use ibc_types_domain_type::DomainType;
 
 // TODO: anywhere better to put this?
 // we don't need/want the whole crate since it should be encapsulated

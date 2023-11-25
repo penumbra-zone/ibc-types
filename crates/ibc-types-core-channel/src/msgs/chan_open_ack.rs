@@ -4,10 +4,9 @@ use ibc_proto::ibc::core::channel::v1::MsgChannelOpenAck as RawMsgChannelOpenAck
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{ChannelError, ChannelId, PortId, Version};
-
 
 ///
 /// Per our convention, this message is sent to chain A.

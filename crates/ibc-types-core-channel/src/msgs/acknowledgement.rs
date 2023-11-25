@@ -4,10 +4,9 @@ use ibc_proto::ibc::core::channel::v1::MsgAcknowledgement as RawMsgAcknowledgeme
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{Packet, PacketError};
-
 
 /*
 use derive_more::Into;
