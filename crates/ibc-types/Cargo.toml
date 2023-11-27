@@ -56,13 +56,13 @@ mocks = [
 ]
 
 [dependencies]
-ibc-types-timestamp = { version = "0.8.0", path = "../ibc-types-timestamp", default-features = false }
-ibc-types-identifier = { version = "0.8.0", path = "../ibc-types-identifier", default-features = false }
-ibc-types-domain-type = { version = "0.8.0", path = "../ibc-types-domain-type", default-features = false }
-ibc-types-core-client = { version = "0.8.0", path = "../ibc-types-core-client", default-features = false }
-ibc-types-core-connection = { version = "0.8.0", path = "../ibc-types-core-connection", default-features = false }
-ibc-types-core-channel = { version = "0.8.0", path = "../ibc-types-core-channel", default-features = false }
-ibc-types-core-commitment = { version = "0.8.0", path = "../ibc-types-core-commitment", default-features = false }
-ibc-types-lightclients-tendermint = { version = "0.8.0", path = "../ibc-types-lightclients-tendermint", default-features = false }
-ibc-types-path = { version = "0.8.0", path = "../ibc-types-path", default-features = false }
-ibc-types-transfer = { version = "0.8.0", path = "../ibc-types-transfer", default-features = false }
+ibc-types-timestamp = { version = "0.9.0", path = "../ibc-types-timestamp", default-features = false }
+ibc-types-identifier = { version = "0.9.0", path = "../ibc-types-identifier", default-features = false }
+ibc-types-domain-type = { version = "0.9.0", path = "../ibc-types-domain-type", default-features = false }
+ibc-types-core-client = { version = "0.9.0", path = "../ibc-types-core-client", default-features = false }
+ibc-types-core-connection = { version = "0.9.0", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-channel = { version = "0.9.0", path = "../ibc-types-core-channel", default-features = false }
+ibc-types-core-commitment = { version = "0.9.0", path = "../ibc-types-core-commitment", default-features = false }
+ibc-types-lightclients-tendermint = { version = "0.9.0", path = "../ibc-types-lightclients-tendermint", default-features = false }
+ibc-types-path = { version = "0.9.0", path = "../ibc-types-path", default-features = false }
+ibc-types-transfer = { version = "0.9.0", path = "../ibc-types-transfer", default-features = false }
