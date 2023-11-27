@@ -10,10 +10,6 @@ extern crate std;
 mod prelude;
 use prelude::*;
 
-pub trait TypeUrl {
-    const TYPE_URL: &'static str;
-}
-
 /// A marker type that captures the relationships between a domain type (`Self`) and a protobuf type (`Self::Proto`).
 pub trait DomainType
 where
