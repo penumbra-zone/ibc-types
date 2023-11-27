@@ -66,6 +66,7 @@ mod test {
     #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_ser() {
+        use crate::alloc::borrow::ToOwned;
         fn ser_json_assert_eq(ack: TokenTransferAcknowledgement, json_str: &str) {
             let ser = serde_json::to_string(&ack).unwrap();
             assert_eq!(ser, json_str)
@@ -97,6 +98,7 @@ mod test {
     #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_error_to_vec() {
+        use crate::alloc::string::ToString;
         let ack_error: Vec<u8> = TokenTransferAcknowledgement::Error(
             "cannot unmarshal ICS-20 transfer packet data".to_string(),
         )
@@ -114,6 +116,7 @@ mod test {
     #[cfg(feature = "with_serde")]
     #[test]
     fn test_ack_de() {
+        use crate::alloc::borrow::ToOwned;
         fn de_json_assert_eq(json_str: &str, ack: TokenTransferAcknowledgement) {
             let de = serde_json::from_str::<TokenTransferAcknowledgement>(json_str).unwrap();
             assert_eq!(de, ack)
