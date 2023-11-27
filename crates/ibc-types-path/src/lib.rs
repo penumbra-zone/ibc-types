@@ -1,8 +1,8 @@
 extern crate alloc;
 
-use ibc_types_core_client::Height;
 use alloc::string::{String, ToString};
 use alloc::vec::Vec;
+use ibc_types_core_client::Height;
 
 /// Path-space as listed in ICS-024
 /// https://github.com/cosmos/ibc/tree/master/spec/core/ics-024-host-requirements#path-space

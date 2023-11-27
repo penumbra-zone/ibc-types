@@ -7,4 +7,4 @@ pub use alloc::{
     vec::Vec,
 };
 
-pub use alloc::{format};
+pub use alloc::format;

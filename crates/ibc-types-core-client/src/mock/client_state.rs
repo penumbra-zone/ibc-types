@@ -2,9 +2,7 @@ use crate::prelude::*;
 
 use core::time::Duration;
 
-use ibc_proto::{
-    google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, Protobuf,
-};
+use ibc_proto::{google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, Protobuf};
 
 use crate::{error::Error, mock::header::MockHeader, ClientType, Height};
 
