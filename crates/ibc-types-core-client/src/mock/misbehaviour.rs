@@ -1,9 +1,7 @@
 use crate::prelude::*;
 
 use bytes::Buf;
-use ibc_proto::{
-    google::protobuf::Any, ibc::mock::Misbehaviour as RawMisbehaviour, protobuf::Protobuf,
-};
+use ibc_proto::{google::protobuf::Any, ibc::mock::Misbehaviour as RawMisbehaviour, Protobuf};
 
 use crate::{error::Error, ClientId};
 
@@ -79,7 +77,7 @@ impl From<Misbehaviour> for Any {
     fn from(misbehaviour: Misbehaviour) -> Self {
         Any {
             type_url: MOCK_MISBEHAVIOUR_TYPE_URL.to_string(),
-            value: Protobuf::<RawMisbehaviour>::encode_vec(&misbehaviour),
+            value: Protobuf::<RawMisbehaviour>::encode_vec(misbehaviour),
         }
     }
 }

@@ -4,7 +4,7 @@ use core::cmp::Ordering;
 use core::{num::ParseIntError, str::FromStr};
 
 use displaydoc::Display;
-use ibc_proto::protobuf::Protobuf;
+use ibc_proto::Protobuf;
 
 use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 
@@ -158,7 +158,7 @@ impl TryFrom<&str> for Height {
     type Error = HeightParseError;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        let split: Vec<&str> = value.split('-').collect();
+        let split: vec::Vec<&str> = value.split('-').collect();
 
         if split.len() != 2 {
             return Err(HeightParseError::InvalidFormat);

@@ -2,7 +2,7 @@ use core::fmt::Display;
 
 use crate::prelude::*;
 
-use ibc_proto::{ibc::core::connection::v1::Version as RawVersion, protobuf::Protobuf};
+use ibc_proto::{ibc::core::connection::v1::Version as RawVersion, Protobuf};
 
 // TODO; move this to channel crate
 //use crate::core::ics04_channel::channel::Order;

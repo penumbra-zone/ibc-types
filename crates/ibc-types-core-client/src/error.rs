@@ -1,9 +1,9 @@
 use crate::prelude::*;
 
 use displaydoc::Display;
-use ibc_proto::protobuf::Error as TendermintProtoError;
 use ibc_types_identifier::IdentifierError;
 use ibc_types_timestamp::Timestamp;
+use tendermint_proto::Error as TendermintProtoError;
 
 use crate::{client_id::ClientId, client_type::ClientType};
 

@@ -96,7 +96,7 @@ mod tests {
         use ibc_proto::ics23::CommitmentProof;
 
         let parsed = CommitmentProof { proof: None };
-        let mproofs: Vec<CommitmentProof> = vec![parsed];
+        let mproofs: vec::Vec<CommitmentProof> = vec![parsed];
         RawMerkleProof { proofs: mproofs }
     }
 

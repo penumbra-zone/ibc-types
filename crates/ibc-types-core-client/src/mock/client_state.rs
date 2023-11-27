@@ -2,9 +2,7 @@ use crate::prelude::*;
 
 use core::time::Duration;
 
-use ibc_proto::{
-    google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, protobuf::Protobuf,
-};
+use ibc_proto::{google::protobuf::Any, ibc::mock::ClientState as RawMockClientState, Protobuf};
 
 use crate::{error::Error, mock::header::MockHeader, ClientType, Height};
 
@@ -108,7 +106,7 @@ impl From<MockClientState> for Any {
     fn from(client_state: MockClientState) -> Self {
         Any {
             type_url: MOCK_CLIENT_STATE_TYPE_URL.to_string(),
-            value: Protobuf::<RawMockClientState>::encode_vec(&client_state),
+            value: Protobuf::<RawMockClientState>::encode_vec(client_state),
         }
     }
 }

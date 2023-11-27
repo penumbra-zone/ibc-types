@@ -7,13 +7,12 @@ use core::{
     u64,
 };
 
-use ibc_proto::{
-    ibc::core::connection::v1::{
-        ClientPaths as RawClientPaths, ConnectionEnd as RawConnectionEnd,
-        Counterparty as RawCounterparty, IdentifiedConnection as RawIdentifiedConnection,
-    },
-    protobuf::Protobuf,
+use ibc_proto::ibc::core::connection::v1::{
+    ClientPaths as RawClientPaths, ConnectionEnd as RawConnectionEnd,
+    Counterparty as RawCounterparty, IdentifiedConnection as RawIdentifiedConnection,
 };
+
+use ibc_proto::Protobuf;
 
 use ibc_types_core_client::ClientId;
 use ibc_types_core_commitment::MerklePrefix;

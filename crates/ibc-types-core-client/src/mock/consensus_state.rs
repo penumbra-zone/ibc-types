@@ -1,7 +1,8 @@
 use crate::prelude::*;
+use alloc::vec;
 
 use ibc_proto::{
-    google::protobuf::Any, ibc::mock::ConsensusState as RawMockConsensusState, protobuf::Protobuf,
+    google::protobuf::Any, ibc::mock::ConsensusState as RawMockConsensusState, Protobuf,
 };
 use ibc_types_timestamp::Timestamp;
 
@@ -14,7 +15,7 @@ pub const MOCK_CONSENSUS_STATE_TYPE_URL: &str = "/ibc.mock.ConsensusState";
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MockConsensusState {
     pub header: MockHeader,
-    pub root: Vec<u8>,
+    pub root: vec::Vec<u8>,
 }
 
 impl MockConsensusState {
@@ -87,7 +88,7 @@ impl From<MockConsensusState> for Any {
     fn from(consensus_state: MockConsensusState) -> Self {
         Any {
             type_url: MOCK_CONSENSUS_STATE_TYPE_URL.to_string(),
-            value: Protobuf::<RawMockConsensusState>::encode_vec(&consensus_state),
+            value: Protobuf::<RawMockConsensusState>::encode_vec(consensus_state),
         }
     }
 }
