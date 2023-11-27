@@ -1,10 +1,11 @@
+use alloc::vec;
 use ibc_types_core_commitment::MerkleProof;
 use ibc_types_domain_type::DomainType;
 use ics23::CommitmentProof;
 
 use crate::prelude::*;
 
-pub fn get_dummy_proof() -> Vec<u8> {
+pub fn get_dummy_proof() -> vec::Vec<u8> {
     let m = MerkleProof {
         proofs: vec![CommitmentProof::default()],
     };

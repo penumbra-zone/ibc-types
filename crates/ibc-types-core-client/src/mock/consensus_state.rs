@@ -1,4 +1,5 @@
 use crate::prelude::*;
+use alloc::vec;
 
 use ibc_proto::{
     google::protobuf::Any, ibc::mock::ConsensusState as RawMockConsensusState, Protobuf,
@@ -14,7 +15,7 @@ pub const MOCK_CONSENSUS_STATE_TYPE_URL: &str = "/ibc.mock.ConsensusState";
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MockConsensusState {
     pub header: MockHeader,
-    pub root: Vec<u8>,
+    pub root: vec::Vec<u8>,
 }
 
 impl MockConsensusState {
