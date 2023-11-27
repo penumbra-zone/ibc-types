@@ -4,7 +4,7 @@ use core::time::Duration;
 
 use ibc_proto::ibc::core::connection::v1::MsgConnectionOpenInit as RawMsgConnectionOpenInit;
 use ibc_types_core_client::ClientId;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{connection::Counterparty, ConnectionError, Version};
 
@@ -18,10 +18,6 @@ pub struct MsgConnectionOpenInit {
     pub version: Option<Version>,
     pub delay_period: Duration,
     pub signer: String,
-}
-
-impl TypeUrl for MsgConnectionOpenInit {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenInit";
 }
 
 impl DomainType for MsgConnectionOpenInit {

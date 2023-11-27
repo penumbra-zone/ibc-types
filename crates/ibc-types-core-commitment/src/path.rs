@@ -1,15 +1,11 @@
 use crate::prelude::*;
 
 use ibc_proto::ibc::core::commitment::v1::MerklePath as RawMerklePath;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct MerklePath {
     pub key_path: Vec<String>,
-}
-
-impl TypeUrl for MerklePath {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerklePath";
 }
 
 impl DomainType for MerklePath {

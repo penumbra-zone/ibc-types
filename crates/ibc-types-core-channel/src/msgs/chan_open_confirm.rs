@@ -4,13 +4,9 @@ use ibc_proto::ibc::core::channel::v1::MsgChannelOpenConfirm as RawMsgChannelOpe
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{ChannelError, ChannelId, PortId};
-
-impl TypeUrl for MsgChannelOpenConfirm {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgChannelOpenConfirm";
-}
 
 ///
 /// Message definition for the fourth step in the channel open handshake (`ChanOpenConfirm`

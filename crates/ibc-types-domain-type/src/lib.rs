@@ -17,8 +17,8 @@ pub trait TypeUrl {
 /// A marker type that captures the relationships between a domain type (`Self`) and a protobuf type (`Self::Proto`).
 pub trait DomainType
 where
-    Self: Clone + Sized + TypeUrl + TryFrom<Self::Proto>,
-    Self::Proto: prost::Message + Default + From<Self> + Send + Sync + 'static,
+    Self: Clone + Sized + TryFrom<Self::Proto>,
+    Self::Proto: prost::Message + prost::Name + Default + From<Self> + Send + Sync + 'static,
     <Self as TryFrom<Self::Proto>>::Error: Into<anyhow::Error> + Send + Sync + 'static,
 {
     type Proto;

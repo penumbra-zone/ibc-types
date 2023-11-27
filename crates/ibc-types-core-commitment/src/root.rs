@@ -3,7 +3,7 @@ use core::fmt::Debug;
 use crate::prelude::*;
 
 use ibc_proto::ibc::core::commitment::v1::MerkleRoot as RawMerkleRoot;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 #[derive(Clone, PartialEq, Eq)]
 pub struct MerkleRoot {
@@ -14,10 +14,6 @@ impl Debug for MerkleRoot {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "{:?}", hex::encode(&self.hash))
     }
-}
-
-impl TypeUrl for MerkleRoot {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerkleRoot";
 }
 
 impl DomainType for MerkleRoot {

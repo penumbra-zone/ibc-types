@@ -4,13 +4,9 @@ use ibc_proto::ibc::core::channel::v1::MsgTimeout as RawMsgTimeout;
 
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{packet::Sequence, Packet, PacketError};
-
-impl TypeUrl for MsgTimeout {
-    const TYPE_URL: &'static str = "/ibc.core.channel.v1.MsgTimeout";
-}
 
 ///
 /// Message definition for packet timeout domain type,

@@ -15,7 +15,7 @@ use crate::{connection::Counterparty, Version};
 
 use crate::error::ConnectionError;
 use ibc_types_core_client::{ClientId, Height};
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 /// Per our convention, this message is sent to chain B.
 /// The handler will check proofs of chain A.
@@ -46,10 +46,6 @@ pub struct MsgConnectionOpenTry {
     #[deprecated(since = "0.22.0")]
     /// Only kept here for proper conversion to/from the raw type
     pub previous_connection_id: String,
-}
-
-impl TypeUrl for MsgConnectionOpenTry {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenTry";
 }
 
 impl DomainType for MsgConnectionOpenTry {

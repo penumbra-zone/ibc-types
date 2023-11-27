@@ -5,7 +5,7 @@ use crate::prelude::*;
 use ibc_proto::{
     google::protobuf::Any, ibc::core::client::v1::MsgCreateClient as RawMsgCreateClient,
 };
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::error::Error;
 
@@ -15,10 +15,6 @@ pub struct MsgCreateClient {
     pub client_state: Any,
     pub consensus_state: Any,
     pub signer: String,
-}
-
-impl TypeUrl for MsgCreateClient {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgCreateClient";
 }
 
 impl DomainType for MsgCreateClient {

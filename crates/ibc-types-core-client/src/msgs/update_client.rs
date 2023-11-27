@@ -5,7 +5,7 @@ use crate::prelude::*;
 use ibc_proto::{
     google::protobuf::Any, ibc::core::client::v1::MsgUpdateClient as RawMsgUpdateClient,
 };
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{error::Error, ClientId};
 
@@ -15,10 +15,6 @@ pub struct MsgUpdateClient {
     pub client_id: ClientId,
     pub client_message: Any,
     pub signer: String,
-}
-
-impl TypeUrl for MsgUpdateClient {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgUpdateClient";
 }
 
 impl DomainType for MsgUpdateClient {

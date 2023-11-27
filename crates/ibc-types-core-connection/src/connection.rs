@@ -16,7 +16,7 @@ use ibc_proto::Protobuf;
 
 use ibc_types_core_client::ClientId;
 use ibc_types_core_commitment::MerklePrefix;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 use ibc_types_timestamp::ZERO_DURATION;
 
 use crate::{ConnectionError, ConnectionId, Version};
@@ -31,10 +31,6 @@ pub struct ClientPaths {
 
 impl DomainType for ClientPaths {
     type Proto = RawClientPaths;
-}
-
-impl TypeUrl for ClientPaths {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.ClientPaths";
 }
 
 impl TryFrom<RawClientPaths> for ClientPaths {
@@ -84,9 +80,6 @@ impl IdentifiedConnectionEnd {
 
 impl DomainType for IdentifiedConnectionEnd {
     type Proto = RawIdentifiedConnection;
-}
-impl TypeUrl for IdentifiedConnectionEnd {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.IdentifiedConnection";
 }
 
 impl TryFrom<RawIdentifiedConnection> for IdentifiedConnectionEnd {

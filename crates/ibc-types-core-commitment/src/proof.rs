@@ -4,7 +4,7 @@ use crate::MerklePath;
 use crate::MerkleRoot;
 
 use ibc_proto::ibc::core::commitment::v1::MerkleProof as RawMerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 use ics23::commitment_proof::Proof;
 use ics23::CommitmentProof;
 use ics23::{
@@ -14,10 +14,6 @@ use ics23::{
 #[derive(Clone, Debug, PartialEq)]
 pub struct MerkleProof {
     pub proofs: Vec<CommitmentProof>,
-}
-
-impl TypeUrl for MerkleProof {
-    const TYPE_URL: &'static str = "/ibc.core.commitment.v1.MerkleProof";
 }
 
 impl DomainType for MerkleProof {

@@ -11,7 +11,7 @@ use ibc_proto::{
         commitment::v1::MerkleProof as RawMerkleProof,
     },
 };
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 use prost::Message;
 
 use crate::{error::Error, ClientId};
@@ -32,10 +32,6 @@ pub struct MsgUpgradeClient {
     pub proof_upgrade_consensus_state: RawMerkleProof,
     // signer address
     pub signer: String,
-}
-
-impl TypeUrl for MsgUpgradeClient {
-    const TYPE_URL: &'static str = "/ibc.core.client.v1.MsgUpgradeClient";
 }
 
 impl DomainType for MsgUpgradeClient {

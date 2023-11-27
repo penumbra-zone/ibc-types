@@ -9,7 +9,7 @@ use ibc_proto::ibc::core::client::v1::Height as RawHeight;
 
 use ibc_proto::ibc::lightclients::tendermint::v1::ClientState as RawTmClientState;
 use ibc_proto::Protobuf;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 use ics23::ProofSpec;
 use prost::Message;
 use tendermint::chain::id::MAX_LENGTH as MaxChainIdLen;
@@ -44,10 +44,6 @@ pub struct ClientState {
     pub upgrade_path: Vec<String>,
     pub allow_update: AllowUpdate,
     pub frozen_height: Option<Height>,
-}
-
-impl TypeUrl for ClientState {
-    const TYPE_URL: &'static str = TENDERMINT_CLIENT_STATE_TYPE_URL;
 }
 
 impl DomainType for ClientState {

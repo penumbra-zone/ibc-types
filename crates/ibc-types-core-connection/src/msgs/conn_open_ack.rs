@@ -6,7 +6,7 @@ use ibc_proto::{
 };
 use ibc_types_core_client::Height;
 use ibc_types_core_commitment::MerkleProof;
-use ibc_types_domain_type::{DomainType, TypeUrl};
+use ibc_types_domain_type::DomainType;
 
 use crate::{ConnectionError, ConnectionId, Version};
 
@@ -34,10 +34,6 @@ pub struct MsgConnectionOpenAck {
     host_consensus_state_proof: Option<MerkleProof>,
     pub version: Version,
     pub signer: String,
-}
-
-impl TypeUrl for MsgConnectionOpenAck {
-    const TYPE_URL: &'static str = "/ibc.core.connection.v1.MsgConnectionOpenAck";
 }
 
 impl DomainType for MsgConnectionOpenAck {
