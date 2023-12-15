@@ -9,7 +9,8 @@ ibc-types = { path = "../../crates/ibc-types", default-features = false, feature
   "serde",
   "mocks-no-std",
 ] }
-ibc-proto = { version = "0.39.0", default-features = false }
+# Forked until we have protojson support: https://github.com/cosmos/ibc-proto-rs/pull/166
+ibc-proto = { git = "https://github.com/penumbra-zone/ibc-proto-rs", default-features = false }
 tendermint = { version = "0.34.0", default-features = false }
 tendermint-proto = { version = "0.34.0", default-features = false }
 tendermint-light-client-verifier = { version = "0.34.0", default-features = false, features = ["rust-crypto"] }
