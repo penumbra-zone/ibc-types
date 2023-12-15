@@ -61,7 +61,7 @@ bytes = { version = "1.2.1", default-features = false }
 cfg-if = { version = "1.0.0", optional = true }
 derive_more = { version = "0.99.17", default-features = false, features = ["from", "into", "display"] }
 displaydoc = { version = "0.2", default-features = false }
-ibc-proto = { version = "0.39.0", default-features = false }
+ibc-proto = { git = "https://github.com/penumbra-zone/ibc-proto-rs", branch = "protobuild-support", default-features = false }
 ics23 = { version = "0.11.0", default-features = false, features = ["host-functions"] }
 num-traits = { version = "0.2.15", default-features = false }
 parity-scale-codec = { version = "3.0.0", default-features = false, features = ["full"], optional = true }
