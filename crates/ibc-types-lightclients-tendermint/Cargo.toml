@@ -1,6 +1,6 @@
 [package]
 name         = "ibc-types-lightclients-tendermint"
-version      = "0.11.0"
+version      = "0.11.1"
 edition      = "2021"
 license      = "Apache-2.0"
 readme       = "../../README.md"
@@ -56,12 +56,12 @@ mocks = ["tendermint-testgen", "tendermint/clock", "cfg-if", "parking_lot"]
 mocks-no-std = ["cfg-if"]
 
 [dependencies]
-ibc-types-timestamp = { version = "0.11.0", path = "../ibc-types-timestamp", default-features = false }
-ibc-types-identifier = { version = "0.11.0", path = "../ibc-types-identifier", default-features = false }
-ibc-types-domain-type = { version = "0.11.0", path = "../ibc-types-domain-type", default-features = false }
-ibc-types-core-client = { version = "0.11.0", path = "../ibc-types-core-client", default-features = false }
-ibc-types-core-connection = { version = "0.11.0", path = "../ibc-types-core-connection", default-features = false }
-ibc-types-core-commitment = { version = "0.11.0", path = "../ibc-types-core-commitment", default-features = false }
+ibc-types-timestamp = { version = "0.11.1", path = "../ibc-types-timestamp", default-features = false }
+ibc-types-identifier = { version = "0.11.1", path = "../ibc-types-identifier", default-features = false }
+ibc-types-domain-type = { version = "0.11.1", path = "../ibc-types-domain-type", default-features = false }
+ibc-types-core-client = { version = "0.11.1", path = "../ibc-types-core-client", default-features = false }
+ibc-types-core-connection = { version = "0.11.1", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-commitment = { version = "0.11.1", path = "../ibc-types-core-commitment", default-features = false }
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
 ibc-proto = { version = "0.40.0", default-features = false }
 ics23 = { version = "0.11.0", default-features = false, features = ["host-functions"] }
@@ -119,4 +119,4 @@ tendermint-testgen = { version = "0.34.0" } # Needed for generating (synthetic) 
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 
-ibc-types-core-client = { version = "0.11.0", path = "../ibc-types-core-client", features = ["mocks"] }
+ibc-types-core-client = { version = "0.11.1", path = "../ibc-types-core-client", features = ["mocks"] }
