@@ -126,6 +126,11 @@ pub enum Error {
         header_chain_id: String,
         chain_id: String,
     },
+    /// The given hash of the validators does not matches the given hash in the signed header. Expected: `{signed_header_validators_hash}`, got: `{validators_hash}`
+    MismatchValidatorsHashes {
+        validators_hash: Hash,
+        signed_header_validators_hash: Hash,
+    },
     /// invalid raw client id: `{client_id}`
     InvalidRawClientId { client_id: String },
 }

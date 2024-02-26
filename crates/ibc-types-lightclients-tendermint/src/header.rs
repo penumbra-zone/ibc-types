@@ -114,6 +114,13 @@ impl TryFrom<RawHeader> for Header {
             });
         }
 
+        if header.validator_set.hash() != header.signed_header.header.validators_hash {
+            return Err(Error::MismatchValidatorsHashes {
+                signed_header_validators_hash: header.signed_header.header.validators_hash,
+                validators_hash: header.validator_set.hash(),
+            });
+        }
+
         Ok(header)
     }
 }
