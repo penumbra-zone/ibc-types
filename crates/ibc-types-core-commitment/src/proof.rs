@@ -161,10 +161,10 @@ impl MerkleProof {
         // verify the absence of key in lowest subtree
         let proof = self
             .proofs
-            .get(0)
+            .first()
             .ok_or(anyhow::anyhow!("invalid merkle proof"))?;
         let spec = ics23_specs
-            .get(0)
+            .first()
             .ok_or(anyhow::anyhow!("invalid merkle proof"))?;
         // keys are represented from root-to-leaf
         let key = keys

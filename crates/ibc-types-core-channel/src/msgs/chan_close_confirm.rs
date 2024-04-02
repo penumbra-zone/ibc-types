@@ -19,6 +19,7 @@ pub struct MsgChannelCloseConfirm {
     pub proof_chan_end_on_a: MerkleProof,
     pub proof_height_on_a: Height,
     pub signer: String,
+    pub counterparty_upgrade_sequence: u64,
 }
 
 impl DomainType for MsgChannelCloseConfirm {
@@ -42,6 +43,7 @@ impl TryFrom<RawMsgChannelCloseConfirm> for MsgChannelCloseConfirm {
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(ChannelError::MissingHeight)?,
             signer: raw_msg.signer,
+            counterparty_upgrade_sequence: raw_msg.counterparty_upgrade_sequence,
         })
     }
 }
@@ -54,6 +56,7 @@ impl From<MsgChannelCloseConfirm> for RawMsgChannelCloseConfirm {
             proof_init: domain_msg.proof_chan_end_on_a.clone().encode_to_vec(),
             proof_height: Some(domain_msg.proof_height_on_a.into()),
             signer: domain_msg.signer,
+            counterparty_upgrade_sequence: domain_msg.counterparty_upgrade_sequence,
         }
     }
 }
@@ -78,6 +81,7 @@ pub mod test_util {
                 revision_height: proof_height,
             }),
             signer: get_dummy_bech32_account(),
+            counterparty_upgrade_sequence: 0,
         }
     }
 }
