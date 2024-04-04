@@ -19,6 +19,7 @@ pub struct MsgTimeoutOnClose {
     pub proof_close_on_b: MerkleProof,
     pub proof_height_on_b: Height,
     pub signer: String,
+    pub counterparty_upgrade_sequence: u64,
 }
 
 impl DomainType for MsgTimeoutOnClose {
@@ -51,6 +52,7 @@ impl TryFrom<RawMsgTimeoutOnClose> for MsgTimeoutOnClose {
                 .and_then(|raw_height| raw_height.try_into().ok())
                 .ok_or(PacketError::MissingHeight)?,
             signer: raw_msg.signer,
+            counterparty_upgrade_sequence: raw_msg.counterparty_upgrade_sequence,
         })
     }
 }
@@ -64,6 +66,7 @@ impl From<MsgTimeoutOnClose> for RawMsgTimeoutOnClose {
             proof_height: Some(domain_msg.proof_height_on_b.into()),
             next_sequence_recv: domain_msg.next_seq_recv_on_b.into(),
             signer: domain_msg.signer,
+            counterparty_upgrade_sequence: domain_msg.counterparty_upgrade_sequence,
         }
     }
 }
@@ -179,6 +182,7 @@ pub mod test_util {
             }),
             next_sequence_recv: 1,
             signer: get_dummy_bech32_account(),
+            counterparty_upgrade_sequence: 0,
         }
     }
 }

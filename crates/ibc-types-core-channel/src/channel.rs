@@ -23,14 +23,21 @@ pub struct IdentifiedChannelEnd {
     pub port_id: PortId,
     pub channel_id: ChannelId,
     pub channel_end: ChannelEnd,
+    pub upgrade_sequence: u64,
 }
 
 impl IdentifiedChannelEnd {
-    pub fn new(port_id: PortId, channel_id: ChannelId, channel_end: ChannelEnd) -> Self {
+    pub fn new(
+        port_id: PortId,
+        channel_id: ChannelId,
+        channel_end: ChannelEnd,
+        upgrade_sequence: u64,
+    ) -> Self {
         IdentifiedChannelEnd {
             port_id,
             channel_id,
             channel_end,
+            upgrade_sequence,
         }
     }
 }
@@ -47,12 +54,14 @@ impl TryFrom<RawIdentifiedChannel> for IdentifiedChannelEnd {
             counterparty: value.counterparty,
             connection_hops: value.connection_hops,
             version: value.version,
+            upgrade_sequence: value.upgrade_sequence,
         };
 
         Ok(IdentifiedChannelEnd {
             port_id: value.port_id.parse().map_err(ChannelError::Identifier)?,
             channel_id: value.channel_id.parse().map_err(ChannelError::Identifier)?,
             channel_end: raw_channel_end.try_into()?,
+            upgrade_sequence: value.upgrade_sequence,
         })
     }
 }
@@ -72,6 +81,7 @@ impl From<IdentifiedChannelEnd> for RawIdentifiedChannel {
             version: value.channel_end.version.to_string(),
             port_id: value.port_id.to_string(),
             channel_id: value.channel_id.to_string(),
+            upgrade_sequence: value.upgrade_sequence,
         }
     }
 }
@@ -88,6 +98,7 @@ pub struct ChannelEnd {
     pub remote: Counterparty,
     pub connection_hops: Vec<ConnectionId>,
     pub version: Version,
+    pub upgrade_sequence: u64,
 }
 
 impl Default for ChannelEnd {
@@ -98,6 +109,7 @@ impl Default for ChannelEnd {
             remote: Counterparty::default(),
             connection_hops: Vec::new(),
             version: Version::default(),
+            upgrade_sequence: 0,
         }
     }
 }
@@ -131,6 +143,7 @@ impl TryFrom<RawChannel> for ChannelEnd {
             .map_err(ChannelError::Identifier)?;
 
         let version = value.version.into();
+        let upgrade_sequence = value.upgrade_sequence;
 
         Ok(ChannelEnd::new(
             chan_state,
@@ -138,6 +151,7 @@ impl TryFrom<RawChannel> for ChannelEnd {
             remote,
             connection_hops,
             version,
+            upgrade_sequence,
         ))
     }
 }
@@ -154,6 +168,7 @@ impl From<ChannelEnd> for RawChannel {
                 .map(|v| v.as_str().to_string())
                 .collect(),
             version: value.version.to_string(),
+            upgrade_sequence: value.upgrade_sequence,
         }
     }
 }
@@ -166,6 +181,7 @@ impl ChannelEnd {
         remote: Counterparty,
         connection_hops: Vec<ConnectionId>,
         version: Version,
+        upgrade_sequence: u64,
     ) -> Self {
         Self {
             state,
@@ -173,6 +189,7 @@ impl ChannelEnd {
             remote,
             connection_hops,
             version,
+            upgrade_sequence,
         }
     }
 
@@ -478,7 +495,8 @@ pub mod test_util {
             ordering: 2,
             counterparty: Some(get_dummy_raw_counterparty(channel_id)),
             connection_hops: vec![ConnectionId::default().to_string()],
-            version: "".to_string(), // The version is not validated.
+            version: "".to_string(),
+            upgrade_sequence: 0,
         }
     }
 }

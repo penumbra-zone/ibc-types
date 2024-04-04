@@ -21,6 +21,7 @@ pub fn client_type() -> ClientType {
 pub struct MockClientState {
     pub header: MockHeader,
     pub frozen_height: Option<Height>,
+    pub trusting_period: Duration,
 }
 
 impl MockClientState {
@@ -28,6 +29,7 @@ impl MockClientState {
         Self {
             header,
             frozen_height: None,
+            trusting_period: Duration::from_secs(64000),
         }
     }
 
@@ -71,6 +73,8 @@ impl From<MockClientState> for RawMockClientState {
                 height: Some(value.header.height().into()),
                 timestamp: value.header.timestamp.nanoseconds(),
             }),
+            trusting_period: value.trusting_period.as_secs(),
+            frozen: value.frozen_height.is_some(),
         }
     }
 }
