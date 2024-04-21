@@ -18,7 +18,7 @@ publish	= true
 all-features = true
 
 [features]
-default = ["std"]
+default = ["std", "anyhow"]
 std = [
     "bytes/std",
     "displaydoc/std",
@@ -50,6 +50,17 @@ upgrade_client = []
 mocks = ["tendermint-testgen", "tendermint/clock", "cfg-if", "parking_lot"]
 mocks-no-std = ["cfg-if"]
 
+anyhow = [
+    "dep:anyhow",
+    "ibc-types-core-commitment/anyhow",
+    "ibc-types-domain-type/anyhow",
+]
+eyre = [
+    "dep:eyre",
+    "ibc-types-core-commitment/eyre",
+    "ibc-types-domain-type/eyre",
+]
+
 [dependencies]
 ibc-types-timestamp = { version = "0.13.0", path = "../ibc-types-timestamp", default-features = false }
 ibc-types-core-commitment = { version = "0.13.0", path = "../ibc-types-core-commitment", default-features = false }
@@ -75,7 +86,8 @@ serde_json = { version = "1", default-features = false, optional = true }
 sha2 = { version = "0.10.6", default-features = false }
 subtle-encoding = { version = "0.5", default-features = false }
 time = { version = "0.3", default-features = false }
-anyhow = { version = "1", default-features = false }
+anyhow = { version = "1", default-features = false, optional = true }
+eyre = { version = "0.6.12", optional = true }
 
 [dependencies.tendermint]
 version = "0.34.0"

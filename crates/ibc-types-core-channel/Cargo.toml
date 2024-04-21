@@ -18,7 +18,7 @@ publish	= true
 all-features = true
 
 [features]
-default = ["std"]
+default = ["std", "anyhow"]
 std = [
     "ibc-types-timestamp/std",
     "ibc-types-identifier/std",
@@ -52,6 +52,17 @@ upgrade_client = []
 mocks = ["tendermint-testgen", "tendermint/clock", "cfg-if", "parking_lot"]
 mocks-no-std = ["cfg-if"]
 
+anyhow = [
+    "dep:anyhow",
+    "ibc-types-core-commitment/anyhow",
+    "ibc-types-domain-type/anyhow",
+]
+eyre = [
+    "dep:eyre",
+    "ibc-types-core-commitment/eyre",
+    "ibc-types-domain-type/eyre",
+]
+
 [dependencies]
 ibc-types-core-client = { version = "0.13.0", path = "../ibc-types-core-client", default-features = false }
 ibc-types-core-connection = { version = "0.13.0", path = "../ibc-types-core-connection", default-features = false }
@@ -84,7 +95,9 @@ subtle-encoding = { version = "0.5", default-features = false }
 time = { version = "0.3", default-features = false }
 tracing = { version = "0.1.36", default-features = false }
 scale-info = { version = "2.1.2", default-features = false, features = ["derive"], optional = true }
-anyhow = { version = "1", default-features = false }
+
+anyhow = { version = "1", default-features = false, optional = true }
+eyre = { version = "0.6.12", optional = true }
 
 [dependencies.tendermint]
 version = "0.34.0"

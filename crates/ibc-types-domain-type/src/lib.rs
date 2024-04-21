@@ -7,6 +7,14 @@ extern crate alloc;
 #[cfg(any(test, feature = "std"))]
 extern crate std;
 
+#[cfg(all(feature = "anyhow", feature = "eyre"))]
+compile_error!("feature \"anyhow\" and feature \"eyre\" cannot be enabled at the same time");
+
+#[cfg(feature = "anyhow")]
+extern crate anyhow;
+#[cfg(feature = "eyre")]
+extern crate eyre as anyhow;
+
 mod prelude;
 use prelude::*;
 

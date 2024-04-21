@@ -17,7 +17,7 @@ description  = """
 all-features = true
 
 [features]
-default = ["std"]
+default = ["std", "anyhow"]
 std = [
     "bytes/std",
     "displaydoc/std",
@@ -34,6 +34,10 @@ std = [
     "tendermint/clock",
     "tendermint/std",
 ]
+
+anyhow = ["dep:anyhow"]
+eyre = ["dep:eyre"]
+
 parity-scale-codec = ["dep:parity-scale-codec", "dep:scale-info"]
 borsh = ["dep:borsh"]
 
@@ -69,7 +73,10 @@ serde_json = { version = "1", default-features = false, optional = true }
 sha2 = { version = "0.10.6", default-features = false }
 subtle-encoding = { version = "0.5", default-features = false }
 time = { version = "0.3", default-features = false }
-anyhow = { version = "1", default-features = false }
+
+# anyhow and eyre are mutually exclusive features
+anyhow = { version = "1", default-features = false, optional = true }
+eyre = { version = "0.6.12", optional = true}
 
 [dependencies.tendermint]
 version = "0.34.0"
