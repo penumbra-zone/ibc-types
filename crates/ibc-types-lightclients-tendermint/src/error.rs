@@ -22,6 +22,8 @@ pub enum Error {
         len: usize,
         max_len: usize,
     },
+    /// Chain ID cannot be empty
+    ChainIdEmpty,
     /// invalid header, failed basic validation: `{reason}`, error: `{error}`
     InvalidHeader {
         reason: String,

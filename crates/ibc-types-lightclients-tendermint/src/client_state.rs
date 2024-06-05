@@ -79,6 +79,10 @@ impl ClientState {
             });
         }
 
+        if chain_id.as_str() == "" {
+            return Err(Error::ChainIdEmpty);
+        }
+
         // `TrustThreshold` is guaranteed to be in the range `[0, 1)`, but a `TrustThreshold::ZERO`
         // value is invalid in this context
         if trust_level == TrustThreshold::ZERO {
