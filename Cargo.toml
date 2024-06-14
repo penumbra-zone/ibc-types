@@ -19,3 +19,6 @@ members = [
 exclude = [
     "ci/no-std-check",
 ]
+
+[workspace.dependencies]
+ibc-proto = { version = "0.46.0", default-features = false }
