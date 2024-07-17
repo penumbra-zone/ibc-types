@@ -33,7 +33,7 @@
         let
           ibc-types = (craneLib.buildPackage {
             pname = "ibc-types";
-            version = "0.14.0";
+            version = "0.14.1";
             nativeBuildInputs = [ pkg-config ];
             buildInputs = [ openssl ];
             inherit src system PKG_CONFIG_PATH;
