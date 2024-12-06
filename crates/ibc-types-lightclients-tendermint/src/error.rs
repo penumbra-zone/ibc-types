@@ -135,6 +135,12 @@ pub enum Error {
     },
     /// invalid raw client id: `{client_id}`
     InvalidRawClientId { client_id: String },
+    /// can't map `{field}` to its wire format: `{reason}`
+    DurationTooLarge {
+        field: &'static str,
+        // XXX: tendermint_proto::google::protobuf::duration::DurationError is behind a private module
+        reason: String,
+    },
 }
 
 #[cfg(feature = "std")]

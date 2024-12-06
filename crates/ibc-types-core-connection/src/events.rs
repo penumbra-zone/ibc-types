@@ -103,48 +103,56 @@ impl TryFrom<Vec<abci::EventAttribute>> for Attributes {
         let mut counterparty_connection_id = None;
 
         for attr in attributes {
-            match attr.key.as_ref() {
-                "connection_id" => {
-                    connection_id =
-                        Some(ConnectionId::from_str(attr.value.as_ref()).map_err(|e| {
-                            Error::ParseConnectionId {
+            match attr.key_bytes() {
+                b"connection_id" => {
+                    connection_id = Some(
+                        ConnectionId::from_str(&String::from_utf8_lossy(attr.value_bytes()))
+                            .map_err(|e| Error::ParseConnectionId {
                                 key: "connection_id",
                                 e,
-                            }
-                        })?);
+                            })?,
+                    );
                 }
-                "client_id" => {
-                    client_id = Some(ClientId::from_str(attr.value.as_ref()).map_err(|e| {
-                        Error::ParseClientId {
-                            key: "client_id",
-                            e,
-                        }
-                    })?);
+                b"client_id" => {
+                    client_id = Some(
+                        ClientId::from_str(&String::from_utf8_lossy(attr.value_bytes())).map_err(
+                            |e| Error::ParseClientId {
+                                key: "client_id",
+                                e,
+                            },
+                        )?,
+                    );
                 }
-                "counterparty_connection_id" => {
-                    counterparty_connection_id = if attr.value.is_empty() {
+                b"counterparty_connection_id" => {
+                    counterparty_connection_id = if attr.value_bytes().is_empty() {
                         // Don't try to parse the connection ID if it was empty; set it to
                         // None instead, since we'll reject empty connection IDs in parsing.
                         None
                     } else {
-                        Some(ConnectionId::from_str(attr.value.as_ref()).map_err(|e| {
-                            Error::ParseConnectionId {
-                                key: "counterparty_connection_id",
-                                e,
-                            }
-                        })?)
+                        Some(
+                            ConnectionId::from_str(&String::from_utf8_lossy(attr.value_bytes()))
+                                .map_err(|e| Error::ParseConnectionId {
+                                    key: "counterparty_connection_id",
+                                    e,
+                                })?,
+                        )
                     };
                 }
-                "counterparty_client_id" => {
-                    counterparty_client_id =
-                        Some(ClientId::from_str(attr.value.as_ref()).map_err(|e| {
-                            Error::ParseClientId {
+                b"counterparty_client_id" => {
+                    counterparty_client_id = Some(
+                        ClientId::from_str(&String::from_utf8_lossy(attr.value_bytes())).map_err(
+                            |e| Error::ParseClientId {
                                 key: "counterparty_client_id",
                                 e,
-                            }
-                        })?);
+                            },
+                        )?,
+                    );
                 }
-                _ => return Err(Error::UnexpectedAttribute(attr.key)),
+                other => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(other).into(),
+                    ))
+                }
             }
         }
 

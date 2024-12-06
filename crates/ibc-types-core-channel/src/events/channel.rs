@@ -1,7 +1,7 @@
-use alloc::borrow::ToOwned;
 use ibc_types_core_connection::ConnectionId;
 use tendermint::abci::{Event, TypedEvent};
 
+use crate::prelude::*;
 use crate::{ChannelId, PortId, Version};
 
 use super::Error;
@@ -56,23 +56,32 @@ impl TryFrom<Event> for OpenInit {
         let mut version = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "version" => {
-                    version = Some(Version(attr.value));
+                b"version" => {
+                    version = Some(Version(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
@@ -136,26 +145,37 @@ impl TryFrom<Event> for OpenTry {
         let mut version = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "counterparty_channel_id" => {
-                    counterparty_channel_id = Some(ChannelId(attr.value));
+                b"counterparty_channel_id" => {
+                    counterparty_channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "version" => {
-                    version = Some(Version(attr.value));
+                b"version" => {
+                    version = Some(Version(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
@@ -218,23 +238,34 @@ impl TryFrom<Event> for OpenAck {
         let mut connection_id = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "counterparty_channel_id" => {
-                    counterparty_channel_id = Some(ChannelId(attr.value));
+                b"counterparty_channel_id" => {
+                    counterparty_channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
@@ -296,23 +327,34 @@ impl TryFrom<Event> for OpenConfirm {
         let mut connection_id = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "counterparty_channel_id" => {
-                    counterparty_channel_id = Some(ChannelId(attr.value));
+                b"counterparty_channel_id" => {
+                    counterparty_channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
@@ -374,23 +416,34 @@ impl TryFrom<Event> for CloseInit {
         let mut connection_id = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "counterparty_channel_id" => {
-                    counterparty_channel_id = Some(ChannelId(attr.value));
+                b"counterparty_channel_id" => {
+                    counterparty_channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
@@ -452,23 +505,34 @@ impl TryFrom<Event> for CloseConfirm {
         let mut connection_id = None;
 
         for attr in event.attributes {
-            match attr.key.as_ref() {
-                "port_id" => {
-                    port_id = Some(PortId(attr.value));
+            match attr.key_bytes() {
+                b"port_id" => {
+                    port_id = Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "channel_id" => {
-                    channel_id = Some(ChannelId(attr.value));
+                b"channel_id" => {
+                    channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "counterparty_port_id" => {
-                    counterparty_port_id = Some(PortId(attr.value));
+                b"counterparty_port_id" => {
+                    counterparty_port_id =
+                        Some(PortId(String::from_utf8_lossy(attr.value_bytes()).into()));
                 }
-                "counterparty_channel_id" => {
-                    counterparty_channel_id = Some(ChannelId(attr.value));
+                b"counterparty_channel_id" => {
+                    counterparty_channel_id = Some(ChannelId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                "connection_id" => {
-                    connection_id = Some(ConnectionId(attr.value));
+                b"connection_id" => {
+                    connection_id = Some(ConnectionId(
+                        String::from_utf8_lossy(attr.value_bytes()).into(),
+                    ));
                 }
-                unknown => return Err(Error::UnexpectedAttribute(unknown.to_owned())),
+                unknown => {
+                    return Err(Error::UnexpectedAttribute(
+                        String::from_utf8_lossy(unknown).into(),
+                    ))
+                }
             }
         }
 
