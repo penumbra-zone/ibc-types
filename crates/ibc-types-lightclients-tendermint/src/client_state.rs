@@ -350,15 +350,51 @@ impl TryFrom<RawTmClientState> for ClientState {
     }
 }
 
+/// A wrapper of [`core::time::Duration`] to infallibly convert to
+/// [`tendermint_proto::google::protobuf::Duration`].
+///
+/// In https://github.com/informalsystems/tendermint-rs/pull/1456,
+/// `tendermint-rs` made the conversion from the rust native duration to the
+/// protobuf well known type duration a fallible operation. This change was
+/// first released in `tendermint_proto@v0.40.0` and brings the conversion in
+/// line its definition in
+/// [`prost-types`](https://docs.rs/prost-types/0.13.3/prost_types/struct.Duration.html#impl-TryFrom%3CDuration%3E-for-Duration).
+/// However, this breaks the [`ibc_types_domain_type::DomainType`] impl for
+/// [`ClientState`], which requires that the conversion from the domain type to
+/// the wire type be infallible.
+#[derive(Debug)]
+struct CometBftDuration(core::time::Duration);
+
+impl From<CometBftDuration> for tendermint_proto::google::protobuf::Duration {
+    fn from(duration: CometBftDuration) -> Self {
+        let duration = duration.0;
+        let seconds = duration.as_secs();
+        let seconds = if seconds > i64::MAX as u64 {
+            i64::MAX
+        } else {
+            seconds as i64
+        };
+        let nanos = duration.subsec_nanos();
+        let nanos = if nanos > i32::MAX as u32 {
+            i32::MAX
+        } else {
+            nanos as i32
+        };
+        let mut duration = tendermint_proto::google::protobuf::Duration { seconds, nanos };
+        duration.normalize();
+        duration
+    }
+}
+
 impl From<ClientState> for RawTmClientState {
     fn from(value: ClientState) -> Self {
         #[allow(deprecated)]
         Self {
             chain_id: value.chain_id.to_string(),
             trust_level: Some(value.trust_level.into()),
-            trusting_period: Some(value.trusting_period.into()),
-            unbonding_period: Some(value.unbonding_period.into()),
-            max_clock_drift: Some(value.max_clock_drift.into()),
+            trusting_period: Some(CometBftDuration(value.trusting_period).into()),
+            unbonding_period: Some(CometBftDuration(value.unbonding_period).into()),
+            max_clock_drift: Some(CometBftDuration(value.max_clock_drift).into()),
             frozen_height: Some(value.frozen_height.map(|height| height.into()).unwrap_or(
                 RawHeight {
                     revision_number: 0,
