@@ -1,13 +1,13 @@
 [package]
 name         = "ibc-types-lightclients-tendermint"
-version      = "0.15.1"
+version      = "0.16.0"
 edition      = "2021"
 license      = "Apache-2.0"
 readme       = "../../README.md"
 keywords     = ["blockchain", "consensus", "cosmos", "ibc", "tendermint"]
 repository   = "https://github.com/penumbra-zone/ibc-types"
 authors      = ["Penumbra Labs <team@penumbralabs.xyz"]
-rust-version = "1.60"
+rust-version = "1.75"
 description  = """
     Data types for the Inter-Blockchain Communication (IBC) protocol.
     This crate defines common data structures that can be reused by different IBC implementations or ecosystem tooling.
@@ -56,14 +56,15 @@ mocks = ["tendermint-testgen", "tendermint/clock", "cfg-if", "parking_lot"]
 mocks-no-std = ["cfg-if"]
 
 [dependencies]
-ibc-types-timestamp = { version = "0.15.1", path = "../ibc-types-timestamp", default-features = false }
-ibc-types-identifier = { version = "0.15.1", path = "../ibc-types-identifier", default-features = false }
-ibc-types-domain-type = { version = "0.15.1", path = "../ibc-types-domain-type", default-features = false }
-ibc-types-core-client = { version = "0.15.1", path = "../ibc-types-core-client", default-features = false }
-ibc-types-core-connection = { version = "0.15.1", path = "../ibc-types-core-connection", default-features = false }
-ibc-types-core-commitment = { version = "0.15.1", path = "../ibc-types-core-commitment", default-features = false }
+ibc-types-timestamp = { version = "0.16.0", path = "../ibc-types-timestamp", default-features = false }
+ibc-types-identifier = { version = "0.16.0", path = "../ibc-types-identifier", default-features = false }
+ibc-types-domain-type = { version = "0.16.0", path = "../ibc-types-domain-type", default-features = false }
+ibc-types-core-client = { version = "0.16.0", path = "../ibc-types-core-client", default-features = false }
+ibc-types-core-connection = { version = "0.16.0", path = "../ibc-types-core-connection", default-features = false }
+ibc-types-core-commitment = { version = "0.16.0", path = "../ibc-types-core-commitment", default-features = false }
+
 # Proto definitions for all IBC-related interfaces, e.g., connections or channels.
-ibc-proto = { version = "0.51.1", default-features = false }
+ibc-proto = { version = "0.52.0", default-features = false }
 ics23 = { version = "0.12.0", default-features = false, features = ["host-functions"] }
 time = { version = "0.3", default-features = false }
 serde_derive = { version = "1.0.104", default-features = false, optional = true }
@@ -118,5 +119,4 @@ tendermint-rpc = { version = "0.40.3", features = ["http-client", "websocket-cli
 tendermint-testgen = { version = "0.40.3" } # Needed for generating (synthetic) light blocks.
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
-
-ibc-types-core-client = { version = "0.15.1", path = "../ibc-types-core-client", features = ["mocks"] }
+ibc-types-core-client = { version = "0.16.0", path = "../ibc-types-core-client", features = ["mocks"] }
