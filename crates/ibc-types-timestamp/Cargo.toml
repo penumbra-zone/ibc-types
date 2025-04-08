@@ -1,6 +1,6 @@
 [package]
 name         = "ibc-types-timestamp"
-version      = "0.15.0"
+version      = "0.15.1"
 edition      = "2021"
 license      = "Apache-2.0"
 readme       = "../../README.md"
@@ -55,9 +55,9 @@ serde_derive = { version = "1.0.104", default-features = false, optional = true 
 serde_json = { version = "1", default-features = false, optional = true }
 subtle-encoding = { version = "0.5", default-features = false }
 time = { version = "0.3", default-features = false }
-tendermint = { version = "0.40.0", default-features = false }
-tendermint-proto = { version = "0.40.0", default-features = false }
-tendermint-testgen = { version = "0.40.0", default-features = false, optional = true }
+tendermint = { version = "0.40.3", default-features = false }
+tendermint-proto = { version = "0.40.3", default-features = false }
+tendermint-testgen = { version = "0.40.3", default-features = false, optional = true }
 
 [dev-dependencies]
 cfg-if = { version = "1.0.0" }
