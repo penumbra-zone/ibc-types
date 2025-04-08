@@ -47,7 +47,7 @@ parking_lot = { version = "0.12.1", default-features = false, optional = true }
 cfg-if = { version = "1.0.0", optional = true }
 
 [dependencies.tendermint-testgen]
-version = "0.40.0"
+version = "0.40.3"
 optional = true
 default-features = false
 

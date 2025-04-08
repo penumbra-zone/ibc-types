@@ -92,20 +92,20 @@ cfg-if = { version = "1.0.0", optional = true }
 anyhow = { version = "1", default-features = false }
 
 [dependencies.tendermint]
-version = "0.40.0"
+version = "0.40.3"
 default-features = false
 
 [dependencies.tendermint-proto]
-version = "0.40.0"
+version = "0.40.3"
 default-features = false
 
 [dependencies.tendermint-light-client-verifier]
-version = "0.40.0"
+version = "0.40.3"
 default-features = false
 features = ["rust-crypto"]
 
 [dependencies.tendermint-testgen]
-version = "0.40.0"
+version = "0.40.3"
 optional = true
 default-features = false
 
@@ -114,8 +114,8 @@ env_logger = "0.10.0"
 rstest = "0.16.0"
 tracing-subscriber = { version = "0.3.14", features = ["fmt", "env-filter", "json"]}
 test-log = { version = "0.2.10", features = ["trace"] }
-tendermint-rpc = { version = "0.40.0", features = ["http-client", "websocket-client"] }
-tendermint-testgen = { version = "0.40.0" } # Needed for generating (synthetic) light blocks.
+tendermint-rpc = { version = "0.40.3", features = ["http-client", "websocket-client"] }
+tendermint-testgen = { version = "0.40.3" } # Needed for generating (synthetic) light blocks.
 parking_lot = { version = "0.12.1" }
 cfg-if = { version = "1.0.0" }
 
